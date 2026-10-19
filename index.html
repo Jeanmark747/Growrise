@@ -1,317 +1,280 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrowRise Invest</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f6f7">
+<title>GrowRise</title>
 <style>
-:root {
-  --bg: #071a12;
-  --card: #102b20;
-  --gold: #e5bd58;
-  --text: #f5f5f0;
-  --muted: #a9b9ae;
-  --border: #2b4b38;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
-header {
-  padding: 18px;
-  background: #091f16;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.logo { color: var(--gold); font-size: 22px; font-weight: bold; }
-.tag {
-  color: var(--gold);
-  border: 1px solid var(--gold);
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 10px;
-}
-main { max-width: 700px; margin: auto; padding: 18px 14px 100px; }
-.page { display: none; }
-.page.active { display: block; }
-h1 { font-size: 27px; }
-h2 { font-size: 19px; }
-.gold { color: var(--gold); }
-.muted { color: var(--muted); line-height: 1.6; font-size: 14px; }
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 18px;
-  border-radius: 15px;
-  margin: 15px 0;
-}
-input {
-  width: 100%;
-  padding: 13px;
-  margin: 7px 0 15px;
-  background: #071a12;
-  border: 1px solid var(--border);
-  color: white;
-  border-radius: 8px;
-  font-size: 15px;
-}
-label { color: var(--muted); font-size: 13px; }
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 9px;
-  padding: 13px;
-  font-weight: bold;
-}
-.primary { width: 100%; background: var(--gold); color: #102016; }
-.link {
-  color: var(--gold);
-  background: transparent;
-  padding: 5px;
-}
-.notice {
-  background: #332b17;
-  color: #f4d98d;
-  padding: 12px;
-  border-radius: 9px;
-  font-size: 12px;
-  line-height: 1.6;
-  margin: 15px 0;
-}
-.balance { color: var(--gold); font-size: 30px; font-weight: bold; margin: 12px 0; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.action {
-  background: #153828;
-  border: 1px solid var(--border);
-  color: white;
-  padding: 17px 5px;
-}
-.action span { display: block; font-size: 25px; margin-bottom: 8px; }
-.plan { border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin: 12px 0; }
-.plan h3 { color: var(--gold); margin-top: 0; }
-.plan strong { font-size: 21px; }
-.plan p { color: var(--muted); font-size: 13px; line-height: 1.6; }
-.bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #091f16;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-around;
-  padding: 8px 2px;
-}
-.bottom button { background: transparent; color: var(--muted); font-size: 11px; padding: 7px 3px; }
-.bottom button.active { color: var(--gold); }
-.hidden { display: none !important; }
-.message { color: var(--gold); font-size: 13px; line-height: 1.5; }
-hr { border: 0; border-top: 1px solid var(--border); margin: 15px 0; }
+:root{--green:#174c35;--gold:#c6a34a;--red:#c72d2d;--ink:#242424;--muted:#777;--line:#eee;--bg:#f4f5f6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+button,input{font:inherit}
+button{cursor:pointer}
+header{height:62px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #eee;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:9px;color:var(--green);font-size:23px;font-weight:800;letter-spacing:-.7px}
+.brandmark{width:38px;height:38px;border-radius:12px;background:var(--green);color:var(--gold);display:grid;place-items:center;font-size:24px}
+.demo{font-size:10px;font-weight:700;color:#856d27;background:#fff7df;border:1px solid #f0dfaa;padding:6px 9px;border-radius:20px}
+main{max-width:720px;margin:auto;padding:14px 13px 95px}
+.page{display:none}
+.page.active{display:block}
+.hero{min-height:165px;border-radius:0 0 19px 19px;padding:24px 20px;display:flex;align-items:center;gap:14px;background:linear-gradient(130deg,#123e2b,#28774e);color:#fff;overflow:hidden;position:relative;box-shadow:0 6px 18px #163b291c}
+.hero:after{content:"";position:absolute;width:180px;height:180px;border:1px solid #ffffff22;border-radius:50%;right:-45px;top:-40px;box-shadow:0 0 0 22px #ffffff0b,0 0 0 45px #ffffff08}
+.hero-icon{font-size:58px;color:var(--gold);z-index:1}
+.hero h1{font-size:30px;margin:0 0 8px}
+.hero p{margin:0;color:#e0eee5;font-size:13px;line-height:1.5}
+.hero-text{z-index:1}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:14px 0}
+.metric{background:#fff;border-radius:16px;padding:17px 14px;box-shadow:0 4px 16px #00000006}
+.metric-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.metric-value{font-size:22px;font-weight:800;margin-top:8px}
+.red{color:var(--red)}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;background:#fff;border-radius:15px;padding:13px;margin:14px 0}
+.quick button{background:white;border:0;border-right:1px solid var(--line);font-size:11px;color:#555;padding:4px}
+.quick button:last-child{border:0}
+.quick span{display:block;color:var(--gold);font-size:22px;margin-bottom:7px}
+.section-title{font-family:Georgia,serif;font-size:20px;font-weight:500;letter-spacing:4px;margin:23px 8px 18px;text-transform:uppercase}
+.sub{font-size:12px;color:var(--muted);line-height:1.5;margin:-4px 3px 12px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:#fff;border-radius:27px;padding:17px 15px 15px;box-shadow:0 4px 14px #00000006;min-width:0;display:flex;flex-direction:column}
+.product-visual{height:205px;border-radius:13px;background:#fff;display:grid;place-items:center;font-size:77px;margin-bottom:12px}
+.product h3{font-family:Georgia,serif;font-weight:500;font-size:19px;margin:0 0 9px}
+.amount{font-size:25px;font-weight:800;margin-bottom:21px}
+.detail-label{font-size:15px;color:var(--muted);margin:0 0 5px}
+.detail-value{font-size:18px;font-weight:700;margin-bottom:16px}
+.detail-value.red{color:#bd302b}
+.product button,.primary{width:100%;border:0;border-radius:18px;background:#570914;color:white;font-size:14px;font-weight:800;letter-spacing:2px;padding:18px 8px;margin-top:auto}
+.product button:active,.primary:active{transform:scale(.99)}
+.card{background:#fff;border-radius:18px;padding:18px;margin:13px 0;box-shadow:0 4px 15px #00000006}
+.card h2{font-size:17px;margin:0 0 14px}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.notice{background:#fff7df;border:1px solid #f0dfaa;color:#735d20;padding:12px;border-radius:11px;font-size:12px;line-height:1.6;margin:14px 0}
+label{display:block;color:#555;font-size:12px;margin:12px 0 6px}
+input{width:100%;padding:13px;border:1px solid #ddd;border-radius:9px;background:#fff;color:#222;outline-color:var(--green)}
+.primary{font-size:14px;padding:14px;border-radius:10px;letter-spacing:.5px}
+.secondary{width:100%;background:#edf2ee;color:var(--green);border:0;border-radius:9px;padding:12px;font-weight:700;margin-top:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+.row-name{font-size:14px}
+.row-icon{color:var(--gold);font-size:20px;width:29px}
+.row-left{display:flex;align-items:center;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stats div{background:#f8f9f8;border-radius:11px;padding:14px 5px}
+.stats strong{display:block;font-size:18px}
+.stats span{font-size:10px;color:var(--muted)}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e8e8e8;display:grid;grid-template-columns:repeat(4,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom));z-index:10}
+.bottom button{border:0;background:transparent;color:#777;font-size:12px;padding:7px 1px;border-radius:28px}
+.bottom button .ico{display:block;font-size:23px;margin-bottom:5px}
+.bottom button.active{background:#fbe9e9;color:#b62c2c;font-weight:800}
+.auth-wrap{max-width:440px;margin:20px auto}
+.message{font-size:12px;color:var(--green);line-height:1.5;margin-top:12px}
+.hide{display:none!important}
+footer{text-align:center;color:#999;font-size:10px;padding:18px 0}
+@media(min-width:600px){main{padding-left:18px;padding-right:18px}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.product-visual{height:220px}}
 </style>
 </head>
-
 <body>
 <header>
-  <div class="logo">🌱 GrowRise</div>
-  <span class="tag">TEST MODE</span>
+<div class="brand"><div class="brandmark">🌱</div>GrowRise</div>
+<span class="demo">DEMO MODE</span>
 </header>
-
 <main>
-
-<!-- REGISTER -->
 <section id="register" class="page active">
-  <h1>Create <span class="gold">Account</span></h1>
-  <p class="muted">Welcome to GrowRise.</p>
-  <div class="notice">Prototype only. Do not use a real password. Registration is not connected to a secure database yet.</div>
-  <div class="card">
-    <form id="registerForm">
-      <label>Phone Number</label>
-      <input id="regNumber" type="tel" placeholder="09XXXXXXXXX" required>
-      <label>Password</label>
-      <input id="regPassword" type="password" minlength="8" placeholder="At least 8 characters" required>
-      <label>Confirm Password</label>
-      <input id="regConfirm" type="password" minlength="8" placeholder="Confirm password" required>
-      <label>Invitation Code</label>
-      <input id="regInvite" type="text" placeholder="Enter invitation code" required>
-      <button class="primary" type="submit">Register Preview</button>
-    </form>
-    <p id="regMessage" class="message"></p>
-    <p class="muted">Already registered? <button class="link" onclick="showPage('login')">Login here</button></p>
-  </div>
+<div class="auth-wrap">
+<div class="hero"><div class="hero-icon">🌱</div><div class="hero-text"><h1>GrowRise</h1><p>Grow with care. Plan with clarity.</p></div></div>
+<div class="card">
+<h2>Create Account</h2>
+<form id="registerForm">
+<label>Number</label><input id="regNumber" type="tel" placeholder="Enter phone number" required>
+<label>Password</label><input id="regPassword" type="password" minlength="8" placeholder="At least 8 characters" required>
+<label>Confirm Password</label><input id="regConfirm" type="password" minlength="8" placeholder="Confirm password" required>
+<label>Invitation Code</label><input id="regInvite" type="text" placeholder="Enter invitation code" required>
+<button class="primary" type="submit">REGISTER (DEMO)</button>
+</form>
+<p id="regMessage" class="message"></p>
+<p class="muted">Already have an account? <button style="border:0;background:none;color:var(--green);font-weight:bold" onclick="showPage('login')">Login</button></p>
+</div>
+<div class="notice">Demo only: this page does not create or store an account. Do not enter a real password.</div>
+</div>
 </section>
-
-<!-- LOGIN -->
 <section id="login" class="page">
-  <h1>Welcome <span class="gold">Back!</span></h1>
-  <div class="notice">Demo login only. No real account or password is saved.</div>
-  <div class="card">
-    <form id="loginForm">
-      <label>Phone Number</label>
-      <input type="tel" placeholder="Enter phone number" required>
-      <label>Password</label>
-      <input type="password" placeholder="Enter password" required>
-      <button class="primary" type="submit">Enter Demo Website</button>
-    </form>
-    <p id="loginMessage" class="message"></p>
-    <p class="muted">No account? <button class="link" onclick="showPage('register')">Register</button></p>
-  </div>
+<div class="auth-wrap">
+<div class="hero"><div class="hero-icon">🌱</div><div class="hero-text"><h1>Welcome Back</h1><p>GrowRise account preview</p></div></div>
+<div class="card">
+<h2>Login</h2>
+<form id="loginForm">
+<label>Registered Number</label><input type="tel" placeholder="Enter phone number" required>
+<label>Password</label><input type="password" placeholder="Enter password" required>
+<button class="primary" type="submit">LOGIN TO DEMO</button>
+</form>
+<p id="loginMessage" class="message"></p>
+<p class="muted">New here? <button onclick="showPage('register')" style="border:0;background:none;color:var(--green);font-weight:bold">Register</button></p>
+</div>
+<div class="notice">Demo login only. Secure authentication is not connected.</div>
+</div>
 </section>
-
-<!-- HOME -->
 <section id="home" class="page">
-  <h1>GrowRise <span class="gold">Dashboard</span></h1>
-  <p class="muted">Welcome to your demo dashboard!</p>
-  <div class="card">
-    <p class="muted">Demo Balance</p>
-    <div class="balance">₱0.00</div>
-    <p class="muted">No real funds or earnings recorded.</p>
-  </div>
-  <div class="notice">TEST MODE: No real deposits, withdrawals, or investment payments are available.</div>
-  <h2>Quick Menu</h2>
-  <div class="grid">
-    <button class="action" onclick="showPage('plans')"><span>📈</span>Product Plans</button>
-    <button class="action" onclick="showPage('referral')"><span>👥</span>Referral</button>
-    <button class="action" onclick="showPage('withdrawal')"><span>🏦</span>Withdrawal</button>
-    <button class="action" onclick="showPage('profile')"><span>👤</span>Profile</button>
-  </div>
+<div class="hero"><div class="hero-icon">🌱</div><div class="hero-text"><h1>GrowRise</h1><p>Welcome to your dashboard.<br>Plan with clarity.</p></div></div>
+<div class="metrics">
+<div class="metric"><div class="metric-label">Demo Balance</div><div class="metric-value">₱0.00</div></div>
+<div class="metric"><div class="metric-label">Demo Income</div><div class="metric-value red">₱0.00</div></div>
+</div>
+<div class="quick">
+<button onclick="showPage('deposit')"><span>▣</span>DEPOSIT INFO</button>
+<button onclick="showPage('withdrawal')"><span>⇅</span>WITHDRAW</button>
+<button onclick="showPage('service')"><span>▤</span>CUSTOMER SERVICE</button>
+</div>
+<div class="notice">Demo only: no real deposits, withdrawals, investments, income, or referral rewards are processed. Example calculations are not guaranteed returns.</div>
+<div class="section-title">Popular Products</div><div id="homeProducts" class="products"></div>
 </section>
-
-<!-- PLANS -->
 <section id="plans" class="page">
-  <h1>Product <span class="gold">Plans</span></h1>
-  <p class="muted">Sample calculations for demonstration only. These are not promised or guaranteed returns.</p>
-  <div id="plansList"></div>
+<div class="section-title">Popular Products</div>
+<p class="sub">Sample figures for layout testing only. Not a promise or guarantee of earnings.</p>
+<div id="allProducts" class="products"></div>
 </section>
-
-<!-- REFERRAL -->
+<section id="devices" class="page">
+<div class="hero"><div class="hero-icon">♧</div><div class="hero-text"><h1>My Devices</h1><p>Plans purchased in this demo will appear here.</p></div></div>
+<div class="metrics">
+<div class="metric"><div class="metric-label">My Devices</div><div class="metric-value" id="deviceCount">0</div></div>
+<div class="metric"><div class="metric-label">My Income</div><div class="metric-value red" id="deviceIncome">₱0.00</div></div>
+</div>
+<div id="deviceList" class="card" style="text-align:center;padding:38px 18px">
+<div style="font-size:52px;color:#aaa">♧</div><h2 style="font-size:22px;margin:18px 0 8px">No devices yet</h2>
+<p class="muted">Your purchased plans will appear here after you press Buy Now in demo mode.</p>
+<button class="primary" onclick="showPage('plans')">VIEW PLANS</button>
+</div>
+<div class="notice">Demo mode only: purchases are saved temporarily in this browser session. No real payment or investment is processed.</div>
+</section>
 <section id="referral" class="page">
-  <h1>My <span class="gold">Referral</span></h1>
-  <div class="card">
-    <h2>Invitation Code</h2>
-    <p class="muted">Demo referral code:</p>
-    <div class="balance" style="font-size:22px">GROW-DEMO</div>
-    <button class="primary" onclick="copyCode()">Copy Code</button>
-    <p id="copyMessage" class="message"></p>
-    <hr>
-    <p class="muted">Referral tracking and rewards are not connected yet.</p>
-  </div>
+<div class="hero"><div class="hero-icon">♧</div><div class="hero-text"><h1>Invite Friends</h1><p>Referral dashboard preview</p></div></div>
+<div class="card">
+<div class="row"><span class="muted">INVITATION CODE</span><strong>GROW-DEMO</strong><button onclick="copyInvite()">▢</button></div>
+<div class="row"><span class="muted">INVITATION LINK</span><span style="font-size:11px">Demo link only</span><button onclick="copyInvite()">▢</button></div>
+<p id="inviteMessage" class="message"></p>
+</div>
+<div class="card"><h2>My Team</h2><div class="stats"><div><strong>0</strong><span>LEVEL 1</span></div><div><strong>0</strong><span>LEVEL 2</span></div><div><strong>0</strong><span>LEVEL 3</span></div></div><p class="muted">Referral tracking and commissions are not active in this demo.</p></div>
 </section>
-
-<!-- WITHDRAWAL -->
 <section id="withdrawal" class="page">
-  <h1><span class="gold">Withdrawal</span></h1>
-  <div class="card">
-    <p class="muted">This is a preview page. No real withdrawal can be requested or processed.</p>
-    <label>Sample amount (PHP)</label>
-    <input id="withdrawAmount" type="number" min="1" placeholder="Enter sample amount">
-    <button class="primary" onclick="previewWithdrawal()">Preview Request</button>
-    <p id="withdrawMessage" class="message"></p>
-  </div>
+<div class="section-title">WITHDRAWAL</div>
+<div class="card"><h2>Withdrawal Preview</h2><p class="muted">No real withdrawal can be requested or paid from this prototype.</p><label>Sample amount (PHP)</label><input id="withdrawAmount" type="number" min="1" placeholder="Enter amount"><button class="primary" onclick="previewWithdrawal()">PREVIEW AMOUNT</button><p id="withdrawMessage" class="message"></p></div>
 </section>
-
-<!-- PROFILE -->
 <section id="profile" class="page">
-  <h1>My <span class="gold">Profile</span></h1>
-  <div class="card">
-    <h2>Demo Account</h2>
-    <p class="muted">Phone number: Not connected</p>
-    <p class="muted">Account status: Demo</p>
-    <hr>
-    <button class="primary" onclick="showPage('login')">Back to Login</button>
-  </div>
+<div class="hero"><div class="hero-text"><h1>My Profile</h1><p>Account settings preview</p></div><div class="hero-icon">♙</div></div>
+<div class="card">
+<div class="metrics" style="margin:0">
+<div class="metric"><div class="metric-label">Balance</div><div class="metric-value">₱0.00</div></div>
+<div class="metric"><div class="metric-label">Mobile</div><div class="metric-value" style="font-size:16px">Not connected</div></div>
+</div>
+<div class="row"><div class="row-left"><span class="row-icon">▣</span><span class="row-name">Daily Check-in</span></div><span>›</span></div>
+<div class="row"><div class="row-left"><span class="row-icon">▤</span><span class="row-name">My Account</span></div><span>›</span></div>
+<div class="row" onclick="showPage('history')"><div class="row-left"><span class="row-icon">⇩</span><span class="row-name">Deposit History</span></div><span>›</span></div>
+<div class="row" onclick="showPage('history')"><div class="row-left"><span class="row-icon">⇧</span><span class="row-name">Withdraw History</span></div><span>›</span></div>
+<div class="row"><div class="row-left"><span class="row-icon">♙</span><span class="row-name">Withdrawal Account</span></div><span>›</span></div>
+<div class="row"><div class="row-left"><span class="row-icon">🎁</span><span class="row-name">Gift Code</span></div><span>›</span></div>
+</div>
+<div class="card">
+<div class="row" onclick="showPage('about')"><div class="row-left"><span class="row-icon">ⓘ</span><span class="row-name">About Us</span></div><span>›</span></div>
+<div class="row" onclick="showPage('rules')"><div class="row-left"><span class="row-icon">▤</span><span class="row-name">Platform Rules</span></div><span>›</span></div>
+<div class="row" onclick="showPage('service')"><div class="row-left"><span class="row-icon">☏</span><span class="row-name">Customer Service</span></div><span>›</span></div>
+<div class="row" onclick="showPage('login')"><div class="row-left"><span class="row-icon">↪</span><span class="row-name" style="color:var(--red)">Log Out</span></div><span>›</span></div>
+</div>
 </section>
-
-<footer class="muted" style="text-align:center;padding:20px 0;font-size:11px">
-  GrowRise Invest · Prototype<br>
-  No real-money transactions
-</footer>
+<section id="deposit" class="page"><div class="section-title">DEPOSIT INFORMATION</div><div class="card"><h2>Deposit Preview</h2><p class="muted">Payment processing is not connected. Do not send money using this demo.</p></div></section>
+<section id="history" class="page"><div class="section-title">TRANSACTION HISTORY</div><div class="card"><p class="muted">No demo records yet. Secure database storage is not connected.</p></div></section>
+<section id="about" class="page"><div class="section-title">ABOUT GROWRise</div><div class="card"><p class="muted">GrowRise is currently a website prototype. Any future financial service must be properly authorized and clearly explain risks and terms.</p></div></section>
+<section id="rules" class="page"><div class="section-title">PLATFORM RULES</div><div class="card"><p class="muted">This prototype does not accept funds or promise earnings. Never share your password or one-time PIN. Verify authorization before sending money.</p></div></section>
+<section id="service" class="page"><div class="section-title">CUSTOMER SERVICE</div><div class="card"><p class="muted">Customer service contact has not been configured yet.</p></div></section>
+<footer>GrowRise · Prototype / Demo Mode</footer>
 </main>
-
-<nav id="bottomNav" class="bottom hidden">
-  <button data-page="home" onclick="showPage('home')">🏠<br>Home</button>
-  <button data-page="plans" onclick="showPage('plans')">📈<br>Plan</button>
-  <button data-page="referral" onclick="showPage('referral')">👥<br>Referral</button>
-  <button data-page="withdrawal" onclick="showPage('withdrawal')">🏦<br>Withdrawal</button>
-  <button data-page="profile" onclick="showPage('profile')">👤<br>Profile</button>
+<nav id="bottomNav" class="bottom hide">
+<button data-page="home" class="active" onclick="showPage('home')"><span class="ico">⌂</span>HOME</button>
+<button data-page="devices" onclick="showPage('devices')"><span class="ico">♧</span>DEVICES</button>
+<button data-page="referral" onclick="showPage('referral')"><span class="ico">♙</span>INVITE</button>
+<button data-page="profile" onclick="showPage('profile')"><span class="ico">♙</span>ME</button>
 </nav>
-
 <script>
-const products = [
-  {amount:200, daily:40},
-  {amount:300, daily:60},
-  {amount:500, daily:100},
-  {amount:1000, daily:200},
-  {amount:2000, daily:400},
-  {amount:3000, daily:600},
-  {amount:5000, daily:1000},
-  {amount:10000, daily:2000}
+const products=[
+{amount:200,daily:40,icon:"🌱"},
+{amount:300,daily:60,icon:"🌿"},
+{amount:500,daily:100,icon:"🍃"},
+{amount:1000,daily:200,icon:"🌳"},
+{amount:2000,daily:400,icon:"🌱"},
+{amount:3000,daily:600,icon:"🌿"},
+{amount:5000,daily:1000,icon:"🍃"},
+{amount:10000,daily:2000,icon:"🌳"}
 ];
-
-document.getElementById("plansList").innerHTML = products.map(p => `
-  <div class="plan">
-    <h3>₱${p.amount.toLocaleString("en-PH")} Sample Plan</h3>
-    <p>Sample daily figure</p>
-    <strong>₱${p.daily.toLocaleString("en-PH")}</strong>
-    <p>30-day arithmetic total: ₱${(p.daily * 30).toLocaleString("en-PH")}</p>
-    <p>Illustration only. Not a promise of earnings.</p>
-    <button class="primary" onclick="alert('Demo only. No investment or payment was started.')">View Plan</button>
-  </div>
-`).join("");
-
-function showPage(id) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.getElementById("bottomNav").classList.toggle("hidden", id === "register" || id === "login");
-  document.querySelectorAll(".bottom button").forEach(b => {
-    b.classList.toggle("active", b.dataset.page === id);
-  });
-  window.scrollTo(0, 0);
+const money=n=>"₱"+n.toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
+function productCard(p){
+let i=products.indexOf(p);
+return `<article class="product">
+<div class="product-visual">${p.icon}</div>
+<h3>VIP${i+1}</h3>
+<div class="amount">${money(p.amount)}</div>
+<div class="detail-label">Daily Income</div>
+<div class="detail-value red">+${money(p.daily)}</div>
+<div class="detail-label">Income Cap</div>
+<div class="detail-value">${money(p.daily*30)}</div>
+<div class="detail-label">Duration</div>
+<div class="detail-value">30 days</div>
+<button onclick="buyDemoPlan(${i})">BUY NOW</button>
+</article>`;
 }
-
-document.getElementById("registerForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const pass = document.getElementById("regPassword").value;
-  const confirm = document.getElementById("regConfirm").value;
-  const msg = document.getElementById("regMessage");
-
-  if (pass !== confirm) {
-    msg.textContent = "Passwords do not match.";
-    return;
-  }
-
-  msg.textContent = "Demo form checked. No account was created. Secure registration must be connected next.";
-});
-
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  document.getElementById("loginMessage").textContent = "Opening demo dashboard.";
-  showPage("home");
-});
-
-function previewWithdrawal() {
-  const amount = Number(document.getElementById("withdrawAmount").value);
-  document.getElementById("withdrawMessage").textContent =
-    amount > 0
-    ? "Preview only: ₱" + amount.toLocaleString("en-PH") + ". No money was withdrawn."
-    : "Enter a sample amount greater than zero.";
+document.getElementById("homeProducts").innerHTML=products.map(productCard).join("");
+document.getElementById("allProducts").innerHTML=products.map(productCard).join("");
+const demoDevices=[];
+function buyDemoPlan(i){
+const p=products[i];
+demoDevices.push({plan:"VIP"+(i+1),amount:p.amount,daily:p.daily,total:p.daily*30,icon:p.icon});
+renderDevices();
+showPage("devices");
 }
-
-async function copyCode() {
-  const msg = document.getElementById("copyMessage");
-  try {
-    await navigator.clipboard.writeText("GROW-DEMO");
-    msg.textContent = "Demo code copied!";
-  } catch {
-    msg.textContent = "Your demo code is GROW-DEMO";
-  }
+function renderDevices(){
+const count=document.getElementById("deviceCount");
+if(!count)return;
+count.textContent=demoDevices.length;
+document.getElementById("deviceIncome").textContent=money(demoDevices.reduce((s,d)=>s+d.daily,0));
+const list=document.getElementById("deviceList");
+if(!demoDevices.length){
+list.innerHTML='<div style="font-size:52px;color:#aaa">♧</div><h2 style="font-size:22px;margin:18px 0 8px">No devices yet</h2><p class="muted">Your purchased plans will appear here after you press Buy Now in demo mode.</p><button class="primary" onclick="showPage(\'plans\')">VIEW PLANS</button>';
+return;
+}
+list.style.textAlign="left";
+list.innerHTML='<h2>MY DEVICES</h2>'+demoDevices.map(d=>'<div class="row"><div class="row-left"><span style="font-size:34px">'+d.icon+'</span><div><strong>'+d.plan+'</strong><div class="muted">Plan value: '+money(d.amount)+'</div><div class="muted">Sample daily figure: '+money(d.daily)+'</div><div class="muted">Duration: 30 days</div><div class="muted">Arithmetic total: '+money(d.total)+'</div></div></div><span style="color:var(--green);font-size:11px;font-weight:bold">DEMO</span></div>').join('')+'<button class="secondary" onclick="showPage(\'plans\')">VIEW MORE PLANS</button>';
+}
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.getElementById("bottomNav").classList.toggle("hide",["register","login"].includes(id));
+document.querySelectorAll(".bottom button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+window.scrollTo(0,0);
+}
+document.getElementById("registerForm").addEventListener("submit",e=>{
+e.preventDefault();
+let msg=document.getElementById("regMessage");
+if(document.getElementById("regPassword").value!==document.getElementById("regConfirm").value){
+msg.textContent="Passwords do not match.";
+return;
+}
+msg.textContent="Demo form validated only. No account was created. Secure registration is not connected.";
+});
+document.getElementById("loginForm").addEventListener("submit",e=>{
+e.preventDefault();
+document.getElementById("loginMessage").textContent="Demo login only; no credentials were checked.";
+showPage("home");
+});
+function previewWithdrawal(){
+let n=Number(document.getElementById("withdrawAmount").value);
+document.getElementById("withdrawMessage").textContent=n>0?"Sample amount: "+money(n)+". No withdrawal was submitted.":"Enter a sample amount greater than zero.";
+}
+async function copyInvite(){
+let m=document.getElementById("inviteMessage");
+try{
+await navigator.clipboard.writeText("GROW-DEMO");
+m.textContent="Demo code copied.";
+}catch{
+m.textContent="Demo code: GROW-DEMO";
+}
 }
 </script>
-
 </body>
   </html>
