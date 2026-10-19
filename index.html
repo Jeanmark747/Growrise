@@ -1,111 +1,602 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GrowRise Invest</title>
+
   <style>
+    :root {
+      --green: #071b14;
+      --panel: #102b20;
+      --gold: #e5bd58;
+      --text: #f5f5f0;
+      --muted: #a8b7ae;
+    }
+
     * {
       box-sizing: border-box;
-    }body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7f4;
-  color: #173b2b;
-}
+      margin: 0;
+      padding: 0;
+    }
 
-header {
-  background: #104b35;
-  color: white;
-  padding: 22px;
-  text-align: center;
-}
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--green);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 27px;
-}
+    header {
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #244535;
+      background: #091f17;
+    }
 
-header p {
-  margin-bottom: 0;
-}
+    .logo {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-main {
-  max-width: 500px;
-  margin: 25px auto;
-  padding: 15px;
-}
+    .badge {
+      font-size: 11px;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 6px 9px;
+      border-radius: 20px;
+    }
 
-.card {
-  background: white;
-  padding: 22px;
-  margin-bottom: 18px;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px #00000010;
-}
+    main {
+      max-width: 850px;
+      margin: auto;
+      padding: 20px 15px 100px;
+    }
 
-.balance {
-  font-size: 30px;
-  font-weight: bold;
-  margin: 12px 0;
-}
+    .welcome {
+      margin: 18px 0 25px;
+    }
 
-button {
-  background: #168653;
-  color: white;
-  border: none;
-  padding: 13px;
-  width: 100%;
-  border-radius: 8px;
-  font-size: 16px;
-  margin-top: 10px;
-}
+    .welcome h1 {
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
 
-button:active {
-  opacity: 0.8;
-}
+    .welcome p,
+    .muted {
+      color: var(--muted);
+      line-height: 1.5;
+    }
 
-.notice {
-  font-size: 13px;
-  color: #666;
-  line-height: 1.5;
-}
+    .gold {
+      color: var(--gold);
+    }
 
+    .card {
+      background: var(--panel);
+      border: 1px solid #244535;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .balance-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .balance {
+      font-size: 32px;
+      color: var(--gold);
+      font-weight: bold;
+      margin: 12px 0;
+    }
+
+    .notice {
+      background: #332b17;
+      color: #f4d98d;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .action {
+      background: #153828;
+      border: 1px solid #315d43;
+      padding: 17px 10px;
+      border-radius: 13px;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .action span {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 9px;
+    }
+
+    h2 {
+      font-size: 19px;
+      margin-bottom: 15px;
+    }
+
+    .plan {
+      border: 1px solid #37533d;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .plan h3 {
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .plan p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    button,
+    .primary {
+      background: var(--gold);
+      color: #102016;
+      border: none;
+      border-radius: 9px;
+      padding: 12px 15px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    input {
+      width: 100%;
+      background: #071b14;
+      border: 1px solid #365544;
+      border-radius: 9px;
+      padding: 13px;
+      margin: 7px 0 14px;
+      color: white;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      gap: 5px;
+      padding: 10px 4px;
+      background: #091f17;
+      border-top: 1px solid #244535;
+    }
+
+    .bottom-nav button {
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 2px;
+      margin: 0;
+      font-size: 11px;
+      width: auto;
+    }
+
+    .bottom-nav button.active {
+      color: var(--gold);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .message {
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 12px;
+      color: var(--gold);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      padding: 20px 0;
+    }
+
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
   </style>
 </head>
-<body>  <header>
-    <h1>GrowRise Invest</h1>
-    <p>Welcome to your financial dashboard</p>
-  </header>  <main>
-    <section class="card">
-      <h2>My Dashboard</h2>
-      <p>Demo Account Balance</p>
+
+<body>
+
+<header>
+  <div class="logo">🌱 GrowRise</div>
+  <div class="badge">DEMO MODE</div>
+</header>
+
+<main>
+
+  <!-- LOGIN -->
+  <section id="login" class="page active">
+    <div class="welcome">
+      <h1>Welcome to <span class="gold">GrowRise</span></h1>
+      <p>Your dashboard starts here.</p>
+    </div>
+
+    <div class="card">
+      <h2>Login</h2>
+      <p class="muted">This is a visual demo. Secure login is not connected yet.</p>
+
+      <form id="loginForm">
+        <label>Email address</label>
+        <input type="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" placeholder="Enter your password" required>
+
+        <button type="submit">Preview Dashboard</button>
+      </form>
+
+      <p class="message" id="loginMessage"></p>
+      <p class="muted" style="margin-top:16px;font-size:13px">
+        New here? <a href="#" id="showRegister" class="gold">Register preview</a>
+      </p>
+    </div>
+
+    <div class="notice">
+      Demo only. Do not enter a real password. Account registration and login require a secure backend.
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register" class="page">
+    <div class="welcome">
+      <h1>Create Account</h1>
+      <p>Preview the GrowRise registration page.</p>
+    </div>
+
+    <div class="card">
+      <h2>Register</h2>
+
+      <form id="registerForm">
+        <label>Full name</label>
+        <input type="text" placeholder="Enter your name" required>
+
+        <label>Email address</label>
+        <input type="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" placeholder="Demo password only" required>
+
+        <button type="submit">Preview Registration</button>
+      </form>
+
+      <p class="message" id="registerMessage"></p>
+      <button type="button" class="secondary" id="backLogin">Back to Login</button>
+    </div>
+  </section>
+
+  <!-- HOME -->
+  <section id="home" class="page">
+    <div class="welcome">
+      <h1>Hello, <span class="gold">Welcome!</span></h1>
+      <p>Welcome to your GrowRise dashboard.</p>
+    </div>
+
+    <div class="card">
+      <p class="balance-label">Demo Balance</p>
       <div class="balance">₱0.00</div>
-      <p>Account status: Demo</p>
-    </section><section class="card">
-  <h2>Investment Plans</h2>
-  <p>Explore available plan information.</p>
-  <button onclick="alert('Demo only: no real investment is processed.')">
-    View Plans
-  </button>
-</section>
+      <p class="muted">No real money or earnings are recorded.</p>
+    </div>
 
-<section class="card">
-  <h2>Deposit & Withdrawal</h2>
-  <p>Payment features will be added after the required approvals.</p>
-  <button onclick="alert('Deposit is not active yet.')">
-    Deposit
-  </button>
-  <button onclick="alert('Withdrawal is not active yet.')">
-    Withdrawal
-  </button>
-</section>
+    <div class="notice">
+      DEMO WEBSITE: Deposits, withdrawals, investment returns, and cashback are not active. No real-money transactions can be made.
+    </div>
 
-<section class="card">
-  <p class="notice">
-    Demo website only. No real money is accepted or transferred.
-    Investment services require the appropriate legal and payment approvals.
-  </p>
-</section>
+    <h2>Quick Actions</h2>
+    <div class="grid">
+      <button class="action" data-page="deposit">
+        <span>💳</span>Deposit Info
+      </button>
+      <button class="action" data-page="withdraw">
+        <span>🏦</span>Withdrawal Info
+      </button>
+      <button class="action" data-page="plans">
+        <span>📈</span>Plans
+      </button>
+      <button class="action" data-page="cashback">
+        <span>🎁</span>Cashback
+      </button>
+    </div>
 
-  </main></body>
+    <div class="card" style="margin-top:20px">
+      <h2>About GrowRise</h2>
+      <p class="muted">
+        GrowRise is currently a website prototype. Financial services will only be offered if the business obtains all required approvals and authorizations.
+      </p>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section id="plans" class="page">
+    <div class="welcome">
+      <h1>Available <span class="gold">Plans</span></h1>
+      <p>Sample plan cards for design preview only.</p>
+    </div>
+
+    <div class="plan">
+      <h3>Starter Plan</h3>
+      <p>Sample amount: ₱200</p>
+      <p>No earnings or returns are promised.</p>
+      <button type="button" class="demoButton">Preview Plan</button>
+    </div>
+
+    <div class="plan">
+      <h3>Growth Plan</h3>
+      <p>Sample amount: ₱500</p>
+      <p>No earnings or returns are promised.</p>
+      <button type="button" class="demoButton">Preview Plan</button>
+    </div>
+
+    <div class="plan">
+      <h3>Premium Plan</h3>
+      <p>Sample amount: ₱1,000</p>
+      <p>No earnings or returns are promised.</p>
+      <button type="button" class="demoButton">Preview Plan</button>
+    </div>
+
+    <p class="message" id="planMessage"></p>
+  </section>
+
+  <!-- DEPOSIT -->
+  <section id="deposit" class="page">
+    <div class="welcome">
+      <h1>Deposit <span class="gold">Information</span></h1>
+    </div>
+
+    <div class="card">
+      <h2>Deposit Preview</h2>
+      <p class="muted">
+        This page does not accept deposits. Payment integration is not connected.
+      </p>
+
+      <label>Sample deposit amount (PHP)</label>
+      <input type="number" id="depositAmount" min="1" placeholder="Example: 200">
+
+      <button type="button" id="depositButton">Preview Amount</button>
+      <p class="message" id="depositMessage"></p>
+    </div>
+  </section>
+
+  <!-- WITHDRAW -->
+  <section id="withdraw" class="page">
+    <div class="welcome">
+      <h1>Withdrawal <span class="gold">Information</span></h1>
+    </div>
+
+    <div class="card">
+      <h2>Withdrawal Preview</h2>
+      <p class="muted">
+        No real withdrawals can be requested or processed in this demo.
+      </p>
+
+      <label>Sample withdrawal amount (PHP)</label>
+      <input type="number" id="withdrawAmount" min="1" placeholder="Example: 200">
+
+      <button type="button" id="withdrawButton">Preview Amount</button>
+      <p class="message" id="withdrawMessage"></p>
+    </div>
+  </section>
+
+  <!-- CASHBACK -->
+  <section id="cashback" class="page">
+    <div class="welcome">
+      <h1>Cashback <span class="gold">Center</span></h1>
+    </div>
+
+    <div class="card">
+      <h2>Cashback Preview</h2>
+      <div class="balance">₱0.00</div>
+      <p class="muted">
+        This is a display example only. No cashback is earned or paid.
+      </p>
+    </div>
+  </section>
+
+  <!-- REFERRAL -->
+  <section id="referral" class="page">
+    <div class="welcome">
+      <h1>Referral <span class="gold">Center</span></h1>
+    </div>
+
+    <div class="card">
+      <h2>Invite Friends</h2>
+      <p class="muted">Referral tracking is not connected yet.</p>
+      <label>Sample referral code</label>
+      <input value="GROWRise-DEMO" readonly>
+      <button type="button" id="copyReferral">Copy Sample Code</button>
+      <p class="message" id="referralMessage"></p>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history" class="page">
+    <div class="welcome">
+      <h1>Activity <span class="gold">History</span></h1>
+    </div>
+
+    <div class="card">
+      <h2>Recent Activity</h2>
+      <p class="muted">No demo activity yet.</p>
+      <p class="muted" style="margin-top:10px">
+        Transaction history requires a database and verified transaction records.
+      </p>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section id="profile" class="page">
+    <div class="welcome">
+      <h1>My <span class="gold">Profile</span></h1>
+    </div>
+
+    <div class="card">
+      <h2>Account Preview</h2>
+      <p class="muted">Demo visitor</p>
+      <p class="muted" style="margin-top:10px">Authentication is not connected.</p>
+      <button type="button" id="logoutButton">Return to Login</button>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin" class="page">
+    <div class="welcome">
+      <h1>Admin <span class="gold">Dashboard</span></h1>
+      <p>Interface preview only.</p>
+    </div>
+
+    <div class="card">
+      <h2>Overview</h2>
+      <p class="muted">Demo users: 0</p>
+      <p class="muted" style="margin-top:10px">Demo transactions: 0</p>
+      <p class="muted" style="margin-top:10px">
+        Admin access controls and database functions are not connected.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    GrowRise Invest · Website Prototype<br>
+    Demo only · No real-money transactions
+  </footer>
+</main>
+
+<nav id="bottomNav" class="bottom-nav hidden">
+  <button class="active" data-page="home">🏠<br>Home</button>
+  <button data-page="plans">📈<br>Plans</button>
+  <button data-page="referral">👥<br>Referral</button>
+  <button data-page="history">📋<br>History</button>
+  <button data-page="profile">👤<br>Profile</button>
+</nav>
+
+<script>
+  const pages = document.querySelectorAll(".page");
+  const nav = document.getElementById("bottomNav");
+
+  function showPage(pageId) {
+    pages.forEach(page => page.classList.remove("active"));
+
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add("active");
+
+    const isLogin = pageId === "login" || pageId === "register";
+    nav.classList.toggle("hidden", isLogin);
+
+    document.querySelectorAll(".bottom-nav button").forEach(button => {
+      button.classList.toggle("active", button.dataset.page === pageId);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+  });
+
+  document.getElementById("showRegister").addEventListener("click", event => {
+    event.preventDefault();
+    showPage("register");
+  });
+
+  document.getElementById("backLogin").addEventListener("click", () => {
+    showPage("login");
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", event => {
+    event.preventDefault();
+    document.getElementById("loginMessage").textContent =
+      "Preview only. Secure login has not been connected.";
+    showPage("home");
+  });
+
+  document.getElementById("registerForm").addEventListener("submit", event => {
+    event.preventDefault();
+    document.getElementById("registerMessage").textContent =
+      "Preview only. No account was created. Secure registration must be connected first.";
+  });
+
+  document.getElementById("logoutButton").addEventListener("click", () => {
+    showPage("login");
+  });
+
+  document.querySelectorAll(".demoButton").forEach(button => {
+    button.addEventListener("click", () => {
+      document.getElementById("planMessage").textContent =
+        "Plan preview only. No investment or payment was started.";
+    });
+  });
+
+  document.getElementById("depositButton").addEventListener("click", () => {
+    const amount = Number(document.getElementById("depositAmount").value);
+    document.getElementById("depositMessage").textContent =
+      amount > 0
+        ? "Sample amount: ₱" + amount.toLocaleString("en-PH") +
+          ". This is only a preview; no payment was made."
+        : "Please enter a sample amount greater than zero.";
+  });
+
+  document.getElementById("withdrawButton").addEventListener("click", () => {
+    const amount = Number(document.getElementById("withdrawAmount").value);
+    document.getElementById("withdrawMessage").textContent =
+      amount > 0
+        ? "Sample amount: ₱" + amount.toLocaleString("en-PH") +
+          ". No withdrawal was requested or processed."
+        : "Please enter a sample amount greater than zero.";
+  });
+
+  document.getElementById("copyReferral").addEventListener("click", async () => {
+    const message = document.getElementById("referralMessage");
+
+    try {
+      await navigator.clipboard.writeText("GROWRise-DEMO");
+      message.textContent = "Sample code copied!";
+    } catch {
+      message.textContent = "Sample code: GROWRise-DEMO";
+    }
+  });
+</script>
+
+</body>
 </html>
