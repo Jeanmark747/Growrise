@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GrowRise</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 * {
   box-sizing: border-box;
@@ -194,6 +196,11 @@ nav button.selected {
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
+
+.secondary {
+  background: #e8eee9 !important;
+  color: #17623b !important;
+}
 </style>
 </head>
 
@@ -207,148 +214,330 @@ nav button.selected {
 <main class="container">
 
 <section id="home" class="page active">
+
   <div class="balance">
     <p>My Account</p>
     <h2 id="balance">₱0.00</h2>
     <p>Account balance</p>
 
     <div class="actions">
-      <button onclick="showPage('deposit')">Deposit</button>
-      <button onclick="showPage('withdraw')">Withdraw</button>
+      <button onclick="openProtectedPage('deposit')">
+        Deposit
+      </button>
+
+      <button onclick="openProtectedPage('withdraw')">
+        Withdraw
+      </button>
     </div>
   </div>
 
   <h3 class="section-title">VIP Plans</h3>
+
   <div id="products" class="products"></div>
+
+  <p class="notice">
+    Plans are illustrative only. Displayed amounts are not guaranteed
+    earnings. No real purchase or investment is processed by this demo.
+  </p>
+
 </section>
 
 <section id="devices" class="page">
+
   <h2 class="section-title">My Devices</h2>
-  <div class="panel">
-    <p>Your purchased plans will appear here.</p>
-  </div>
+
   <div id="myDevices"></div>
+
 </section>
 
 <section id="invite" class="page">
+
   <h2 class="section-title">Invite Friends</h2>
+
   <div class="panel">
     <p>Your referral code</p>
-    <h2 id="referral">Not registered</h2>
-    <button onclick="copyReferral()">Copy Referral Code</button>
+
+    <h2 id="referral">Log in first</h2>
+
+    <button onclick="copyReferral()">
+      Copy Referral Code
+    </button>
+
     <p class="notice">
-      Referral codes are generated locally in this preview.
-      Real referral tracking requires a connected database.
+      This code is generated from your account ID.
+      Referral tracking and rewards require additional backend setup.
     </p>
   </div>
+
 </section>
 
 <section id="me" class="page">
+
   <h2 class="section-title">My Account</h2>
 
   <div class="panel">
+
     <p id="accountStatus">You are not logged in.</p>
-    <button onclick="showPage('register')">Register</button>
-    <button onclick="showPage('login')">Login</button>
-    <button onclick="logout()">Logout</button>
+
+    <p id="accountEmail"></p>
+
+    <button onclick="showPage('register')">
+      Register
+    </button>
+
+    <button onclick="showPage('login')">
+      Login
+    </button>
+
+    <button onclick="logout()">
+      Logout
+    </button>
+
   </div>
 
   <div class="panel">
+
     <h3>Account Menu</h3>
-    <button onclick="showPage('devices')">My Devices</button>
-    <button onclick="showPage('deposit')">Deposit History</button>
-    <button onclick="showPage('withdraw')">Withdrawal</button>
-    <button onclick="showPage('invite')">Invitation</button>
+
+    <button onclick="showPage('devices')">
+      My Devices
+    </button>
+
+    <button onclick="openProtectedPage('deposit')">
+      Deposit
+    </button>
+
+    <button onclick="openProtectedPage('withdraw')">
+      Withdrawal
+    </button>
+
+    <button onclick="showPage('invite')">
+      Invitation
+    </button>
+
   </div>
+
 </section>
 
 <section id="register" class="page">
+
   <div class="panel">
+
     <h2>Create Account</h2>
-    <form onsubmit="register(event)">
-      <input id="regMobile" type="tel" placeholder="Mobile number" required>
-      <input id="regPassword" type="password" placeholder="Password" minlength="8" required>
-      <input id="regConfirm" type="password" placeholder="Confirm password" minlength="8" required>
-      <input id="regReferral" placeholder="Invitation code (optional)">
-      <button class="primary" type="submit">Register</button>
+
+    <form id="registerForm">
+
+      <input
+        id="regEmail"
+        type="email"
+        placeholder="Email address"
+        autocomplete="email"
+        required
+      >
+
+      <input
+        id="regPassword"
+        type="password"
+        placeholder="Password (minimum 8 characters)"
+        minlength="8"
+        autocomplete="new-password"
+        required
+      >
+
+      <input
+        id="regConfirm"
+        type="password"
+        placeholder="Confirm password"
+        minlength="8"
+        autocomplete="new-password"
+        required
+      >
+
+      <input
+        id="regReferral"
+        type="text"
+        placeholder="Invitation code (optional)"
+      >
+
+      <button class="primary" type="submit">
+        Register
+      </button>
+
     </form>
+
     <p class="notice">
-      Preview only: do not use a real password. This form does not
-      securely store accounts. Database authentication must be configured
-      before public registration.
+      Use an email address you control. Never share your password
+      or email verification code with anyone.
     </p>
-    <button onclick="showPage('login')">Already registered? Login</button>
+
+    <button class="secondary"
+      onclick="showPage('login')">
+      Already registered? Login
+    </button>
+
   </div>
+
 </section>
 
 <section id="login" class="page">
+
   <div class="panel">
+
     <h2>Login</h2>
-    <form onsubmit="login(event)">
-      <input id="loginMobile" type="tel" placeholder="Mobile number" required>
-      <input id="loginPassword" type="password" placeholder="Password" required>
-      <button class="primary" type="submit">Login</button>
+
+    <form id="loginForm">
+
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Email address"
+        autocomplete="email"
+        required
+      >
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button class="primary" type="submit">
+        Login
+      </button>
+
     </form>
-    <p class="notice">
-      Secure login will be enabled after backend authentication is connected.
-    </p>
+
+    <button class="secondary"
+      onclick="resetPassword()">
+      Forgot Password?
+    </button>
+
+    <button class="secondary"
+      onclick="showPage('register')">
+      Create New Account
+    </button>
+
   </div>
+
 </section>
 
 <section id="deposit" class="page">
+
   <div class="panel">
-    <h2>Deposit via GCash</h2>
+
+    <h2>Deposit Request</h2>
+
     <p>Minimum amount: ₱200</p>
 
-    <form onsubmit="requestDeposit(event)">
-      <input id="depositAmount" type="number" min="200" step="1"
-             placeholder="Deposit amount (₱)" required>
-      <input id="depositMobile" type="tel"
-             placeholder="Your GCash mobile number" required>
-      <button class="primary" type="submit">Submit Deposit Request</button>
+    <form id="depositForm">
+
+      <input
+        id="depositAmount"
+        type="number"
+        min="200"
+        step="1"
+        placeholder="Amount (₱)"
+        required
+      >
+
+      <button class="primary" type="submit">
+        Submit Demo Request
+      </button>
+
     </form>
 
     <p class="notice">
-      This page does not process payments. No QR code or payment confirmation
-      is provided until a verified payment provider is configured.
-      Never submit a GCash MPIN or OTP here.
+      This demo does not accept payments or send money.
+      A verified payment provider and secure server-side processing
+      must be configured before real transactions.
+      Never enter a GCash MPIN or OTP on this website.
     </p>
+
   </div>
+
 </section>
 
 <section id="withdraw" class="page">
-  <div class="panel">
-    <h2>Withdrawal Request</h2>
-    <p>Minimum withdrawal: ₱200</p>
-    <p>Withdrawal fee: 5%</p>
 
-    <form onsubmit="requestWithdrawal(event)">
-      <input id="withdrawAmount" type="number" min="200" step="1"
-             placeholder="Withdrawal amount (₱)" required>
-      <input id="withdrawMobile" type="tel"
-             placeholder="GCash mobile number" required>
-      <button class="primary" type="submit">Submit Request</button>
+  <div class="panel">
+
+    <h2>Withdrawal Request</h2>
+
+    <p>Minimum withdrawal: ₱200</p>
+    <p>Illustrative fee: 5%</p>
+
+    <form id="withdrawForm">
+
+      <input
+        id="withdrawAmount"
+        type="number"
+        min="200"
+        step="1"
+        placeholder="Amount (₱)"
+        required
+      >
+
+      <button class="primary" type="submit">
+        Calculate Demo Withdrawal
+      </button>
+
     </form>
 
     <p class="notice">
-      This form does not send money or submit a real request to an operator.
-      A secure backend is required.
+      This demo does not transfer money or submit a real withdrawal.
+      Real withdrawals require secure backend processing and
+      verified account balances.
     </p>
+
   </div>
+
 </section>
 
-<div id="message" role="status"></div>
+<div id="message" role="status" aria-live="polite"></div>
 
 </main>
 
 <nav>
-  <button class="selected" onclick="showPage('home',this)">🏠<br>HOME</button>
-  <button onclick="showPage('devices',this)">📦<br>DEVICES</button>
-  <button onclick="showPage('invite',this)">👥<br>INVITE</button>
-  <button onclick="showPage('me',this)">👤<br>ME</button>
+
+  <button class="selected"
+    onclick="showPage('home',this)">
+    🏠<br>HOME
+  </button>
+
+  <button onclick="showPage('devices',this)">
+    📦<br>DEVICES
+  </button>
+
+  <button onclick="showPage('invite',this)">
+    👥<br>INVITE
+  </button>
+
+  <button onclick="showPage('me',this)">
+    👤<br>ME
+  </button>
+
 </nav>
 
 <script>
+/*
+  SUPABASE CONFIGURATION
+
+  Replace the two values below with your own project URL
+  and Publishable Key from Supabase.
+*/
+
+const SUPABASE_URL =
+  "https://jteqkclccvxnwpryynsv.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb";
+
+let supabaseClient = null;
+let currentUser = null;
+let devices = [];
+
 const plans = [
   {name:"VIP1", price:200, daily:40},
   {name:"VIP2", price:300, daily:60},
@@ -360,8 +549,35 @@ const plans = [
   {name:"VIP8", price:10000, daily:2000}
 ];
 
-let currentUser = null;
-let devices = [];
+function initializeSupabase() {
+  if (
+    SUPABASE_URL.includes("PASTE_") ||
+    SUPABASE_PUBLISHABLE_KEY.includes("PASTE_")
+  ) {
+    showMessage(
+      "Supabase is not configured yet. Add your Project URL and Publishable Key in the script."
+    );
+    return;
+  }
+
+  if (!window.supabase) {
+    showMessage(
+      "Supabase library did not load. Check your internet connection and reload."
+    );
+    return;
+  }
+
+  try {
+    supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    checkCurrentSession();
+  } catch (error) {
+    showMessage("Could not initialize Supabase. Check your configuration.");
+  }
+}
 
 function peso(amount) {
   return "₱" + Number(amount).toLocaleString("en-PH", {
@@ -375,16 +591,21 @@ function showMessage(text) {
 }
 
 function showPage(id, button) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.remove("active");
+  const page = document.getElementById(id);
+
+  if (!page) return;
+
+  document.querySelectorAll(".page").forEach(item => {
+    item.classList.remove("active");
   });
 
-  document.getElementById(id).classList.add("active");
+  page.classList.add("active");
 
   if (button) {
     document.querySelectorAll("nav button").forEach(item => {
       item.classList.remove("selected");
     });
+
     button.classList.add("selected");
   }
 
@@ -392,33 +613,49 @@ function showPage(id, button) {
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-function renderPlans() {
-  document.getElementById("products").innerHTML = plans.map(plan => `
-    <div class="card">
-      <span class="vip">${plan.name}</span>
-      <h3>${peso(plan.price)}</h3>
-      <p>Daily amount: <strong>${peso(plan.daily)}</strong></p>
-      <p>Duration: 30 days</p>
-      <p>Illustrative total: ${peso(plan.daily * 30)}</p>
-      <button class="buy" onclick="buyPlan('${plan.name}')">
-        Select Plan
-      </button>
-    </div>
-  `).join("");
-}
-
-function buyPlan(name) {
-  const plan = plans.find(item => item.name === name);
-
+function openProtectedPage(id) {
   if (!currentUser) {
     showMessage("Please register or log in first.");
-    showPage("register");
+    showPage("login");
     return;
   }
 
+  showPage(id);
+}
+
+function renderPlans() {
+  document.getElementById("products").innerHTML =
+    plans.map(plan => `
+      <div class="card">
+        <span class="vip">${plan.name}</span>
+        <h3>${peso(plan.price)}</h3>
+        <p>Illustrative daily amount:
+          <strong>${peso(plan.daily)}</strong>
+        </p>
+        <p>Example duration: 30 days</p>
+        <button class="buy"
+          onclick="buyPlan('${plan.name}')">
+          Select Plan
+        </button>
+      </div>
+    `).join("");
+}
+
+function buyPlan(name) {
+  if (!currentUser) {
+    showMessage("Please log in first.");
+    showPage("login");
+    return;
+  }
+
+  const plan = plans.find(item => item.name === name);
+
+  if (!plan) return;
+
   showMessage(
-    name + " selected (" + peso(plan.price) +
-    "). No purchase or payment has been made."
+    name + " selected for display only (" +
+    peso(plan.price) +
+    "). No payment or purchase was made."
   );
 }
 
@@ -426,7 +663,8 @@ function renderDevices() {
   const target = document.getElementById("myDevices");
 
   if (!devices.length) {
-    target.innerHTML = '<div class="panel">No plans selected yet.</div>';
+    target.innerHTML =
+      '<div class="panel">No plans selected yet.</div>';
     return;
   }
 
@@ -434,90 +672,286 @@ function renderDevices() {
     <div class="panel">
       <h3>${device.name}</h3>
       <p>Price: ${peso(device.price)}</p>
-      <p>Status: Selected, not purchased</p>
+      <p>Status: Demo selection only</p>
     </div>
   `).join("");
 }
 
-function register(event) {
-  event.preventDefault();
+function updateAccountUI() {
+  const status = document.getElementById("accountStatus");
+  const email = document.getElementById("accountEmail");
+  const referral = document.getElementById("referral");
 
-  const mobile = document.getElementById("regMobile").value.trim();
-  const password = document.getElementById("regPassword").value;
-  const confirm = document.getElementById("regConfirm").value;
+  if (currentUser) {
+    status.textContent = "You are logged in.";
+    email.textContent = currentUser.email || "";
 
-  if (password !== confirm) {
-    showMessage("Passwords do not match.");
+    referral.textContent =
+      "GR" + currentUser.id.replace(/-/g, "").slice(0, 8).toUpperCase();
+  } else {
+    status.textContent = "You are not logged in.";
+    email.textContent = "";
+    referral.textContent = "Log in first";
+  }
+}
+
+async function checkCurrentSession() {
+  if (!supabaseClient) return;
+
+  const {data, error} = await supabaseClient.auth.getSession();
+
+  if (error) {
+    showMessage("Could not check your session. Please try again.");
     return;
   }
 
-  showMessage(
-    "Registration preview only. Your account has not been saved. " +
-    "Connect secure authentication before using registration."
-  );
+  currentUser = data.session ? data.session.user : null;
+  updateAccountUI();
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    currentUser = session ? session.user : null;
+    updateAccountUI();
+  });
 }
 
-function login(event) {
-  event.preventDefault();
+document.getElementById("registerForm").addEventListener(
+  "submit",
+  async function(event) {
+    event.preventDefault();
 
-  showMessage(
-    "Login is not enabled yet. Secure authentication must be connected first."
-  );
-}
+    if (!supabaseClient) {
+      showMessage("Supabase is not configured. Add your project details first.");
+      return;
+    }
 
-function logout() {
-  currentUser = null;
-  document.getElementById("accountStatus").textContent =
-    "You are not logged in.";
-  document.getElementById("referral").textContent = "Not registered";
-  showMessage("Logged out.");
-}
+    const email =
+      document.getElementById("regEmail").value.trim();
 
-function copyReferral() {
-  showMessage(
-    "Referral codes are not active yet. Connect authentication and a database first."
-  );
-}
+    const password =
+      document.getElementById("regPassword").value;
 
-function requestDeposit(event) {
-  event.preventDefault();
+    const confirm =
+      document.getElementById("regConfirm").value;
 
-  const amount = Number(document.getElementById("depositAmount").value);
+    if (password.length < 8) {
+      showMessage("Password must contain at least 8 characters.");
+      return;
+    }
 
-  if (amount < 200) {
-    showMessage("Minimum deposit is ₱200.");
+    if (password !== confirm) {
+      showMessage("Passwords do not match.");
+      return;
+    }
+
+    const referralCode =
+      document.getElementById("regReferral").value.trim();
+
+    const submitButton =
+      this.querySelector('button[type="submit"]');
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Creating account...";
+
+    try {
+      const {data, error} =
+        await supabaseClient.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              referral_code_entered: referralCode || null
+            }
+          }
+        });
+
+      if (error) throw error;
+
+      if (data.session && data.user) {
+        currentUser = data.user;
+        updateAccountUI();
+
+        this.reset();
+
+        showMessage("Registration successful! You are now logged in.");
+        showPage("home");
+      } else {
+        this.reset();
+
+        showMessage(
+          "Registration submitted! Check your email for the confirmation link, then log in."
+        );
+        showPage("login");
+      }
+    } catch (error) {
+      showMessage("Registration failed: " + error.message);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Register";
+    }
+  }
+);
+
+document.getElementById("loginForm").addEventListener(
+  "submit",
+  async function(event) {
+    event.preventDefault();
+
+    if (!supabaseClient) {
+      showMessage("Supabase is not configured. Add your project details first.");
+      return;
+    }
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+    const submitButton =
+      this.querySelector('button[type="submit"]');
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Logging in...";
+
+    try {
+      const {data, error} =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) throw error;
+
+      currentUser = data.user;
+      updateAccountUI();
+
+      this.reset();
+
+      showMessage("Login successful. Welcome to GrowRise!");
+      showPage("home");
+    } catch (error) {
+      showMessage("Login failed: " + error.message);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Login";
+    }
+  }
+);
+
+async function resetPassword() {
+  if (!supabaseClient) {
+    showMessage("Supabase is not configured yet.");
     return;
   }
 
-  showMessage(
-    "Deposit request preview: " + peso(amount) +
-    ". No payment was made. A verified payment provider is required."
-  );
-}
+  const email =
+    document.getElementById("loginEmail").value.trim();
 
-function requestWithdrawal(event) {
-  event.preventDefault();
-
-  const amount = Number(document.getElementById("withdrawAmount").value);
-
-  if (amount < 200) {
-    showMessage("Minimum withdrawal is ₱200.");
+  if (!email) {
+    showMessage("Enter your email address in the Login form first.");
     return;
   }
 
-  const fee = amount * 0.05;
+  try {
+    const {error} =
+      await supabaseClient.auth.resetPasswordForEmail(email);
 
-  showMessage(
-    "Withdrawal preview: " + peso(amount) +
-    ". Fee estimate: " + peso(fee) +
-    ". Estimated amount after fee: " + peso(amount - fee) +
-    ". No real withdrawal request was sent."
-  );
+    if (error) throw error;
+
+    showMessage(
+      "If the email is registered, a password-reset link will be sent. Check your inbox."
+    );
+  } catch (error) {
+    showMessage("Could not request password reset: " + error.message);
+  }
 }
+
+async function logout() {
+  if (!supabaseClient) {
+    showMessage("Supabase is not configured yet.");
+    return;
+  }
+
+  try {
+    const {error} = await supabaseClient.auth.signOut();
+
+    if (error) throw error;
+
+    currentUser = null;
+    updateAccountUI();
+
+    showMessage("You have logged out.");
+    showPage("home");
+  } catch (error) {
+    showMessage("Logout failed. Please try again.");
+  }
+}
+
+async function copyReferral() {
+  if (!currentUser) {
+    showMessage("Please log in first.");
+    return;
+  }
+
+  const code = document.getElementById("referral").textContent;
+
+  try {
+    await navigator.clipboard.writeText(code);
+    showMessage("Referral code copied!");
+  } catch (error) {
+    showMessage("Your referral code is: " + code);
+  }
+}
+
+document.getElementById("depositForm").addEventListener(
+  "submit",
+  function(event) {
+    event.preventDefault();
+
+    const amount =
+      Number(document.getElementById("depositAmount").value);
+
+    if (amount < 200) {
+      showMessage("Minimum amount is ₱200.");
+      return;
+    }
+
+    showMessage(
+      "Demo only: " + peso(amount) +
+      ". No payment was made or recorded."
+    );
+  }
+);
+
+document.getElementById("withdrawForm").addEventListener(
+  "submit",
+  function(event) {
+    event.preventDefault();
+
+    const amount =
+      Number(document.getElementById("withdrawAmount").value);
+
+    if (amount < 200) {
+      showMessage("Minimum withdrawal amount is ₱200.");
+      return;
+    }
+
+    const fee = amount * 0.05;
+
+    showMessage(
+      "Demo calculation only. Amount: " + peso(amount) +
+      "; illustrative 5% fee: " + peso(fee) +
+      "; after fee: " + peso(amount - fee) +
+      ". No money was transferred."
+    );
+  }
+);
 
 renderPlans();
 renderDevices();
+updateAccountUI();
+initializeSupabase();
 </script>
 
 </body>
-</html>
+    </html>
