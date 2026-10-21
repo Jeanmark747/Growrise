@@ -4,208 +4,61 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GrowRise</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f3f5f3;color:#203b2b;padding-bottom:75px}
+header{background:#123f2b;color:white;padding:22px 16px;text-align:center}
+header h1{color:#e5c76b;font-size:27px}
+header p{margin-top:6px;font-size:13px}
+.container{padding:15px;max-width:650px;margin:auto}
+.balance{background:linear-gradient(135deg,#15563a,#26784c);color:white;padding:22px;border-radius:16px;margin-bottom:18px}
+.balance h2{color:#f1d47d;margin-top:10px;font-size:30px}
+.actions{display:flex;gap:10px;margin-top:18px}
+button{cursor:pointer;border:none;border-radius:9px;padding:12px;font-weight:bold}
+.actions button{flex:1;background:#e5c76b;color:#173a28}
+.section-title{margin:20px 0 12px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:white;border-radius:13px;padding:15px 12px;box-shadow:0 2px 8px #0000000c}
+.vip{display:inline-block;background:#e9d48c;color:#27452e;padding:5px 10px;border-radius:6px;font-weight:bold;margin-bottom:12px}
+.card p{font-size:13px;margin:8px 0;color:#56645a}
+.card strong{color:#17623b}
+.buy{width:100%;background:#8f2636;color:white;margin-top:10px}
+.page{display:none}
+.page.active{display:block}
+.panel{background:white;padding:18px;border-radius:13px;margin-bottom:12px}
+.panel button{width:100%;margin-top:12px;background:#17623b;color:white}
+input{width:100%;padding:12px;border:1px solid #ccd5ce;border-radius:8px;margin:8px 0;font-size:15px}
+.primary{width:100%;background:#17623b;color:white;margin-top:8px}
+.notice{font-size:12px;color:#68736b;line-height:1.5;margin-top:12px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:white;box-shadow:0 -2px 12px #00000012;padding:12px 3px;z-index:10}
+nav button{background:transparent;color:#526458;font-size:12px;padding:8px 5px}
+nav button.selected{color:#17623b}
+#message{margin-top:12px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.secondary{background:#e8eee9!important;color:#17623b!important}
 
-body {
-  font-family: Arial, sans-serif;
-  background: #f3f5f3;
-  color: #203b2b;
-  padding-bottom: 75px;
-}
-
-header {
-  background: #123f2b;
-  color: white;
-  padding: 22px 16px;
-  text-align: center;
-}
-
-header h1 {
-  color: #e5c76b;
-  font-size: 27px;
-}
-
-header p {
-  margin-top: 6px;
-  font-size: 13px;
-}
-
-.container {
-  padding: 15px;
-  max-width: 650px;
-  margin: auto;
-}
-
-.balance {
-  background: linear-gradient(135deg, #15563a, #26784c);
-  color: white;
-  padding: 22px;
-  border-radius: 16px;
-  margin-bottom: 18px;
-}
-
-.balance h2 {
-  color: #f1d47d;
-  margin-top: 10px;
-  font-size: 30px;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 9px;
-  padding: 12px;
-  font-weight: bold;
-}
-
-.actions button {
-  flex: 1;
-  background: #e5c76b;
-  color: #173a28;
-}
-
-.section-title {
-  margin: 20px 0 12px;
-}
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.card {
-  background: white;
-  border-radius: 13px;
-  padding: 15px 12px;
-  box-shadow: 0 2px 8px #0000000c;
-}
-
-.vip {
-  display: inline-block;
-  background: #e9d48c;
-  color: #27452e;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.card p {
-  font-size: 13px;
-  margin: 8px 0;
-  color: #56645a;
-}
-
-.card strong {
-  color: #17623b;
-}
-
-.buy {
-  width: 100%;
-  background: #8f2636;
-  color: white;
-  margin-top: 10px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.panel {
-  background: white;
-  padding: 18px;
-  border-radius: 13px;
-  margin-bottom: 12px;
-}
-
-.panel button {
-  width: 100%;
-  margin-top: 12px;
-  background: #17623b;
-  color: white;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccd5ce;
-  border-radius: 8px;
-  margin: 8px 0;
-  font-size: 15px;
-}
-
-.primary {
-  width: 100%;
-  background: #17623b;
-  color: white;
-  margin-top: 8px;
-}
-
-.notice {
-  font-size: 12px;
-  color: #68736b;
-  line-height: 1.5;
-  margin-top: 12px;
-}
-
-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-around;
-  background: white;
-  box-shadow: 0 -2px 12px #00000012;
-  padding: 12px 3px;
-}
-
-nav button {
-  background: transparent;
-  color: #526458;
-  font-size: 12px;
-  padding: 8px 5px;
-}
-
-nav button.selected {
-  color: #17623b;
-}
-
-#message {
-  margin-top: 12px;
-  font-size: 14px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.secondary {
-  background: #e8eee9 !important;
-  color: #17623b !important;
-}
+/* ME PAGE DESIGN */
+.me-header{background:linear-gradient(135deg,#123f2b,#26784c);color:white;padding:24px 18px;border-radius:16px;margin-bottom:18px}
+.me-profile{display:flex;align-items:center;gap:14px;min-width:0}
+.me-avatar{width:58px;height:58px;background:#e5c76b;color:#123f2b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0}
+.me-profile h2{font-size:20px;margin-bottom:6px}
+.me-profile p{font-size:13px;overflow-wrap:anywhere}
+.me-status{display:inline-block;margin-top:9px;padding:5px 10px;background:#ffffff20;border-radius:20px;font-size:12px}
+.me-menu{background:white;border-radius:15px;padding:16px;margin-bottom:15px;box-shadow:0 2px 8px #0000000c}
+.me-menu h3{margin-bottom:12px;color:#203b2b}
+.me-menu-item{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:15px 10px;margin-top:5px;background:#f5f8f5;color:#203b2b;border-radius:10px}
+.me-menu-item span{display:flex;align-items:center;gap:12px}
+.me-menu-item .arrow{color:#819087;font-size:20px}
+.me-auth-buttons{display:flex;gap:10px;margin-top:16px}
+.me-auth-buttons button{flex:1;margin:0}
+.me-login{background:#17623b;color:white}
+.me-register{background:#e5c76b;color:#173a28}
+.me-logout{background:#f9e8e8;color:#9a2937}
 </style>
 </head>
 
 <body>
-
 <header>
   <h1>🌱 GrowRise</h1>
   <p>Grow Your Future</p>
@@ -214,461 +67,245 @@ nav button.selected {
 <main class="container">
 
 <section id="home" class="page active">
-
   <div class="balance">
     <p>My Account</p>
     <h2 id="balance">₱0.00</h2>
     <p>Account balance</p>
-
     <div class="actions">
-      <button onclick="openProtectedPage('deposit')">
-        Deposit
-      </button>
-
-      <button onclick="openProtectedPage('withdraw')">
-        Withdraw
-      </button>
+      <button onclick="openProtectedPage('deposit')">Deposit</button>
+      <button onclick="openProtectedPage('withdraw')">Withdraw</button>
     </div>
   </div>
-
   <h3 class="section-title">VIP Plans</h3>
-
   <div id="products" class="products"></div>
-
-  <p class="notice">
-    Plans are illustrative only. Displayed amounts are not guaranteed
-    earnings. No real purchase or investment is processed by this demo.
-  </p>
-
+  <p class="notice">Plans are illustrative only. Displayed amounts are not guaranteed earnings. No real purchase or investment is processed by this demo.</p>
 </section>
 
 <section id="devices" class="page">
-
   <h2 class="section-title">My Devices</h2>
-
   <div id="myDevices"></div>
-
 </section>
 
 <section id="invite" class="page">
-
   <h2 class="section-title">Invite Friends</h2>
-
   <div class="panel">
     <p>Your referral code</p>
-
     <h2 id="referral">Log in first</h2>
-
-    <button onclick="copyReferral()">
-      Copy Referral Code
-    </button>
-
-    <p class="notice">
-      This code is generated from your account ID.
-      Referral tracking and rewards require additional backend setup.
-    </p>
+    <button onclick="copyReferral()">Copy Referral Code</button>
+    <p class="notice">This code is generated from your account ID. Referral tracking and rewards require additional backend setup.</p>
   </div>
-
 </section>
 
 <section id="me" class="page">
-
-  <h2 class="section-title">My Account</h2>
-
-  <div class="panel">
-
-    <p id="accountStatus">You are not logged in.</p>
-
-    <p id="accountEmail"></p>
-
-    <button onclick="showPage('register')">
-      Register
-    </button>
-
-    <button onclick="showPage('login')">
-      Login
-    </button>
-
-    <button onclick="logout()">
-      Logout
-    </button>
-
+  <div class="me-header">
+    <div class="me-profile">
+      <div class="me-avatar">👤</div>
+      <div>
+        <h2>My Account</h2>
+        <p id="accountEmail">Please log in</p>
+        <span class="me-status" id="accountStatus">Not logged in</span>
+      </div>
+    </div>
   </div>
 
-  <div class="panel">
-
-    <h3>Account Menu</h3>
-
-    <button onclick="showPage('devices')">
-      My Devices
-    </button>
-
-    <button onclick="openProtectedPage('deposit')">
-      Deposit
-    </button>
-
-    <button onclick="openProtectedPage('withdraw')">
-      Withdrawal
-    </button>
-
-    <button onclick="showPage('invite')">
-      Invitation
-    </button>
-
+  <div class="me-menu">
+    <h3>👤 Account Menu</h3>
+    <button class="me-menu-item" onclick="showPage('devices')"><span>📱 My Devices</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="openProtectedPage('deposit')"><span>💰 Deposit</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="openProtectedPage('withdraw')"><span>💸 Withdrawal</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="showPage('invite')"><span>👥 Invitation</span><span class="arrow">›</span></button>
   </div>
 
+  <div class="me-menu">
+    <h3>⚙️ Account Settings</h3>
+    <button class="me-menu-item" onclick="showMessage('Your account email is displayed above.')"><span>📧 Account Information</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="resetPassword()"><span>🔐 Reset Password</span><span class="arrow">›</span></button>
+  </div>
+
+  <div class="me-menu">
+    <h3>🔑 Account Access</h3>
+    <div class="me-auth-buttons">
+      <button class="me-register" onclick="showPage('register')">Register</button>
+      <button class="me-login" onclick="showPage('login')">Login</button>
+    </div>
+    <button class="me-logout" onclick="logout()" style="width:100%;margin-top:12px">Logout</button>
+  </div>
+
+  <p class="notice" style="text-align:center">GrowRise · My Account</p>
 </section>
 
 <section id="register" class="page">
-
   <div class="panel">
-
     <h2>Create Account</h2>
-
     <form id="registerForm">
-
-      <input
-        id="regEmail"
-        type="email"
-        placeholder="Email address"
-        autocomplete="email"
-        required
-      >
-
-      <input
-        id="regPassword"
-        type="password"
-        placeholder="Password (minimum 8 characters)"
-        minlength="8"
-        autocomplete="new-password"
-        required
-      >
-
-      <input
-        id="regConfirm"
-        type="password"
-        placeholder="Confirm password"
-        minlength="8"
-        autocomplete="new-password"
-        required
-      >
-
-      <input
-        id="regReferral"
-        type="text"
-        placeholder="Invitation code (optional)"
-      >
-
-      <button class="primary" type="submit">
-        Register
-      </button>
-
+      <input id="regEmail" type="email" placeholder="Email address" autocomplete="email" required>
+      <input id="regPassword" type="password" placeholder="Password (minimum 8 characters)" minlength="8" autocomplete="new-password" required>
+      <input id="regConfirm" type="password" placeholder="Confirm password" minlength="8" autocomplete="new-password" required>
+      <input id="regReferral" type="text" placeholder="Invitation code (optional)">
+      <button class="primary" type="submit">Register</button>
     </form>
-
-    <p class="notice">
-      Use an email address you control. Never share your password
-      or email verification code with anyone.
-    </p>
-
-    <button class="secondary"
-      onclick="showPage('login')">
-      Already registered? Login
-    </button>
-
+    <p class="notice">Use an email address you control. Never share your password or email verification code with anyone.</p>
+    <button class="secondary" onclick="showPage('login')">Already registered? Login</button>
   </div>
-
 </section>
 
 <section id="login" class="page">
-
   <div class="panel">
-
     <h2>Login</h2>
-
     <form id="loginForm">
-
-      <input
-        id="loginEmail"
-        type="email"
-        placeholder="Email address"
-        autocomplete="email"
-        required
-      >
-
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="Password"
-        autocomplete="current-password"
-        required
-      >
-
-      <button class="primary" type="submit">
-        Login
-      </button>
-
+      <input id="loginEmail" type="email" placeholder="Email address" autocomplete="email" required>
+      <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button class="primary" type="submit">Login</button>
     </form>
-
-    <button class="secondary"
-      onclick="resetPassword()">
-      Forgot Password?
-    </button>
-
-    <button class="secondary"
-      onclick="showPage('register')">
-      Create New Account
-    </button>
-
+    <button class="secondary" onclick="resetPassword()">Forgot Password?</button>
+    <button class="secondary" onclick="showPage('register')">Create New Account</button>
   </div>
-
 </section>
 
 <section id="deposit" class="page">
-
   <div class="panel">
-
     <h2>Deposit Request</h2>
-
     <p>Minimum amount: ₱200</p>
-
     <form id="depositForm">
-
-      <input
-        id="depositAmount"
-        type="number"
-        min="200"
-        step="1"
-        placeholder="Amount (₱)"
-        required
-      >
-
-      <button class="primary" type="submit">
-        Submit Demo Request
-      </button>
-
+      <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
+      <button class="primary" type="submit">Submit Demo Request</button>
     </form>
-
-    <p class="notice">
-      This demo does not accept payments or send money.
-      A verified payment provider and secure server-side processing
-      must be configured before real transactions.
-      Never enter a GCash MPIN or OTP on this website.
-    </p>
-
+    <p class="notice">This demo does not accept payments or send money. A verified payment provider and secure server-side processing must be configured before real transactions. Never enter a GCash MPIN or OTP on this website.</p>
   </div>
-
 </section>
 
 <section id="withdraw" class="page">
-
   <div class="panel">
-
     <h2>Withdrawal Request</h2>
-
     <p>Minimum withdrawal: ₱200</p>
     <p>Illustrative fee: 5%</p>
-
     <form id="withdrawForm">
-
-      <input
-        id="withdrawAmount"
-        type="number"
-        min="200"
-        step="1"
-        placeholder="Amount (₱)"
-        required
-      >
-
-      <button class="primary" type="submit">
-        Calculate Demo Withdrawal
-      </button>
-
+      <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
+      <button class="primary" type="submit">Calculate Demo Withdrawal</button>
     </form>
-
-    <p class="notice">
-      This demo does not transfer money or submit a real withdrawal.
-      Real withdrawals require secure backend processing and
-      verified account balances.
-    </p>
-
+    <p class="notice">This demo does not transfer money or submit a real withdrawal. Real withdrawals require secure backend processing and verified account balances.</p>
   </div>
-
 </section>
 
 <div id="message" role="status" aria-live="polite"></div>
-
 </main>
 
 <nav>
-
-  <button class="selected"
-    onclick="showPage('home',this)">
-    🏠<br>HOME
-  </button>
-
-  <button onclick="showPage('devices',this)">
-    📦<br>DEVICES
-  </button>
-
-  <button onclick="showPage('invite',this)">
-    👥<br>INVITE
-  </button>
-
-  <button onclick="showPage('me',this)">
-    👤<br>ME
-  </button>
-
+  <button class="selected" onclick="showPage('home',this)">🏠<br>HOME</button>
+  <button onclick="showPage('devices',this)">📦<br>DEVICES</button>
+  <button onclick="showPage('invite',this)">👥<br>INVITE</button>
+  <button onclick="showPage('me',this)">👤<br>ME</button>
 </nav>
 
 <script>
-/*
-  SUPABASE CONFIGURATION
-
-  Replace the two values below with your own project URL
-  and Publishable Key from Supabase.
-*/
-
-const SUPABASE_URL =
-  "https://jteqkclccvxnwpryynsv.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb";
+const SUPABASE_URL = "https://jteqkclccvxnwpryynsv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb";
 
 let supabaseClient = null;
 let currentUser = null;
 let devices = [];
 
 const plans = [
-  {name:"VIP1", price:200, daily:40},
-  {name:"VIP2", price:300, daily:60},
-  {name:"VIP3", price:500, daily:100},
-  {name:"VIP4", price:1000, daily:200},
-  {name:"VIP5", price:2000, daily:400},
-  {name:"VIP6", price:3000, daily:600},
-  {name:"VIP7", price:5000, daily:1000},
-  {name:"VIP8", price:10000, daily:2000}
+  {name:"VIP1",price:200,daily:40},
+  {name:"VIP2",price:300,daily:60},
+  {name:"VIP3",price:500,daily:100},
+  {name:"VIP4",price:1000,daily:200},
+  {name:"VIP5",price:2000,daily:400},
+  {name:"VIP6",price:3000,daily:600},
+  {name:"VIP7",price:5000,daily:1000},
+  {name:"VIP8",price:10000,daily:2000}
 ];
 
-function initializeSupabase() {
-  if (
-    SUPABASE_URL.includes("PASTE_") ||
-    SUPABASE_PUBLISHABLE_KEY.includes("PASTE_")
-  ) {
-    showMessage(
-      "Supabase is not configured yet. Add your Project URL and Publishable Key in the script."
-    );
-    return;
+function initializeSupabase(){
+  if(SUPABASE_URL.includes("PASTE_")||SUPABASE_PUBLISHABLE_KEY.includes("PASTE_")){
+    showMessage("Supabase is not configured yet.");return;
   }
-
-  if (!window.supabase) {
-    showMessage(
-      "Supabase library did not load. Check your internet connection and reload."
-    );
-    return;
+  if(!window.supabase){
+    showMessage("Supabase library did not load. Check your internet connection and reload.");return;
   }
-
-  try {
-    supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
+  try{
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
     checkCurrentSession();
-  } catch (error) {
+  }catch(error){
     showMessage("Could not initialize Supabase. Check your configuration.");
   }
 }
 
-function peso(amount) {
-  return "₱" + Number(amount).toLocaleString("en-PH", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+function peso(amount){
+  return "₱"+Number(amount).toLocaleString("en-PH",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
   });
 }
 
-function showMessage(text) {
-  document.getElementById("message").textContent = text;
+function showMessage(text){
+  document.getElementById("message").textContent=text;
 }
 
-function showPage(id, button) {
-  const page = document.getElementById(id);
+function showPage(id,button){
+  const page=document.getElementById(id);
+  if(!page)return;
 
-  if (!page) return;
-
-  document.querySelectorAll(".page").forEach(item => {
-    item.classList.remove("active");
-  });
-
+  document.querySelectorAll(".page").forEach(item=>item.classList.remove("active"));
   page.classList.add("active");
 
-  if (button) {
-    document.querySelectorAll("nav button").forEach(item => {
-      item.classList.remove("selected");
-    });
+  document.querySelectorAll("nav button").forEach(item=>item.classList.remove("selected"));
 
+  if(button){
     button.classList.add("selected");
+  }else{
+    const navButton=[...document.querySelectorAll("nav button")]
+      .find(item=>item.getAttribute("onclick")?.includes("'"+id+"'"));
+    if(navButton)navButton.classList.add("selected");
   }
 
   showMessage("");
-  window.scrollTo({top:0, behavior:"smooth"});
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function openProtectedPage(id) {
-  if (!currentUser) {
+function openProtectedPage(id){
+  if(!currentUser){
     showMessage("Please register or log in first.");
     showPage("login");
     return;
   }
-
   showPage(id);
 }
 
-function renderPlans() {
-  document.getElementById("products").innerHTML =
-    plans.map(plan => `
-      <div class="card">
-        <span class="vip">${plan.name}</span>
-        <h3>${peso(plan.price)}</h3>
-        <p>Illustrative daily amount:
-          <strong>${peso(plan.daily)}</strong>
-        </p>
-        <p>Example duration: 30 days</p>
-        <button class="buy"
-          onclick="buyPlan('${plan.name}')">
-          Select Plan
-        </button>
-      </div>
-    `).join("");
+function renderPlans(){
+  document.getElementById("products").innerHTML=plans.map(plan=>`
+    <div class="card">
+      <span class="vip">${plan.name}</span>
+      <h3>${peso(plan.price)}</h3>
+      <p>Illustrative daily amount: <strong>${peso(plan.daily)}</strong></p>
+      <p>Example duration: 30 days</p>
+      <button class="buy" onclick="buyPlan('${plan.name}')">Select Plan</button>
+    </div>
+  `).join("");
 }
 
-function buyPlan(name) {
-  if (!currentUser) {
+function buyPlan(name){
+  if(!currentUser){
     showMessage("Please log in first.");
     showPage("login");
     return;
   }
 
-  const plan = plans.find(item => item.name === name);
+  const plan=plans.find(item=>item.name===name);
+  if(!plan)return;
 
-  if (!plan) return;
-
-  showMessage(
-    name + " selected for display only (" +
-    peso(plan.price) +
-    "). No payment or purchase was made."
-  );
+  showMessage(name+" selected for display only ("+peso(plan.price)+"). No payment or purchase was made.");
 }
 
-function renderDevices() {
-  const target = document.getElementById("myDevices");
+function renderDevices(){
+  const target=document.getElementById("myDevices");
 
-  if (!devices.length) {
-    target.innerHTML =
-      '<div class="panel">No plans selected yet.</div>';
+  if(!devices.length){
+    target.innerHTML='<div class="panel">No plans selected yet.</div>';
     return;
   }
 
-  target.innerHTML = devices.map(device => `
+  target.innerHTML=devices.map(device=>`
     <div class="panel">
       <h3>${device.name}</h3>
       <p>Price: ${peso(device.price)}</p>
@@ -677,281 +314,224 @@ function renderDevices() {
   `).join("");
 }
 
-function updateAccountUI() {
-  const status = document.getElementById("accountStatus");
-  const email = document.getElementById("accountEmail");
-  const referral = document.getElementById("referral");
+function updateAccountUI(){
+  const status=document.getElementById("accountStatus");
+  const email=document.getElementById("accountEmail");
+  const referral=document.getElementById("referral");
 
-  if (currentUser) {
-    status.textContent = "You are logged in.";
-    email.textContent = currentUser.email || "";
-
-    referral.textContent =
-      "GR" + currentUser.id.replace(/-/g, "").slice(0, 8).toUpperCase();
-  } else {
-    status.textContent = "You are not logged in.";
-    email.textContent = "";
-    referral.textContent = "Log in first";
+  if(currentUser){
+    status.textContent="You are logged in.";
+    email.textContent=currentUser.email||"";
+    referral.textContent="GR"+currentUser.id.replace(/-/g,"").slice(0,8).toUpperCase();
+  }else{
+    status.textContent="You are not logged in.";
+    email.textContent="Please log in";
+    referral.textContent="Log in first";
   }
 }
 
-async function checkCurrentSession() {
-  if (!supabaseClient) return;
+async function checkCurrentSession(){
+  if(!supabaseClient)return;
 
-  const {data, error} = await supabaseClient.auth.getSession();
+  const {data,error}=await supabaseClient.auth.getSession();
 
-  if (error) {
+  if(error){
     showMessage("Could not check your session. Please try again.");
     return;
   }
 
-  currentUser = data.session ? data.session.user : null;
+  currentUser=data.session?data.session.user:null;
   updateAccountUI();
 
-  supabaseClient.auth.onAuthStateChange((_event, session) => {
-    currentUser = session ? session.user : null;
+  supabaseClient.auth.onAuthStateChange((_event,session)=>{
+    currentUser=session?session.user:null;
     updateAccountUI();
   });
 }
 
-document.getElementById("registerForm").addEventListener(
-  "submit",
-  async function(event) {
-    event.preventDefault();
+document.getElementById("registerForm").addEventListener("submit",async function(event){
+  event.preventDefault();
 
-    if (!supabaseClient) {
-      showMessage("Supabase is not configured. Add your project details first.");
-      return;
-    }
+  if(!supabaseClient){
+    showMessage("Supabase is not configured. Add your project details first.");
+    return;
+  }
 
-    const email =
-      document.getElementById("regEmail").value.trim();
+  const email=document.getElementById("regEmail").value.trim();
+  const password=document.getElementById("regPassword").value;
+  const confirm=document.getElementById("regConfirm").value;
 
-    const password =
-      document.getElementById("regPassword").value;
+  if(password.length<8){
+    showMessage("Password must contain at least 8 characters.");
+    return;
+  }
 
-    const confirm =
-      document.getElementById("regConfirm").value;
+  if(password!==confirm){
+    showMessage("Passwords do not match.");
+    return;
+  }
 
-    if (password.length < 8) {
-      showMessage("Password must contain at least 8 characters.");
-      return;
-    }
+  const referralCode=document.getElementById("regReferral").value.trim();
+  const submitButton=this.querySelector('button[type="submit"]');
 
-    if (password !== confirm) {
-      showMessage("Passwords do not match.");
-      return;
-    }
+  submitButton.disabled=true;
+  submitButton.textContent="Creating account...";
 
-    const referralCode =
-      document.getElementById("regReferral").value.trim();
-
-    const submitButton =
-      this.querySelector('button[type="submit"]');
-
-    submitButton.disabled = true;
-    submitButton.textContent = "Creating account...";
-
-    try {
-      const {data, error} =
-        await supabaseClient.auth.signUp({
-          email: email,
-          password: password,
-          options: {
-            data: {
-              referral_code_entered: referralCode || null
-            }
-          }
-        });
-
-      if (error) throw error;
-
-      if (data.session && data.user) {
-        currentUser = data.user;
-        updateAccountUI();
-
-        this.reset();
-
-        showMessage("Registration successful! You are now logged in.");
-        showPage("home");
-      } else {
-        this.reset();
-
-        showMessage(
-          "Registration submitted! Check your email for the confirmation link, then log in."
-        );
-        showPage("login");
+  try{
+    const {data,error}=await supabaseClient.auth.signUp({
+      email,
+      password,
+      options:{
+        data:{referral_code_entered:referralCode||null}
       }
-    } catch (error) {
-      showMessage("Registration failed: " + error.message);
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = "Register";
-    }
-  }
-);
+    });
 
-document.getElementById("loginForm").addEventListener(
-  "submit",
-  async function(event) {
-    event.preventDefault();
+    if(error)throw error;
 
-    if (!supabaseClient) {
-      showMessage("Supabase is not configured. Add your project details first.");
-      return;
-    }
-
-    const email =
-      document.getElementById("loginEmail").value.trim();
-
-    const password =
-      document.getElementById("loginPassword").value;
-
-    const submitButton =
-      this.querySelector('button[type="submit"]');
-
-    submitButton.disabled = true;
-    submitButton.textContent = "Logging in...";
-
-    try {
-      const {data, error} =
-        await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-      if (error) throw error;
-
-      currentUser = data.user;
+    if(data.session&&data.user){
+      currentUser=data.user;
       updateAccountUI();
-
       this.reset();
-
-      showMessage("Login successful. Welcome to GrowRise!");
+      showMessage("Registration successful! You are now logged in.");
       showPage("home");
-    } catch (error) {
-      showMessage("Login failed: " + error.message);
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = "Login";
+    }else{
+      this.reset();
+      showMessage("Registration submitted. If email confirmation is enabled in Supabase, confirm your email before logging in.");
+      showPage("login");
     }
+  }catch(error){
+    showMessage("Registration failed: "+error.message);
+  }finally{
+    submitButton.disabled=false;
+    submitButton.textContent="Register";
   }
-);
+});
 
-async function resetPassword() {
-  if (!supabaseClient) {
+document.getElementById("loginForm").addEventListener("submit",async function(event){
+  event.preventDefault();
+
+  if(!supabaseClient){
+    showMessage("Supabase is not configured. Add your project details first.");
+    return;
+  }
+
+  const email=document.getElementById("loginEmail").value.trim();
+  const password=document.getElementById("loginPassword").value;
+  const submitButton=this.querySelector('button[type="submit"]');
+
+  submitButton.disabled=true;
+  submitButton.textContent="Logging in...";
+
+  try{
+    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error)throw error;
+
+    currentUser=data.user;
+    updateAccountUI();
+    this.reset();
+    showMessage("Login successful. Welcome to GrowRise!");
+    showPage("home");
+  }catch(error){
+    showMessage("Login failed: "+error.message);
+  }finally{
+    submitButton.disabled=false;
+    submitButton.textContent="Login";
+  }
+});
+
+async function resetPassword(){
+  if(!supabaseClient){
     showMessage("Supabase is not configured yet.");
     return;
   }
 
-  const email =
-    document.getElementById("loginEmail").value.trim();
+  const email=document.getElementById("loginEmail").value.trim();
 
-  if (!email) {
+  if(!email){
     showMessage("Enter your email address in the Login form first.");
+    showPage("login");
     return;
   }
 
-  try {
-    const {error} =
-      await supabaseClient.auth.resetPasswordForEmail(email);
-
-    if (error) throw error;
-
-    showMessage(
-      "If the email is registered, a password-reset link will be sent. Check your inbox."
-    );
-  } catch (error) {
-    showMessage("Could not request password reset: " + error.message);
+  try{
+    const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
+    if(error)throw error;
+    showMessage("If the email is registered, a password-reset link will be sent. Check your inbox.");
+  }catch(error){
+    showMessage("Could not request password reset: "+error.message);
   }
 }
 
-async function logout() {
-  if (!supabaseClient) {
+async function logout(){
+  if(!supabaseClient){
     showMessage("Supabase is not configured yet.");
     return;
   }
 
-  try {
-    const {error} = await supabaseClient.auth.signOut();
+  try{
+    const {error}=await supabaseClient.auth.signOut();
+    if(error)throw error;
 
-    if (error) throw error;
-
-    currentUser = null;
+    currentUser=null;
     updateAccountUI();
-
     showMessage("You have logged out.");
     showPage("home");
-  } catch (error) {
+  }catch(error){
     showMessage("Logout failed. Please try again.");
   }
 }
 
-async function copyReferral() {
-  if (!currentUser) {
+async function copyReferral(){
+  if(!currentUser){
     showMessage("Please log in first.");
     return;
   }
 
-  const code = document.getElementById("referral").textContent;
+  const code=document.getElementById("referral").textContent;
 
-  try {
+  try{
     await navigator.clipboard.writeText(code);
     showMessage("Referral code copied!");
-  } catch (error) {
-    showMessage("Your referral code is: " + code);
+  }catch(error){
+    showMessage("Your referral code is: "+code);
   }
 }
 
-document.getElementById("depositForm").addEventListener(
-  "submit",
-  function(event) {
-    event.preventDefault();
+document.getElementById("depositForm").addEventListener("submit",function(event){
+  event.preventDefault();
 
-    const amount =
-      Number(document.getElementById("depositAmount").value);
+  const amount=Number(document.getElementById("depositAmount").value);
 
-    if (amount < 200) {
-      showMessage("Minimum amount is ₱200.");
-      return;
-    }
-
-    showMessage(
-      "Demo only: " + peso(amount) +
-      ". No payment was made or recorded."
-    );
+  if(amount<200){
+    showMessage("Minimum amount is ₱200.");
+    return;
   }
-);
 
-document.getElementById("withdrawForm").addEventListener(
-  "submit",
-  function(event) {
-    event.preventDefault();
+  showMessage("Demo only: "+peso(amount)+". No payment was made or recorded.");
+});
 
-    const amount =
-      Number(document.getElementById("withdrawAmount").value);
+document.getElementById("withdrawForm").addEventListener("submit",function(event){
+  event.preventDefault();
 
-    if (amount < 200) {
-      showMessage("Minimum withdrawal amount is ₱200.");
-      return;
-    }
+  const amount=Number(document.getElementById("withdrawAmount").value);
 
-    const fee = amount * 0.05;
-
-    showMessage(
-      "Demo calculation only. Amount: " + peso(amount) +
-      "; illustrative 5% fee: " + peso(fee) +
-      "; after fee: " + peso(amount - fee) +
-      ". No money was transferred."
-    );
+  if(amount<200){
+    showMessage("Minimum withdrawal amount is ₱200.");
+    return;
   }
-);
+
+  const fee=amount*0.05;
+
+  showMessage("Demo calculation only. Amount: "+peso(amount)+
+    "; illustrative 5% fee: "+peso(fee)+
+    "; after fee: "+peso(amount-fee)+
+    ". No money was transferred.");
+});
 
 renderPlans();
 renderDevices();
 updateAccountUI();
 initializeSupabase();
 </script>
-
 </body>
-    </html>
+        </html>
