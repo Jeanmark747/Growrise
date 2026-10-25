@@ -3,104 +3,358 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrowRise</title>
+<title>GrowRise | Grow Your Future</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f3f5f3;color:#203b2b;padding-bottom:75px}
-header{background:#123f2b;color:white;padding:22px 16px;text-align:center}
-header h1{color:#e5c76b;font-size:27px}
-header p{margin-top:6px;font-size:13px}
-.container{padding:15px;max-width:650px;margin:auto}
-.balance{background:linear-gradient(135deg,#15563a,#26784c);color:white;padding:22px;border-radius:16px;margin-bottom:18px}
-.balance h2{color:#f1d47d;margin-top:10px;font-size:30px}
-.actions{display:flex;gap:10px;margin-top:18px}
-button{cursor:pointer;border:none;border-radius:9px;padding:12px;font-weight:bold}
-.actions button{flex:1;background:#e5c76b;color:#173a28}
-.section-title{margin:20px 0 12px}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:white;border-radius:13px;padding:15px 12px;box-shadow:0 2px 8px #0000000c}
-.vip{display:inline-block;background:#e9d48c;color:#27452e;padding:5px 10px;border-radius:6px;font-weight:bold;margin-bottom:12px}
-.card p{font-size:13px;margin:8px 0;color:#56645a}
-.card strong{color:#17623b}
-.buy{width:100%;background:#8f2636;color:white;margin-top:10px}
+
+:root{
+  --green:#155638;
+  --dark:#103c29;
+  --light:#eff6ef;
+  --gold:#e8c96e;
+  --text:#203b2b;
+  --muted:#728075;
+  --white:#fff;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f2f5f1;
+  color:var(--text);
+  padding-bottom:82px;
+}
+
+button,input{font-family:inherit}
+button{cursor:pointer;border:0}
+button:disabled{opacity:.6;cursor:not-allowed}
+
+header{
+  background:linear-gradient(135deg,#103c29,#216d46);
+  color:white;
+  padding:20px 17px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{
+  width:43px;height:43px;border-radius:14px;
+  background:var(--gold);display:flex;
+  justify-content:center;align-items:center;font-size:24px;
+}
+.brand h1{font-size:23px;color:var(--gold);letter-spacing:.5px}
+.brand p{font-size:11px;margin-top:4px;color:#e1e9e2}
+
+.header-button{
+  background:var(--gold);color:var(--dark);
+  border-radius:10px;padding:11px 13px;font-weight:bold;
+}
+
+.container{max-width:700px;margin:auto;padding:16px}
 .page{display:none}
 .page.active{display:block}
-.panel{background:white;padding:18px;border-radius:13px;margin-bottom:12px}
-.panel button{width:100%;margin-top:12px;background:#17623b;color:white}
-input{width:100%;padding:12px;border:1px solid #ccd5ce;border-radius:8px;margin:8px 0;font-size:15px}
-.primary{width:100%;background:#17623b;color:white;margin-top:8px}
-.notice{font-size:12px;color:#68736b;line-height:1.5;margin-top:12px}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:white;box-shadow:0 -2px 12px #00000012;padding:12px 3px;z-index:10}
-nav button{background:transparent;color:#526458;font-size:12px;padding:8px 5px}
-nav button.selected{color:#17623b}
-#message{margin-top:12px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
-.secondary{background:#e8eee9!important;color:#17623b!important}
 
-.me-header{background:linear-gradient(135deg,#123f2b,#26784c);color:white;padding:24px 18px;border-radius:16px;margin-bottom:18px}
-.me-profile{display:flex;align-items:center;gap:14px;min-width:0}
-.me-avatar{width:58px;height:58px;background:#e5c76b;color:#123f2b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0}
-.me-profile h2{font-size:20px;margin-bottom:6px}
-.me-profile p{font-size:13px;overflow-wrap:anywhere}
-.me-status{display:inline-block;margin-top:9px;padding:5px 10px;background:#ffffff20;border-radius:20px;font-size:12px}
-.me-menu{background:white;border-radius:15px;padding:16px;margin-bottom:15px;box-shadow:0 2px 8px #0000000c}
-.me-menu h3{margin-bottom:12px;color:#203b2b}
-.me-menu-item{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:15px 10px;margin-top:5px;background:#f5f8f5;color:#203b2b;border-radius:10px}
-.me-menu-item span{display:flex;align-items:center;gap:12px}
-.me-menu-item .arrow{color:#819087;font-size:20px}
+.hero{
+  background:linear-gradient(135deg,#123f2b,#277b4e);
+  color:white;border-radius:22px;padding:24px 20px;
+  position:relative;overflow:hidden;margin-bottom:17px;
+  box-shadow:0 8px 22px #174c3020;
+}
+.hero:after{
+  content:"🌱";position:absolute;right:13px;bottom:0;
+  font-size:95px;opacity:.13;
+}
+.hero-label{
+  display:inline-block;background:#ffffff20;
+  border:1px solid #ffffff35;border-radius:20px;
+  padding:7px 11px;font-size:11px;margin-bottom:15px;
+}
+.hero h2{font-size:27px;line-height:1.3;margin-bottom:9px;max-width:340px}
+.hero p{color:#e0ebe2;font-size:13px;line-height:1.7;max-width:340px}
+.hero-buttons{display:flex;gap:10px;margin-top:20px;position:relative;z-index:1}
+.hero-buttons button{padding:12px 14px;border-radius:10px;font-weight:bold}
+.hero-primary{background:var(--gold);color:var(--dark)}
+.hero-secondary{background:#ffffff18;border:1px solid #ffffff50;color:white}
+
+.section-heading{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin:24px 0 13px;
+}
+.section-heading h2{font-size:19px}
+.section-heading p{font-size:11px;color:var(--muted);margin-top:5px}
+.small-tag{
+  font-size:11px;background:#e2eee3;color:var(--green);
+  border-radius:20px;padding:7px 10px;white-space:nowrap;
+}
+
+.balance{
+  background:white;border-radius:17px;padding:19px;
+  box-shadow:0 3px 12px #00000008;border:1px solid #e7eee7;
+}
+.balance-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.balance-top p{color:var(--muted);font-size:13px}
+.balance-icon{
+  width:42px;height:42px;display:flex;align-items:center;
+  justify-content:center;border-radius:13px;background:#edf5ed;font-size:22px;
+}
+.balance h2{font-size:29px;margin:12px 0 5px;color:var(--green)}
+.balance-note{font-size:11px;color:var(--muted)}
+
+.actions{display:flex;gap:10px;margin-top:18px}
+.actions button{flex:1;padding:13px 8px;border-radius:11px;font-weight:bold}
+.deposit-button{background:var(--green);color:white}
+.withdraw-button{background:#edf4ed;color:var(--green)}
+
+.quick-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;margin-top:15px;
+}
+.quick-card{
+  background:white;padding:14px 9px;border-radius:13px;
+  text-align:center;border:1px solid #e8eee8;
+}
+.quick-card .icon{font-size:22px;margin-bottom:8px}
+.quick-card strong{display:block;font-size:12px}
+.quick-card p{font-size:10px;color:var(--muted);margin-top:5px}
+
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.plan-card{
+  background:white;border:1px solid #e4ebe3;border-radius:17px;
+  overflow:hidden;box-shadow:0 4px 12px #00000008;
+  position:relative;transition:transform .2s,box-shadow .2s;
+}
+.plan-card:active{transform:scale(.98)}
+.plan-top{
+  padding:17px 14px 15px;
+  background:linear-gradient(135deg,#eaf3e9,#f8f6e9);
+  border-bottom:1px solid #e7eee5;
+}
+.plan-top.featured{
+  background:linear-gradient(135deg,#174b32,#27784d);color:white;
+}
+.plan-label{
+  display:inline-block;padding:5px 9px;background:#ffffffa8;
+  color:#20583a;border-radius:7px;font-size:11px;font-weight:bold;
+}
+.featured .plan-label{background:#e8c96e;color:#173d29}
+.plan-symbol{
+  width:43px;height:43px;border-radius:13px;background:#ffffffb5;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:13px 0 10px;
+}
+.featured .plan-symbol{background:#ffffff20}
+.plan-top h3{font-size:17px;margin-bottom:6px}
+.plan-top p{font-size:11px;opacity:.8}
+.plan-body{padding:15px 13px}
+.plan-price-label{font-size:11px;color:var(--muted);margin-bottom:5px}
+.plan-price{font-size:23px;color:var(--green);font-weight:bold;overflow-wrap:anywhere}
+.plan-features{list-style:none;margin:13px 0}
+.plan-features li{
+  font-size:11px;color:#58675c;padding:8px 0;
+  border-bottom:1px solid #edf0ed;line-height:1.5;
+}
+.plan-features li:last-child{border-bottom:0}
+.plan-features strong{color:var(--green)}
+.plan-button{
+  width:100%;background:var(--green);color:white;
+  padding:12px 5px;border-radius:9px;font-weight:bold;font-size:12px;
+}
+.featured-button{background:var(--gold);color:var(--dark)}
+
+.notice{color:var(--muted);font-size:11px;line-height:1.7;margin-top:15px}
+
+.panel{
+  background:white;padding:19px;border-radius:16px;
+  margin-bottom:14px;border:1px solid #e7eee7;
+  box-shadow:0 3px 10px #00000006;
+}
+.panel h2,.panel h3{margin-bottom:13px}
+.panel h2{font-size:21px}
+.panel h3{font-size:17px}
+.panel p{font-size:13px;line-height:1.6}
+
+input{
+  width:100%;padding:13px;border:1px solid #d5ded6;
+  border-radius:10px;margin:8px 0;font-size:15px;background:#fcfdfc;
+}
+input:focus{outline:2px solid #b8d5bd;border-color:var(--green)}
+.primary{
+  width:100%;padding:13px;background:var(--green);color:white;
+  border-radius:10px;margin-top:9px;font-weight:bold;
+}
+.secondary{
+  width:100%;padding:12px;background:#edf4ed;color:var(--green);
+  border-radius:10px;margin-top:10px;font-weight:bold;
+}
+.page-title{font-size:23px;margin:7px 0 17px}
+.page-subtitle{
+  font-size:13px;color:var(--muted);line-height:1.6;
+  margin-top:-8px;margin-bottom:18px;
+}
+
+.me-header{
+  background:linear-gradient(135deg,#123f2b,#277b4e);
+  color:white;padding:23px 18px;border-radius:18px;margin-bottom:17px;
+}
+.me-profile{display:flex;align-items:center;gap:13px;min-width:0}
+.me-avatar{
+  width:57px;height:57px;border-radius:50%;background:var(--gold);
+  color:var(--dark);display:flex;justify-content:center;
+  align-items:center;font-size:26px;flex-shrink:0;
+}
+.me-profile h2{font-size:19px;margin-bottom:6px}
+.me-profile p{font-size:12px;overflow-wrap:anywhere}
+.me-status{
+  display:inline-block;background:#ffffff20;border-radius:20px;
+  padding:6px 10px;margin-top:8px;font-size:11px;
+}
+.me-menu{background:white;border-radius:15px;padding:15px;margin-bottom:14px}
+.me-menu h3{margin-bottom:12px}
+.me-menu-item{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  text-align:left;background:#f4f7f4;color:var(--text);
+  padding:15px 11px;border-radius:10px;margin-top:7px;
+}
+.me-menu-item .arrow{font-size:20px;color:#89958c}
 .me-logout{background:#f9e8e8;color:#9a2937}
-@media(max-width:380px){
-  .me-profile{align-items:flex-start}
-  .products{gap:8px}
-  .card{padding:12px 9px}
+
+.ref-code{font-size:19px;color:var(--green);overflow-wrap:anywhere;margin:12px 0;font-weight:bold}
+.ref-link{
+  background:#f2f7f2;padding:12px;border-radius:9px;
+  overflow-wrap:anywhere;font-size:12px;line-height:1.6;margin:10px 0;
+}
+.ref-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:15px}
+.ref-stat{background:#edf5ed;border-radius:11px;padding:15px 4px;text-align:center}
+.ref-stat strong{display:block;color:var(--green);font-size:23px}
+.ref-stat span{font-size:10px;color:#526358}
+
+#message{font-size:13px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0}
+
+nav{
+  position:fixed;bottom:0;left:0;right:0;display:flex;
+  justify-content:space-around;background:white;
+  box-shadow:0 -3px 16px #00000010;
+  padding:8px 3px max(8px,env(safe-area-inset-bottom));z-index:10;
+}
+nav button{
+  flex:1;background:transparent;color:#728075;font-size:11px;
+  line-height:1.7;padding:5px 2px;
+}
+nav button.selected{color:var(--green);font-weight:bold}
+nav button span{font-size:19px}
+
+@media(max-width:360px){
+  .container{padding:11px}
+  .hero{padding:20px 15px}
+  .hero h2{font-size:23px}
+  .plans{gap:9px}
+  .plan-top{padding:13px 10px}
+  .plan-body{padding:12px 9px}
+  .plan-price{font-size:20px}
+  .plan-features li{font-size:10px}
 }
 </style>
 </head>
 
 <body>
+
 <header>
-  <h1>🌱 GrowRise</h1>
-  <p>Grow Your Future</p>
+  <div class="brand">
+    <div class="brand-icon">🌱</div>
+    <div>
+      <h1>GrowRise</h1>
+      <p>GROW YOUR FUTURE</p>
+    </div>
+  </div>
+  <button class="header-button" onclick="goToAccount()">My Account ↗</button>
 </header>
 
 <main class="container">
 
 <section id="home" class="page active">
-  <div class="balance">
-    <p>My Account</p>
-    <h2 id="balance">₱0.00</h2>
-    <p>Account balance</p>
-    <div class="actions">
-      <button onclick="openProtectedPage('deposit')">Deposit</button>
-      <button onclick="openProtectedPage('withdraw')">Withdraw</button>
+  <div class="hero">
+    <span class="hero-label">🌿 WELCOME TO GROWRise</span>
+    <h2>Welcome to Your GrowRise Dashboard</h2>
+    <p>Manage your account, explore demo plans, and invite friends using your personal referral link.</p>
+    <div class="hero-buttons">
+      <button class="hero-primary" onclick="goToAccount()">My Account →</button>
+      <button class="hero-secondary" onclick="showPage('invite')">Invite Friends</button>
     </div>
   </div>
 
-  <h3 class="section-title">VIP Plans</h3>
-  <div id="products" class="products"></div>
+  <div class="balance">
+    <div class="balance-top">
+      <div>
+        <p>MY ACCOUNT BALANCE</p>
+        <h2 id="balance">₱0.00</h2>
+        <p class="balance-note">Demo display only · No real funds</p>
+      </div>
+      <div class="balance-icon">💳</div>
+    </div>
+    <div class="actions">
+      <button class="deposit-button" onclick="openProtectedPage('deposit')">＋ Deposit</button>
+      <button class="withdraw-button" onclick="openProtectedPage('withdraw')">↗ Withdraw</button>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <button class="quick-card" onclick="showPage('invite')">
+      <div class="icon">👥</div><strong>My Team</strong><p>Referral details</p>
+    </button>
+    <button class="quick-card" onclick="showPage('devices')">
+      <div class="icon">📦</div><strong>My Plans</strong><p>Demo selections</p>
+    </button>
+    <button class="quick-card" onclick="goToAccount()">
+      <div class="icon">👤</div><strong>Profile</strong><p>Account settings</p>
+    </button>
+  </div>
+
+  <div class="section-heading">
+    <div><h2>Explore Our Plans</h2><p>View the example plan details below.</p></div>
+    <span class="small-tag">8 PLANS</span>
+  </div>
+
+  <div id="products" class="plans"></div>
 
   <p class="notice">
-    These are illustrative sample amounts only, not guaranteed earnings or payouts.
-    No real purchase or investment is processed by this demo.
+    Important: These are hypothetical demonstration figures, not guaranteed earnings or promised payouts. This demo does not process investments, purchases, or real payments.
   </p>
 </section>
 
 <section id="devices" class="page">
-  <h2 class="section-title">My Devices</h2>
+  <h2 class="page-title">📦 My Plans</h2>
+  <p class="page-subtitle">View plans you selected in this browser session.</p>
   <div id="myDevices"></div>
 </section>
 
 <section id="invite" class="page">
-  <h2 class="section-title">Invite Friends</h2>
+  <h2 class="page-title">👥 Invite Friends</h2>
+  <p class="page-subtitle">Share your personal invitation link with friends.</p>
+
   <div class="panel">
-    <p>Your referral code</p>
-    <h2 id="referral">Log in first</h2>
-    <button onclick="copyReferral()">Copy Referral Code</button>
-    <p class="notice">
-      Your referral code is shown in the format Growrise12345.
-      Referral rewards are not enabled by this display code alone.
-    </p>
+    <h3>🎟️ Your Referral Code</h3>
+    <div id="referral" class="ref-code">Log in first</div>
+    <button class="primary" onclick="copyReferral()">Copy Referral Code</button>
+
+    <h3 style="margin-top:23px">🔗 Your Invitation Link</h3>
+    <div id="inviteLink" class="ref-link">Log in first</div>
+    <button class="primary" onclick="copyInviteLink()">Copy Invitation Link</button>
+    <p class="notice">Opening an invitation link takes a visitor to Register with the referral code filled in. Referral counts depend on database records.</p>
+  </div>
+
+  <div class="panel">
+    <h3>👥 My Referral Team</h3>
+    <div class="ref-stats">
+      <div class="ref-stat"><strong id="level1">—</strong><span>LEVEL 1</span></div>
+      <div class="ref-stat"><strong id="level2">—</strong><span>LEVEL 2</span></div>
+      <div class="ref-stat"><strong id="level3">—</strong><span>LEVEL 3</span></div>
+    </div>
+    <p id="referralStatus" class="notice">Log in to load your referral team.</p>
+    <button class="primary" onclick="loadReferralData()">↻ Refresh Team</button>
   </div>
 </section>
 
@@ -119,16 +373,16 @@ nav button.selected{color:#17623b}
   <div class="me-menu">
     <h3>👤 Account Menu</h3>
     <button class="me-menu-item" onclick="showPage('devices')">
-      <span>📱 My Devices</span><span class="arrow">›</span>
+      <span>📦 My Plans</span><span class="arrow">›</span>
     </button>
     <button class="me-menu-item" onclick="openProtectedPage('deposit')">
-      <span>💰 Deposit</span><span class="arrow">›</span>
+      <span>💰 Deposit Demo</span><span class="arrow">›</span>
     </button>
     <button class="me-menu-item" onclick="openProtectedPage('withdraw')">
-      <span>💸 Withdrawal</span><span class="arrow">›</span>
+      <span>💸 Withdrawal Demo</span><span class="arrow">›</span>
     </button>
     <button class="me-menu-item" onclick="showPage('invite')">
-      <span>👥 Invitation</span><span class="arrow">›</span>
+      <span>👥 Invitation & Team</span><span class="arrow">›</span>
     </button>
   </div>
 
@@ -144,44 +398,40 @@ nav button.selected{color:#17623b}
 
   <div class="me-menu">
     <h3>🔑 Account Access</h3>
-    <button class="me-logout" onclick="logout()" style="width:100%;margin-top:12px">
+    <button class="me-logout" onclick="logout()"
+      style="width:100%;padding:12px;border-radius:10px;font-weight:bold">
       Log Out
     </button>
   </div>
 
-  <p class="notice" style="text-align:center">GrowRise · My Account</p>
+  <p class="notice" style="text-align:center">GrowRise · Grow Your Future</p>
 </section>
 
 <section id="register" class="page">
   <div class="panel">
-    <h2>Create Account</h2>
+    <h2>🌱 Create Account</h2>
+    <p class="page-subtitle">Register to create your GrowRise account.</p>
     <form id="registerForm">
       <input id="regEmail" type="email" placeholder="Email address" autocomplete="email" required>
       <input id="regPassword" type="password" placeholder="Password (minimum 8 characters)" minlength="8" autocomplete="new-password" required>
       <input id="regConfirm" type="password" placeholder="Confirm password" minlength="8" autocomplete="new-password" required>
       <input id="regReferral" type="text" placeholder="Invitation code (optional)">
-      <button class="primary" type="submit">Register</button>
+      <button class="primary" type="submit">Create Account</button>
     </form>
-
-    <p class="notice">
-      Use an email address you control. Never share your password or email verification code with anyone.
-    </p>
-
-    <button class="secondary" onclick="showPage('login')">
-      Already registered? Login
-    </button>
+    <p class="notice">Use an email address you control. Never share your password or verification code.</p>
+    <button class="secondary" onclick="showPage('login')">Already registered? Login</button>
   </div>
 </section>
 
 <section id="login" class="page">
   <div class="panel">
-    <h2>Login</h2>
+    <h2>🔐 Login</h2>
+    <p class="page-subtitle">Sign in to your GrowRise account.</p>
     <form id="loginForm">
       <input id="loginEmail" type="email" placeholder="Email address" autocomplete="email" required>
       <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required>
       <button class="primary" type="submit">Login</button>
     </form>
-
     <button class="secondary" onclick="resetPassword()">Forgot Password?</button>
     <button class="secondary" onclick="showPage('register')">Create New Account</button>
   </div>
@@ -189,30 +439,26 @@ nav button.selected{color:#17623b}
 
 <section id="deposit" class="page">
   <div class="panel">
-    <h2>Deposit Request</h2>
-    <p>Minimum amount: ₱200</p>
+    <h2>💰 Deposit Request</h2>
+    <p>Demo minimum amount: ₱200</p>
     <form id="depositForm">
       <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
       <button class="primary" type="submit">Submit Demo Request</button>
     </form>
-    <p class="notice">
-      This demo does not accept payments or send money. Real transactions require a verified payment provider and secure server-side processing.
-    </p>
+    <p class="notice">Demo only. No payment or money transfer is processed.</p>
   </div>
 </section>
 
 <section id="withdraw" class="page">
   <div class="panel">
-    <h2>Withdrawal Request</h2>
-    <p>Minimum withdrawal: ₱200</p>
+    <h2>💸 Withdrawal Calculator</h2>
+    <p>Demo minimum amount: ₱200</p>
     <p>Illustrative fee: 5%</p>
     <form id="withdrawForm">
       <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
       <button class="primary" type="submit">Calculate Demo Withdrawal</button>
     </form>
-    <p class="notice">
-      This demo does not transfer money or submit a real withdrawal.
-    </p>
+    <p class="notice">Demo only. No real withdrawal or money transfer is processed.</p>
   </div>
 </section>
 
@@ -220,10 +466,18 @@ nav button.selected{color:#17623b}
 </main>
 
 <nav>
-  <button class="selected" onclick="showPage('home',this)">🏠<br>HOME</button>
-  <button onclick="showPage('devices',this)">📦<br>DEVICES</button>
-  <button onclick="showPage('invite',this)">👥<br>INVITE</button>
-  <button onclick="showPage('me',this)">👤<br>ME</button>
+  <button class="selected" data-page="home" onclick="showPage('home',this)">
+    <span>🏠</span><br>HOME
+  </button>
+  <button data-page="devices" onclick="showPage('devices',this)">
+    <span>📦</span><br>PLANS
+  </button>
+  <button data-page="invite" onclick="showPage('invite',this)">
+    <span>👥</span><br>INVITE
+  </button>
+  <button data-page="me" onclick="showPage('me',this)">
+    <span>👤</span><br>ME
+  </button>
 </nav>
 
 <script>
@@ -235,74 +489,46 @@ let currentUser = null;
 let devices = [];
 
 const plans = [
-  {name:"VIP1",price:200,daily:40,days:30},
-  {name:"VIP2",price:300,daily:60,days:30},
-  {name:"VIP3",price:500,daily:100,days:30},
-  {name:"VIP4",price:1000,daily:200,days:30},
-  {name:"VIP5",price:2000,daily:400,days:30},
-  {name:"VIP6",price:3000,daily:600,days:30},
-  {name:"VIP7",price:5000,daily:1000,days:30},
-  {name:"VIP8",price:10000,daily:2000,days:30}
+  {name:"VIP1",price:200,daily:40,days:30,icon:"🌱",description:"Starter Plan"},
+  {name:"VIP2",price:300,daily:60,days:30,icon:"🍀",description:"Basic Plan"},
+  {name:"VIP3",price:500,daily:100,days:30,icon:"🌿",description:"Standard Plan"},
+  {name:"VIP4",price:1000,daily:200,days:30,icon:"🌳",description:"Plus Plan"},
+  {name:"VIP5",price:2000,daily:400,days:30,icon:"💎",description:"Premium Plan"},
+  {name:"VIP6",price:3000,daily:600,days:30,icon:"👑",description:"Gold Plan"},
+  {name:"VIP7",price:5000,daily:1000,days:30,icon:"🏆",description:"Elite Plan"},
+  {name:"VIP8",price:10000,daily:2000,days:30,icon:"✨",description:"Ultimate Plan"}
 ];
 
-function initializeSupabase(){
-  if(!window.supabase){
-    showMessage("Supabase library did not load. Check your internet connection and reload.");
-    return;
-  }
-
-  try{
-    supabaseClient=window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-    checkCurrentSession();
-  }catch(error){
-    showMessage("Could not initialize Supabase. Check your configuration.");
-  }
-}
-
 function peso(amount){
-  return "₱"+Number(amount).toLocaleString("en-PH",{
+  return "₱" + Number(amount).toLocaleString("en-PH",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
 }
 
 function showMessage(text){
-  document.getElementById("message").textContent=text;
+  document.getElementById("message").textContent = text;
 }
 
 function showPage(id,button){
-  const page=document.getElementById(id);
-  if(!page)return;
+  const page = document.getElementById(id);
+  if(!page) return;
 
-  document.querySelectorAll(".page").forEach(item=>{
-    item.classList.remove("active");
-  });
-
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   page.classList.add("active");
 
-  if(button){
-    document.querySelectorAll("nav button").forEach(item=>{
-      item.classList.remove("selected");
-    });
-    button.classList.add("selected");
-  }else{
-    const navButton=[...document.querySelectorAll("nav button")].find(
-      item=>item.getAttribute("onclick")?.includes("'"+id+"'")
-    );
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("selected"));
 
-    if(navButton){
-      document.querySelectorAll("nav button").forEach(item=>{
-        item.classList.remove("selected");
-      });
-      navButton.classList.add("selected");
-    }
-  }
+  const navButton = button || document.querySelector('nav button[data-page="'+id+'"]');
+  if(navButton) navButton.classList.add("selected");
 
   showMessage("");
   window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function goToAccount(){
+  if(currentUser) showPage("me");
+  else showPage("register");
 }
 
 function openProtectedPage(id){
@@ -315,79 +541,171 @@ function openProtectedPage(id){
 }
 
 function renderPlans(){
-  document.getElementById("products").innerHTML=plans.map(plan=>`
-    <div class="card">
-      <span class="vip">${plan.name}</span>
-      <p>Plan Price: <strong>${peso(plan.price)}</strong></p>
-      <p>Daily Amount: <strong>${peso(plan.daily)}</strong></p>
-      <p>Duration: <strong>${plan.days} days</strong></p>
-      <p>Total Amount: <strong>${peso(plan.daily*plan.days)}</strong></p>
-      <button class="buy" onclick="buyPlan('${plan.name}')">Select Plan</button>
-    </div>
-  `).join("");
+  const target = document.getElementById("products");
+
+  target.innerHTML = plans.map((plan,index)=>{
+    const total = plan.daily * plan.days;
+
+    return `
+      <article class="plan-card">
+        <div class="plan-top ${index===3?"featured":""}">
+          <span class="plan-label">
+            ${index===3?"⭐ POPULAR DEMO":plan.name}
+          </span>
+          <div class="plan-symbol">${plan.icon}</div>
+          <h3>${plan.name}</h3>
+          <p>${plan.description}</p>
+        </div>
+
+        <div class="plan-body">
+          <p class="plan-price-label">Plan Price</p>
+          <div class="plan-price">${peso(plan.price)}</div>
+
+          <ul class="plan-features">
+            <li>💰 Daily Amount: <strong>${peso(plan.daily)}</strong></li>
+            <li>📅 Duration: <strong>${plan.days} Days</strong></li>
+            <li>🧮 Total Amount: <strong>${peso(total)}</strong></li>
+          </ul>
+
+          <button class="plan-button ${index===3?"featured-button":""}"
+            onclick="buyPlan('${plan.name}')">
+            View Plan
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("");
 }
 
 function buyPlan(name){
   if(!currentUser){
-    showMessage("Please log in first.");
-    showPage("login");
+    showMessage("Please register or log in first.");
+    showPage("register");
     return;
   }
 
-  const plan=plans.find(item=>item.name===name);
-  if(!plan)return;
+  const plan = plans.find(p=>p.name===name);
+  if(!plan) return;
 
-  showMessage(
-    name+" selected for display only ("+peso(plan.price)+"). No payment or purchase was made."
-  );
+  if(!devices.some(d=>d.name===name)){
+    devices.push({
+      name:plan.name,
+      price:plan.price,
+      daily:plan.daily,
+      days:plan.days,
+      total:plan.daily*plan.days
+    });
+    renderDevices();
+  }
+
+  showMessage(name+" added to your demo plan list. No purchase or payment was made.");
+  showPage("devices");
 }
 
 function renderDevices(){
-  const target=document.getElementById("myDevices");
+  const target = document.getElementById("myDevices");
 
   if(!devices.length){
-    target.innerHTML='<div class="panel">No plans selected yet.</div>';
+    target.innerHTML = `
+      <div class="panel">
+        <h3>No plans selected yet</h3>
+        <p>Visit Home to explore the demo plans.</p>
+        <button class="primary" onclick="showPage('home')">Explore Plans</button>
+      </div>`;
     return;
   }
 
-  target.innerHTML=devices.map(device=>`
+  target.innerHTML = devices.map(d=>`
     <div class="panel">
-      <h3>${device.name}</h3>
-      <p>Price: ${peso(device.price)}</p>
-      <p>Status: Demo selection only</p>
+      <h3>🌿 ${d.name}</h3>
+      <p>Plan Price: <strong>${peso(d.price)}</strong></p>
+      <p>Daily Amount: <strong>${peso(d.daily)}</strong></p>
+      <p>Duration: <strong>${d.days} Days</strong></p>
+      <p>Total Amount: <strong>${peso(d.total)}</strong></p>
+      <p class="notice">Hypothetical demo figures only. No purchase or payout was made.</p>
     </div>
   `).join("");
 }
 
 function updateAccountUI(){
-  const status=document.getElementById("accountStatus");
-  const email=document.getElementById("accountEmail");
-  const referral=document.getElementById("referral");
+  document.getElementById("accountStatus").textContent =
+    currentUser?"Logged in":"Not logged in";
+
+  document.getElementById("accountEmail").textContent =
+    currentUser?(currentUser.email||""):"Please log in";
 
   if(currentUser){
-    status.textContent="You are logged in.";
-    email.textContent=currentUser.email||"";
-
-    let hash=0;
-    for(let i=0;i<currentUser.id.length;i++){
-      hash=(hash*31+currentUser.id.charCodeAt(i))%100000;
-    }
-
-    referral.textContent="Growrise"+String(hash).padStart(5,"0");
+    document.getElementById("referral").textContent="Loading...";
+    document.getElementById("inviteLink").textContent="Loading...";
+    loadReferralData();
   }else{
-    status.textContent="You are not logged in.";
-    email.textContent="Please log in";
-    referral.textContent="Log in first";
+    document.getElementById("referral").textContent="Log in first";
+    document.getElementById("inviteLink").textContent="Log in first";
+    document.getElementById("level1").textContent="—";
+    document.getElementById("level2").textContent="—";
+    document.getElementById("level3").textContent="—";
+    document.getElementById("referralStatus").textContent="Log in to load your referral team.";
+  }
+}
+
+async function loadReferralData(){
+  if(!supabaseClient||!currentUser){
+    document.getElementById("referralStatus").textContent="Please log in first.";
+    return;
+  }
+
+  document.getElementById("referralStatus").textContent="Loading referral team...";
+
+  try{
+    const {data,error}=await supabaseClient.rpc("growrise_get_referrals");
+    if(error) throw error;
+    if(!data||!data.length) throw new Error("No referral profile was found for this account.");
+
+    const row=data[0];
+    const code=row.referral_code;
+    document.getElementById("referral").textContent=code;
+
+    const url=new URL(window.location.href);
+    url.search="";
+    url.hash="";
+    url.searchParams.set("ref",code);
+
+    document.getElementById("inviteLink").textContent=url.toString();
+    document.getElementById("level1").textContent=row.level1??0;
+    document.getElementById("level2").textContent=row.level2??0;
+    document.getElementById("level3").textContent=row.level3??0;
+
+    document.getElementById("referralStatus").textContent=
+      "Referral team loaded. Counts reflect registrations recorded in the database.";
+  }catch(error){
+    document.getElementById("referralStatus").textContent=
+      "Could not load referral team: "+error.message;
+  }
+}
+
+function initializeSupabase(){
+  if(!window.supabase){
+    showMessage("Supabase library did not load. Check your internet and reload.");
+    return;
+  }
+
+  try{
+    supabaseClient=window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+    checkCurrentSession();
+  }catch(error){
+    showMessage("Could not initialize Supabase.");
   }
 }
 
 async function checkCurrentSession(){
-  if(!supabaseClient)return;
+  if(!supabaseClient) return;
 
   const {data,error}=await supabaseClient.auth.getSession();
-
   if(error){
-    showMessage("Could not check your session. Please try again.");
+    showMessage("Could not check your session.");
     return;
   }
 
@@ -404,15 +722,14 @@ document.getElementById("registerForm").addEventListener("submit",async function
   event.preventDefault();
 
   if(!supabaseClient){
-    showMessage("Supabase is not configured. Check your project settings.");
+    showMessage("Supabase is not configured.");
     return;
   }
 
   const email=document.getElementById("regEmail").value.trim();
   const password=document.getElementById("regPassword").value;
   const confirm=document.getElementById("regConfirm").value;
-  const referralCode=document.getElementById("regReferral").value.trim();
-  const submitButton=this.querySelector('button[type="submit"]');
+  const referralCode=document.getElementById("regReferral").value.trim().toUpperCase();
 
   if(password.length<8){
     showMessage("Password must contain at least 8 characters.");
@@ -424,38 +741,36 @@ document.getElementById("registerForm").addEventListener("submit",async function
     return;
   }
 
-  submitButton.disabled=true;
-  submitButton.textContent="Creating account...";
+  const button=this.querySelector('button[type="submit"]');
+  button.disabled=true;
+  button.textContent="Creating account...";
 
   try{
     const {data,error}=await supabaseClient.auth.signUp({
       email,
       password,
       options:{
-        data:{
-          referral_code_entered:referralCode||null
-        }
+        data:{referral_code_entered:referralCode||null}
       }
     });
 
-    if(error)throw error;
+    if(error) throw error;
+    this.reset();
 
     if(data.session&&data.user){
       currentUser=data.user;
       updateAccountUI();
-      this.reset();
-      showMessage("Registration successful! You are now logged in.");
+      showMessage("Registration successful!");
       showPage("home");
     }else{
-      this.reset();
-      showMessage("Registration submitted. Check your email if confirmation is required.");
+      showMessage("Registration submitted. If email confirmation is enabled, confirm your email before logging in.");
       showPage("login");
     }
   }catch(error){
     showMessage("Registration failed: "+error.message);
   }finally{
-    submitButton.disabled=false;
-    submitButton.textContent="Register";
+    button.disabled=false;
+    button.textContent="Create Account";
   }
 });
 
@@ -463,41 +778,38 @@ document.getElementById("loginForm").addEventListener("submit",async function(ev
   event.preventDefault();
 
   if(!supabaseClient){
-    showMessage("Supabase is not configured. Check your project settings.");
+    showMessage("Supabase is not configured.");
     return;
   }
 
   const email=document.getElementById("loginEmail").value.trim();
   const password=document.getElementById("loginPassword").value;
-  const submitButton=this.querySelector('button[type="submit"]');
+  const button=this.querySelector('button[type="submit"]');
 
-  submitButton.disabled=true;
-  submitButton.textContent="Logging in...";
+  button.disabled=true;
+  button.textContent="Logging in...";
 
   try{
-    const {data,error}=await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if(error)throw error;
+    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error) throw error;
 
     currentUser=data.user;
     updateAccountUI();
     this.reset();
+
     showMessage("Login successful. Welcome to GrowRise!");
     showPage("home");
   }catch(error){
     showMessage("Login failed: "+error.message);
   }finally{
-    submitButton.disabled=false;
-    submitButton.textContent="Login";
+    button.disabled=false;
+    button.textContent="Login";
   }
 });
 
 async function resetPassword(){
   if(!supabaseClient){
-    showMessage("Supabase is not configured yet.");
+    showMessage("Supabase is not configured.");
     return;
   }
 
@@ -511,58 +823,66 @@ async function resetPassword(){
 
   try{
     const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
-
-    if(error)throw error;
-
+    if(error) throw error;
     showMessage("If the email is registered, a password-reset link will be sent. Check your inbox.");
   }catch(error){
     showMessage("Could not request password reset: "+error.message);
   }
 }
 
-/* LOG OUT: SIGN OUT AND GO DIRECTLY TO LOGIN */
 async function logout(){
-  if(!supabaseClient){
-    showMessage("Supabase is not configured yet.");
-    return;
-  }
+  if(!supabaseClient) return;
 
   try{
     const {error}=await supabaseClient.auth.signOut();
-    if(error)throw error;
+    if(error) throw error;
 
     currentUser=null;
     updateAccountUI();
-    showPage("login");
-    showMessage("You have logged out. Please log in again.");
+    showMessage("You have logged out.");
+    showPage("home");
   }catch(error){
     showMessage("Logout failed. Please try again.");
   }
 }
 
 async function copyReferral(){
-  if(!currentUser){
+  const code=document.getElementById("referral").textContent;
+
+  if(!currentUser||code==="Log in first"||code==="Loading..."){
     showMessage("Please log in first.");
     return;
   }
 
-  const code=document.getElementById("referral").textContent;
+  await copyText(code,"Referral code copied!");
+}
 
+async function copyInviteLink(){
+  const link=document.getElementById("inviteLink").textContent;
+
+  if(!currentUser||link==="Log in first"||link==="Loading..."){
+    showMessage("Please log in first.");
+    return;
+  }
+
+  await copyText(link,"Invitation link copied!");
+}
+
+async function copyText(value,successMessage){
   try{
-    await navigator.clipboard.writeText(code);
-    showMessage("Referral code copied!");
+    await navigator.clipboard.writeText(value);
+    showMessage(successMessage);
   }catch(error){
-    showMessage("Your referral code is: "+code);
+    showMessage("Copy this text: "+value);
   }
 }
 
 document.getElementById("depositForm").addEventListener("submit",function(event){
   event.preventDefault();
-
   const amount=Number(document.getElementById("depositAmount").value);
 
   if(amount<200){
-    showMessage("Minimum amount is ₱200.");
+    showMessage("Minimum demo amount is ₱200.");
     return;
   }
 
@@ -571,11 +891,10 @@ document.getElementById("depositForm").addEventListener("submit",function(event)
 
 document.getElementById("withdrawForm").addEventListener("submit",function(event){
   event.preventDefault();
-
   const amount=Number(document.getElementById("withdrawAmount").value);
 
   if(amount<200){
-    showMessage("Minimum withdrawal amount is ₱200.");
+    showMessage("Minimum demo amount is ₱200.");
     return;
   }
 
@@ -589,10 +908,22 @@ document.getElementById("withdrawForm").addEventListener("submit",function(event
   );
 });
 
+/* Invitation links open Register and fill in the referral code. */
+function handleInvitationURL(){
+  const params=new URLSearchParams(window.location.search);
+  const referralCode=params.get("ref");
+
+  if(referralCode&&referralCode.trim()){
+    document.getElementById("regReferral").value=referralCode.trim().toUpperCase();
+    showPage("register");
+  }
+}
+
 renderPlans();
 renderDevices();
-updateAccountUI();
 initializeSupabase();
+handleInvitationURL();
 </script>
+
 </body>
 </html>
