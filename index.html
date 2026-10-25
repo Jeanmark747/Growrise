@@ -96,13 +96,35 @@ nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:white;box-sha
 nav button{flex:1;background:transparent;color:#728075;font-size:11px;line-height:1.7;padding:5px 2px}
 nav button.selected{color:var(--green);font-weight:bold}
 nav button span{font-size:19px}
-@media(max-width:360px){
+
+/* MY PLANS MOBILE LAYOUT */
+#myDevices{width:100%;max-width:100%;overflow:hidden}
+#myDevices .plans{display:grid;grid-template-columns:minmax(0,1fr);gap:15px;width:100%}
+#myDevices .plan-card{width:100%;min-width:0;border-radius:17px;overflow:hidden;background:#fff;border:1px solid #e0e9df;box-shadow:0 4px 14px rgba(21,86,56,.07)}
+#myDevices .plan-top{padding:18px;background:linear-gradient(135deg,#155638,#277b4e);color:#fff}
+#myDevices .plan-top h3{font-size:21px;margin:10px 0 5px;color:#fff}
+#myDevices .plan-top p{font-size:12px;color:#e1eee3}
+#myDevices .plan-symbol{font-size:27px;margin:12px 0 8px}
+#myDevices .plan-label{display:inline-block;background:#e8c96e;color:#103c29;font-size:10px;font-weight:700;padding:6px 10px;border-radius:20px}
+#myDevices .plan-body{padding:16px;width:100%}
+#myDevices .plan-price-label{font-size:12px;color:#728075;margin-bottom:5px}
+#myDevices .plan-price{font-size:25px;line-height:1.3;color:#155638;font-weight:700;overflow-wrap:anywhere;margin:5px 0 15px}
+#myDevices .plan-features{list-style:none;margin:0;padding:0;width:100%}
+#myDevices .plan-features li{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:5px 10px;width:100%;padding:13px 0;border-bottom:1px solid #edf1ed;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+#myDevices .plan-features li strong{color:#155638;text-align:right;overflow-wrap:anywhere;max-width:58%}
+#myDevices .plan-body>div{margin-top:15px;border-radius:9px;padding:12px;font-size:12px}
+
+@media(max-width:380px){
  .container{padding:10px}
  .plans{gap:8px}
  .plan-body{padding:10px 8px}
  .plan-price{font-size:19px}
  .plan-features li{font-size:10px}
  .plan-top{padding:11px}
+ #myDevices .plan-top{padding:15px}
+ #myDevices .plan-body{padding:13px}
+ #myDevices .plan-features li{font-size:11px}
+ #myDevices .plan-price{font-size:23px}
 }
 </style>
 </head>
@@ -156,7 +178,7 @@ nav button span{font-size:19px}
   </div>
 
   <div id="products" class="plans"></div>
-  <p class="notice">Plan figures are illustrative and are not guaranteed earnings. Deposits and withdrawals are not enabled until their payment and verification systems are connected.</p>
+  <p class="notice">Plan figures are illustrative and are not guaranteed earnings.</p>
 </section>
 
 <section id="devices" class="page">
@@ -422,15 +444,9 @@ async function loadWallet(){
   walletBalance=amount;
   balanceElement.textContent=peso(amount);
   setWalletStatus("Wallet loaded successfully.");
-  console.log("GrowRise wallet loaded:",{
-   authUserId:user.id,
-   walletUserId:data.user_id,
-   balance:amount
-  });
 
  }catch(error){
   if(requestId!==walletRequestNumber)return;
-
   walletBalance=0;
   balanceElement.textContent=peso(0);
   setWalletStatus("Wallet error: "+(error.message||"Unknown error"));
@@ -488,10 +504,8 @@ async function buyPlan(name){
   }
 
   await loadWallet();
-
   showPage("devices");
   await renderDevices();
-
   showMessage(plan.name+" purchased successfully.");
 
  }catch(error){
@@ -500,7 +514,6 @@ async function buyPlan(name){
  }
 }
 
-/* UPDATED MY PLANS ONLY */
 async function renderDevices(){
  const target=document.getElementById("myDevices");
 
@@ -517,7 +530,7 @@ async function renderDevices(){
 
  try{
   const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-  if(errorForSession(sessionError))throw sessionError;
+  if(sessionError)throw sessionError;
 
   const signedInUser=sessionData.session?.user||null;
 
@@ -556,7 +569,6 @@ async function renderDevices(){
 
   function formatPlanDate(value){
    if(!value)return "Date unavailable";
-
    const date=new Date(value);
    if(Number.isNaN(date.getTime()))return "Date unavailable";
 
@@ -572,7 +584,6 @@ async function renderDevices(){
 
   function calculateEndTime(startValue,days){
    if(!startValue)return null;
-
    const start=new Date(startValue);
    if(Number.isNaN(start.getTime()))return null;
 
@@ -595,12 +606,12 @@ async function renderDevices(){
      const endDate=calculateEndTime(d.purchased_at,days);
      const endTime=endDate?formatPlanDate(endDate.toISOString()):"Date unavailable";
 
-     // No actual income ledger is connected.
+     // Actual income records are not connected yet.
      const cumulativeIncome=0;
 
      return `
       <article class="plan-card">
-       <div class="plan-top ${d.plan_name==="VIP4"?"featured":""}">
+       <div class="plan-top">
         <span class="plan-label">✓ PURCHASED</span>
         <div class="plan-symbol">${icon}</div>
         <h3>${escapeHTML(d.plan_name)}</h3>
@@ -612,14 +623,14 @@ async function renderDevices(){
         <div class="plan-price">${peso(cumulativeIncome)}</div>
 
         <ul class="plan-features">
-         <li>💰 Product Price: <strong>${peso(price)}</strong></li>
-         <li>📅 Product Cycle: <strong>${days} Days</strong></li>
-         <li>💵 Daily Income: <strong>${peso(daily)}</strong></li>
-         <li>🕒 Start Time: <strong>${escapeHTML(startTime)}</strong></li>
-         <li>🏁 End Time: <strong>${escapeHTML(endTime)}</strong></li>
+         <li><span>💰 Product Price</span><strong>${peso(price)}</strong></li>
+         <li><span>📅 Product Cycle</span><strong>${days} Days</strong></li>
+         <li><span>💵 Daily Income</span><strong>${peso(daily)}</strong></li>
+         <li><span>🕒 Start Time</span><strong>${escapeHTML(startTime)}</strong></li>
+         <li><span>🏁 End Time</span><strong>${escapeHTML(endTime)}</strong></li>
         </ul>
 
-        <div style="background:#e2eee3;color:#155638;padding:10px;border-radius:9px;text-align:center;font-size:12px;font-weight:bold">
+        <div style="background:#e2eee3;color:#155638;text-align:center;font-size:12px;font-weight:bold">
          ✓ Purchase Recorded
         </div>
        </div>
@@ -628,15 +639,13 @@ async function renderDevices(){
    </div>
 
    <p class="notice">
-    Displayed daily income is illustrative and is not guaranteed.
-    Cumulative income is shown as ₱0.00 because actual income records
-    are not connected. Start and end times are calculated from the
-    saved purchase timestamp and the plan's configured cycle.
+    Cumulative income is ₱0.00 because actual income records are not connected.
+    The daily amount is displayed from the configured plan and is not a guarantee
+    of earnings. The end time is calculated from the saved purchase timestamp.
    </p>`;
 
  }catch(error){
   console.error("My Plans error:",error);
-
   target.innerHTML=`
    <div class="panel">
     <h3>Unable to load plans</h3>
@@ -644,10 +653,6 @@ async function renderDevices(){
     <button class="secondary" onclick="renderDevices()">Try Again</button>
    </div>`;
  }
-}
-
-function errorForSession(error){
- return error||null;
 }
 
 function updateAccountUI(){
@@ -660,7 +665,6 @@ function updateAccountUI(){
  }else{
   walletRequestNumber++;
   walletBalance=0;
-
   document.getElementById("balance").textContent=peso(0);
   setWalletStatus("Please log in to view your wallet balance.");
   document.getElementById("referral").textContent="Log in first";
@@ -682,18 +686,15 @@ async function loadReferralData(){
 
  try{
   const {data,error}=await supabaseClient.rpc("growrise_get_referrals");
-
   if(error)throw error;
   if(!data||!data.length)throw new Error("No referral profile was returned.");
 
   const row=data[0];
-
   document.getElementById("referral").textContent=row.referral_code||"Not available";
 
   const url=new URL(window.location.href);
   url.search="";
   url.hash="";
-
   if(row.referral_code)url.searchParams.set("ref",row.referral_code);
 
   document.getElementById("inviteLink").textContent=url.toString();
@@ -769,7 +770,6 @@ document.getElementById("registerForm").addEventListener("submit",async function
   });
 
   if(error)throw error;
-
   this.reset();
 
   if(data.session&&data.user){
@@ -806,11 +806,9 @@ document.getElementById("loginForm").addEventListener("submit",async function(e)
 
   currentUser=data.user;
   this.reset();
-
   updateAccountUI();
   showPage("home");
   await loadWallet();
-
   showMessage("Login successful.");
 
  }catch(error){
@@ -838,7 +836,6 @@ async function resetPassword(){
  try{
   const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
   if(error)throw error;
-
   showMessage("If the email is registered, a password-reset link will be sent.");
 
  }catch(error){
@@ -903,7 +900,6 @@ document.getElementById("withdrawForm").addEventListener("submit",function(e){
  }
 
  const fee=amount*.05;
-
  showMessage("Calculation only. Amount: "+peso(amount)+"; illustrative 5% fee: "+peso(fee)+"; after fee: "+peso(amount-fee)+". No money was transferred.");
 });
 
