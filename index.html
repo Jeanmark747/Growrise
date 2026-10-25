@@ -12,7 +12,7 @@
 body{font-family:Arial,sans-serif;background:#f2f5f1;color:var(--text);padding-bottom:80px}
 button,input{font:inherit}
 button{cursor:pointer;border:0}
-button:disabled{opacity:.6}
+button:disabled{opacity:.6;cursor:not-allowed}
 header{background:linear-gradient(135deg,#103c29,#216d46);color:white;padding:17px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;align-items:center;gap:10px}
 .brand-icon{width:42px;height:42px;border-radius:13px;background:var(--gold);display:grid;place-items:center;font-size:24px}
@@ -87,33 +87,40 @@ input{width:100%;padding:13px;border:1px solid #d5ded6;border-radius:9px;margin:
 .ref-code{font-size:19px;font-weight:bold;color:var(--green);overflow-wrap:anywhere;margin:12px 0}
 .ref-link{background:#f2f7f2;padding:12px;border-radius:9px;font-size:12px;overflow-wrap:anywhere;margin:10px 0}
 .ref-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
-.ref-stat{text-align:center;background:#edf5ed;padding:13px 3px;border-radius:10px}
+.ref-stat{background:#edf5ed;border-radius:10px;overflow:hidden}
+.ref-stat button{width:100%;padding:13px 3px;background:transparent;color:var(--text)}
 .ref-stat strong{display:block;color:var(--green);font-size:21px}
 .ref-stat span{font-size:10px}
+.ref-stat small{display:block;color:var(--green);font-size:10px;margin-top:5px}
+.ref-stat.active{outline:2px solid var(--green);background:#dcebdc}
+.team-list{margin-top:15px}
+.team-member{background:#f7faf7;border:1px solid #e3ebe3;border-radius:12px;padding:14px;margin:10px 0}
+.team-member h4{font-size:14px;color:var(--green);margin-bottom:10px;overflow-wrap:anywhere}
+.member-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #e8eee8;font-size:12px}
+.member-row span{color:var(--muted)}
+.member-row strong{text-align:right;overflow-wrap:anywhere}
+.team-empty{padding:15px;background:#f5f8f5;border-radius:10px;font-size:12px;line-height:1.6;color:var(--muted)}
 #message{font-size:13px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0}
 #message:empty{display:none}
 nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:white;box-shadow:0 -3px 16px #00000010;padding:8px 3px max(8px,env(safe-area-inset-bottom));z-index:10}
 nav button{flex:1;background:transparent;color:#728075;font-size:11px;line-height:1.7;padding:5px 2px}
 nav button.selected{color:var(--green);font-weight:bold}
 nav button span{font-size:19px}
-
-/* MY PLANS MOBILE LAYOUT */
 #myDevices{width:100%;max-width:100%;overflow:hidden}
-#myDevices .plans{display:grid;grid-template-columns:minmax(0,1fr);gap:15px;width:100%}
-#myDevices .plan-card{width:100%;min-width:0;border-radius:17px;overflow:hidden;background:#fff;border:1px solid #e0e9df;box-shadow:0 4px 14px rgba(21,86,56,.07)}
+#myDevices .plans{grid-template-columns:minmax(0,1fr);gap:15px;width:100%}
+#myDevices .plan-card{width:100%;border-radius:17px;box-shadow:0 4px 14px rgba(21,86,56,.07)}
 #myDevices .plan-top{padding:18px;background:linear-gradient(135deg,#155638,#277b4e);color:#fff}
 #myDevices .plan-top h3{font-size:21px;margin:10px 0 5px;color:#fff}
 #myDevices .plan-top p{font-size:12px;color:#e1eee3}
 #myDevices .plan-symbol{font-size:27px;margin:12px 0 8px}
-#myDevices .plan-label{display:inline-block;background:#e8c96e;color:#103c29;font-size:10px;font-weight:700;padding:6px 10px;border-radius:20px}
+#myDevices .plan-label{background:#e8c96e;color:#103c29;font-size:10px;font-weight:700;padding:6px 10px;border-radius:20px}
 #myDevices .plan-body{padding:16px;width:100%}
 #myDevices .plan-price-label{font-size:12px;color:#728075;margin-bottom:5px}
-#myDevices .plan-price{font-size:25px;line-height:1.3;color:#155638;font-weight:700;overflow-wrap:anywhere;margin:5px 0 15px}
+#myDevices .plan-price{font-size:25px;line-height:1.3;color:#155638;font-weight:700;margin:5px 0 15px}
 #myDevices .plan-features{list-style:none;margin:0;padding:0;width:100%}
-#myDevices .plan-features li{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:5px 10px;width:100%;padding:13px 0;border-bottom:1px solid #edf1ed;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
-#myDevices .plan-features li strong{color:#155638;text-align:right;overflow-wrap:anywhere;max-width:58%}
+#myDevices .plan-features li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:5px 10px;width:100%;padding:13px 0;border-bottom:1px solid #edf1ed;font-size:12px;line-height:1.5}
+#myDevices .plan-features li strong{color:#155638;text-align:right;max-width:58%}
 #myDevices .plan-body>div{margin-top:15px;border-radius:9px;padding:12px;font-size:12px}
-
 @media(max-width:380px){
  .container{padding:10px}
  .plans{gap:8px}
@@ -131,172 +138,196 @@ nav button span{font-size:19px}
 
 <body>
 <header>
-  <div class="brand">
-    <div class="brand-icon">🌱</div>
-    <div><h1>GrowRise</h1><p>GROW YOUR FUTURE</p></div>
-  </div>
-  <button class="header-button" onclick="goToAccount()">My Account ↗</button>
+ <div class="brand">
+  <div class="brand-icon">🌱</div>
+  <div><h1>GrowRise</h1><p>GROW YOUR FUTURE</p></div>
+ </div>
+ <button class="header-button" onclick="goToAccount()">My Account ↗</button>
 </header>
 
 <main class="container">
 
 <section id="home" class="page active">
-  <div class="hero">
-    <span class="hero-label">🌿 WELCOME TO GROWRise</span>
-    <h2>Welcome to Your GrowRise Dashboard</h2>
-    <p>Manage your account, explore plans, and invite friends using your personal referral link.</p>
-    <div class="hero-buttons">
-      <button class="hero-primary" onclick="goToAccount()">My Account →</button>
-      <button class="hero-secondary" onclick="showPage('invite')">Invite Friends</button>
-    </div>
+ <div class="hero">
+  <span class="hero-label">🌿 WELCOME TO GROWRise</span>
+  <h2>Welcome to Your GrowRise Dashboard</h2>
+  <p>Manage your account, explore plans, and invite friends using your personal referral link.</p>
+  <div class="hero-buttons">
+   <button class="hero-primary" onclick="goToAccount()">My Account →</button>
+   <button class="hero-secondary" onclick="showPage('invite')">Invite Friends</button>
   </div>
+ </div>
 
-  <div class="balance">
-    <div class="balance-top">
-      <div>
-        <p>MY ACCOUNT BALANCE</p>
-        <h2 id="balance">Loading...</h2>
-        <p class="balance-note" id="walletStatus">Connecting to wallet...</p>
-      </div>
-      <div class="balance-icon">💳</div>
-    </div>
-    <div class="actions">
-      <button class="deposit-button" onclick="openProtectedPage('deposit')">＋ Deposit</button>
-      <button class="withdraw-button" onclick="openProtectedPage('withdraw')">↗ Withdraw</button>
-    </div>
+ <div class="balance">
+  <div class="balance-top">
+   <div>
+    <p>MY ACCOUNT BALANCE</p>
+    <h2 id="balance">Loading...</h2>
+    <p class="balance-note" id="walletStatus">Connecting to wallet...</p>
+   </div>
+   <div class="balance-icon">💳</div>
   </div>
-
-  <div class="quick-grid">
-    <button class="quick-card" onclick="showPage('invite')"><div class="icon">👥</div><strong>My Team</strong><p>Referral details</p></button>
-    <button class="quick-card" onclick="openProtectedPage('devices')"><div class="icon">📦</div><strong>My Plans</strong><p>Purchased plans</p></button>
-    <button class="quick-card" onclick="goToAccount()"><div class="icon">👤</div><strong>Profile</strong><p>Account settings</p></button>
+  <div class="actions">
+   <button class="deposit-button" onclick="openProtectedPage('deposit')">＋ Deposit</button>
+   <button class="withdraw-button" onclick="openProtectedPage('withdraw')">↗ Withdraw</button>
   </div>
+ </div>
 
-  <div class="section-heading">
-    <div><h2>Explore Our Plans</h2><p>Review plan details before purchasing.</p></div>
-    <span class="small-tag">8 PLANS</span>
-  </div>
+ <div class="quick-grid">
+  <button class="quick-card" onclick="showPage('invite')"><div class="icon">👥</div><strong>My Team</strong><p>Referral details</p></button>
+  <button class="quick-card" onclick="openProtectedPage('devices')"><div class="icon">📦</div><strong>My Plans</strong><p>Purchased plans</p></button>
+  <button class="quick-card" onclick="goToAccount()"><div class="icon">👤</div><strong>Profile</strong><p>Account settings</p></button>
+ </div>
 
-  <div id="products" class="plans"></div>
-  <p class="notice">Plan figures are illustrative and are not guaranteed earnings.</p>
+ <div class="section-heading">
+  <div><h2>Explore Our Plans</h2><p>Review plan details before purchasing.</p></div>
+  <span class="small-tag">8 PLANS</span>
+ </div>
+ <div id="products" class="plans"></div>
+ <p class="notice">Plan figures are illustrative and are not guaranteed earnings.</p>
 </section>
 
 <section id="devices" class="page">
-  <h2 class="page-title">📦 My Plans</h2>
-  <p class="page-subtitle">View your purchased plans and purchase date.</p>
-  <div id="myDevices"></div>
+ <h2 class="page-title">📦 My Plans</h2>
+ <p class="page-subtitle">View your purchased plans and purchase date.</p>
+ <div id="myDevices"></div>
 </section>
 
 <section id="invite" class="page">
-  <h2 class="page-title">👥 Invite Friends</h2>
-  <p class="page-subtitle">Share your personal invitation link.</p>
-  <div class="panel">
-    <h3>🎟️ Your Referral Code</h3>
-    <div id="referral" class="ref-code">Log in first</div>
-    <button class="primary" onclick="copyValue('referral','Referral code copied!')">Copy Referral Code</button>
-    <h3 style="margin-top:22px">🔗 Your Invitation Link</h3>
-    <div id="inviteLink" class="ref-link">Log in first</div>
-    <button class="primary" onclick="copyValue('inviteLink','Invitation link copied!')">Copy Invitation Link</button>
+ <h2 class="page-title">👥 Invite Friends</h2>
+ <p class="page-subtitle">Share your personal invitation link and view your referral team.</p>
+
+ <div class="panel">
+  <h3>🎟️ Your Referral Code</h3>
+  <div id="referral" class="ref-code">Log in first</div>
+  <button class="primary" onclick="copyValue('referral','Referral code copied!')">Copy Referral Code</button>
+
+  <h3 style="margin-top:22px">🔗 Your Invitation Link</h3>
+  <div id="inviteLink" class="ref-link">Log in first</div>
+  <button class="primary" onclick="copyValue('inviteLink','Invitation link copied!')">Copy Invitation Link</button>
+ </div>
+
+ <div class="panel">
+  <h3>👥 My Team Information</h3>
+  <p class="notice">Select a level to view its members.</p>
+
+  <div class="ref-stats">
+   <div class="ref-stat">
+    <button onclick="showTeamLevel(1)">
+     <strong id="level1">—</strong><span>LEVEL 1</span><small>Commission 35% · View ›</small>
+    </button>
+   </div>
+   <div class="ref-stat">
+    <button onclick="showTeamLevel(2)">
+     <strong id="level2">—</strong><span>LEVEL 2</span><small>Commission 2% · View ›</small>
+    </button>
+   </div>
+   <div class="ref-stat">
+    <button onclick="showTeamLevel(3)">
+     <strong id="level3">—</strong><span>LEVEL 3</span><small>Commission 1% · View ›</small>
+    </button>
+   </div>
   </div>
-  <div class="panel">
-    <h3>👥 My Referral Team</h3>
-    <div class="ref-stats">
-      <div class="ref-stat"><strong id="level1">—</strong><span>LEVEL 1</span></div>
-      <div class="ref-stat"><strong id="level2">—</strong><span>LEVEL 2</span></div>
-      <div class="ref-stat"><strong id="level3">—</strong><span>LEVEL 3</span></div>
-    </div>
-    <p id="referralStatus" class="notice">Log in to load your team.</p>
-    <button class="primary" onclick="loadReferralData()">↻ Refresh Team</button>
-  </div>
+
+  <p id="referralStatus" class="notice">Log in to load your team.</p>
+  <button class="primary" onclick="loadReferralData()">↻ Refresh Team</button>
+  <div id="teamMembers" class="team-list"></div>
+
+  <p class="notice">
+   Commission figures are estimates based on recorded plan purchases, not actual deposits.
+   They are not credited earnings or proof of payment. Actual commissions require a verified
+   commission system and corresponding transaction records.
+  </p>
+ </div>
 </section>
 
 <section id="me" class="page">
-  <div class="me-header">
-    <div class="me-profile">
-      <div class="me-avatar">👤</div>
-      <div><h2>My Account</h2><p id="accountEmail">Please log in</p><span id="accountStatus" class="me-status">Not logged in</span></div>
-    </div>
+ <div class="me-header">
+  <div class="me-profile">
+   <div class="me-avatar">👤</div>
+   <div><h2>My Account</h2><p id="accountEmail">Please log in</p><span id="accountStatus" class="me-status">Not logged in</span></div>
   </div>
-  <div class="me-menu">
-    <h3>👤 Account Menu</h3>
-    <button class="me-menu-item" onclick="openProtectedPage('devices')"><span>📦 My Plans</span><span>›</span></button>
-    <button class="me-menu-item" onclick="openProtectedPage('deposit')"><span>💰 Deposit</span><span>›</span></button>
-    <button class="me-menu-item" onclick="openProtectedPage('withdraw')"><span>💸 Withdrawal</span><span>›</span></button>
-    <button class="me-menu-item" onclick="showPage('invite')"><span>👥 Invitation & Team</span><span>›</span></button>
-  </div>
-  <div class="me-menu">
-    <h3>⚙️ Account Settings</h3>
-    <button class="me-menu-item" onclick="resetPassword()"><span>🔐 Reset Password</span><span>›</span></button>
-  </div>
-  <div class="me-menu">
-    <h3>🔑 Account Access</h3>
-    <button class="me-logout" onclick="logout()">Log Out</button>
-  </div>
+ </div>
+ <div class="me-menu">
+  <h3>👤 Account Menu</h3>
+  <button class="me-menu-item" onclick="openProtectedPage('devices')"><span>📦 My Plans</span><span>›</span></button>
+  <button class="me-menu-item" onclick="openProtectedPage('deposit')"><span>💰 Deposit</span><span>›</span></button>
+  <button class="me-menu-item" onclick="openProtectedPage('withdraw')"><span>💸 Withdrawal</span><span>›</span></button>
+  <button class="me-menu-item" onclick="showPage('invite')"><span>👥 Invitation & Team</span><span>›</span></button>
+ </div>
+ <div class="me-menu">
+  <h3>⚙️ Account Settings</h3>
+  <button class="me-menu-item" onclick="resetPassword()"><span>🔐 Reset Password</span><span>›</span></button>
+ </div>
+ <div class="me-menu">
+  <h3>🔑 Account Access</h3>
+  <button class="me-logout" onclick="logout()">Log Out</button>
+ </div>
 </section>
 
 <section id="register" class="page">
-  <div class="panel">
-    <h2>🌱 Create Account</h2>
-    <p class="page-subtitle">Register for a GrowRise account.</p>
-    <form id="registerForm">
-      <input id="regEmail" type="email" placeholder="Email address" autocomplete="email" required>
-      <input id="regPassword" type="password" placeholder="Password (minimum 8 characters)" minlength="8" required>
-      <input id="regConfirm" type="password" placeholder="Confirm password" minlength="8" required>
-      <input id="regReferral" type="text" placeholder="Invitation code (optional)">
-      <button class="primary" type="submit">Create Account</button>
-    </form>
-    <p class="notice">Never share your password or verification code.</p>
-    <button class="secondary" onclick="showPage('login')">Already registered? Login</button>
-  </div>
+ <div class="panel">
+  <h2>🌱 Create Account</h2>
+  <p class="page-subtitle">Register for a GrowRise account.</p>
+  <form id="registerForm">
+   <input id="regEmail" type="email" placeholder="Email address" autocomplete="email" required>
+   <input id="regPassword" type="password" placeholder="Password (minimum 8 characters)" minlength="8" required>
+   <input id="regConfirm" type="password" placeholder="Confirm password" minlength="8" required>
+   <input id="regReferral" type="text" placeholder="Invitation code (optional)">
+   <button class="primary" type="submit">Create Account</button>
+  </form>
+  <p class="notice">Never share your password or verification code.</p>
+  <button class="secondary" onclick="showPage('login')">Already registered? Login</button>
+ </div>
 </section>
 
 <section id="login" class="page">
-  <div class="panel">
-    <h2>🔐 Login</h2>
-    <p class="page-subtitle">Sign in to your GrowRise account.</p>
-    <form id="loginForm">
-      <input id="loginEmail" type="email" placeholder="Email address" autocomplete="email" required>
-      <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required>
-      <button class="primary" type="submit">Login</button>
-    </form>
-    <button class="secondary" onclick="resetPassword()">Forgot Password?</button>
-    <button class="secondary" onclick="showPage('register')">Create New Account</button>
-  </div>
+ <div class="panel">
+  <h2>🔐 Login</h2>
+  <p class="page-subtitle">Sign in to your GrowRise account.</p>
+  <form id="loginForm">
+   <input id="loginEmail" type="email" placeholder="Email address" autocomplete="email" required>
+   <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required>
+   <button class="primary" type="submit">Login</button>
+  </form>
+  <button class="secondary" onclick="resetPassword()">Forgot Password?</button>
+  <button class="secondary" onclick="showPage('register')">Create New Account</button>
+ </div>
 </section>
 
 <section id="deposit" class="page">
-  <div class="panel">
-    <h2>💰 Deposit</h2>
-    <p>Minimum amount: ₱200</p>
-    <p class="notice">Payment processing is not connected. Submitting this form will not add money to your balance.</p>
-    <form id="depositForm">
-      <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
-      <button class="primary" type="submit">Continue</button>
-    </form>
-  </div>
+ <div class="panel">
+  <h2>💰 Deposit</h2>
+  <p>Minimum amount: ₱200</p>
+  <p class="notice">Payment processing is not connected. Submitting this form will not add money to your balance.</p>
+  <form id="depositForm">
+   <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
+   <button class="primary" type="submit">Continue</button>
+  </form>
+ </div>
 </section>
 
 <section id="withdraw" class="page">
-  <div class="panel">
-    <h2>💸 Withdrawal</h2>
-    <p>Minimum amount: ₱200</p>
-    <p>Illustrative fee: 5%</p>
-    <form id="withdrawForm">
-      <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
-      <button class="primary" type="submit">Calculate Fee</button>
-    </form>
-    <p class="notice">This is a calculator only. It does not transfer money.</p>
-  </div>
+ <div class="panel">
+  <h2>💸 Withdrawal</h2>
+  <p>Minimum amount: ₱200</p>
+  <p>Illustrative fee: 5%</p>
+  <form id="withdrawForm">
+   <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
+   <button class="primary" type="submit">Calculate Fee</button>
+  </form>
+  <p class="notice">This is a calculator only. It does not transfer money.</p>
+ </div>
 </section>
 
 <div id="message" role="status" aria-live="polite"></div>
 </main>
 
 <nav>
-  <button class="selected" data-page="home" onclick="showPage('home',this)"><span>🏠</span><br>HOME</button>
-  <button data-page="devices" onclick="openProtectedPage('devices')"><span>📦</span><br>PLANS</button>
-  <button data-page="invite" onclick="showPage('invite',this)"><span>👥</span><br>INVITE</button>
-  <button data-page="me" onclick="showPage('me',this)"><span>👤</span><br>ME</button>
+ <button class="selected" data-page="home" onclick="showPage('home',this)"><span>🏠</span><br>HOME</button>
+ <button data-page="devices" onclick="openProtectedPage('devices')"><span>📦</span><br>PLANS</button>
+ <button data-page="invite" onclick="showPage('invite',this)"><span>👥</span><br>INVITE</button>
+ <button data-page="me" onclick="showPage('me',this)"><span>👤</span><br>ME</button>
 </nav>
 
 <script>
@@ -308,6 +339,8 @@ let currentUser=null;
 let walletBalance=0;
 let walletRequestNumber=0;
 let devices=[];
+let referralMembers=[];
+let selectedTeamLevel=1;
 
 const plans=[
  {name:"VIP1",price:200,daily:40,days:30,icon:"🌱",description:"Starter Plan"},
@@ -321,7 +354,7 @@ const plans=[
 ];
 
 function peso(n){
- return "₱"+Number(n).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
+ return "₱"+Number(n||0).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
 function showMessage(text){
@@ -333,7 +366,9 @@ function setWalletStatus(text){
 }
 
 function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
 function showPage(id,button){
@@ -392,25 +427,30 @@ function renderPlans(){
  `).join("");
 }
 
+async function getSignedInUser(){
+ if(!supabaseClient)return null;
+ const {data,error}=await supabaseClient.auth.getSession();
+ if(error)throw error;
+ currentUser=data.session?.user||null;
+ return currentUser;
+}
+
 async function loadWallet(){
  const requestId=++walletRequestNumber;
  const balanceElement=document.getElementById("balance");
 
  if(!supabaseClient){
   balanceElement.textContent=peso(0);
-  setWalletStatus("Supabase is not initialized. Check your internet connection.");
+  setWalletStatus("Supabase is not initialized.");
   walletBalance=0;
   return;
  }
 
  try{
   setWalletStatus("Checking signed-in account...");
+  const user=await getSignedInUser();
 
-  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-  if(sessionError)throw sessionError;
-
-  const user=sessionData.session?.user||null;
-  currentUser=user;
+  if(requestId!==walletRequestNumber)return;
 
   if(!user){
    walletBalance=0;
@@ -419,8 +459,7 @@ async function loadWallet(){
    return;
   }
 
-  setWalletStatus("Loading wallet for "+user.email+"...");
-
+  setWalletStatus("Loading wallet...");
   const {data,error}=await supabaseClient
    .from("growrise_wallets")
    .select("user_id,balance")
@@ -433,13 +472,12 @@ async function loadWallet(){
   if(!data){
    walletBalance=0;
    balanceElement.textContent=peso(0);
-   setWalletStatus("No wallet row returned. Check the wallet SELECT policy and user_id.");
-   console.warn("Wallet row missing. Current auth user ID:",user.id);
+   setWalletStatus("No wallet row found for this account.");
    return;
   }
 
   const amount=Number(data.balance);
-  if(!Number.isFinite(amount))throw new Error("The wallet balance is not a valid number.");
+  if(!Number.isFinite(amount))throw new Error("Invalid wallet balance.");
 
   walletBalance=amount;
   balanceElement.textContent=peso(amount);
@@ -450,7 +488,7 @@ async function loadWallet(){
   walletBalance=0;
   balanceElement.textContent=peso(0);
   setWalletStatus("Wallet error: "+(error.message||"Unknown error"));
-  console.error("GrowRise wallet error:",error);
+  console.error("Wallet error:",error);
  }
 }
 
@@ -460,23 +498,21 @@ async function buyPlan(name){
   return;
  }
 
- const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-
- if(sessionError){
-  showMessage("Session error: "+sessionError.message);
+ let user;
+ try{
+  user=await getSignedInUser();
+ }catch(error){
+  showMessage("Session error: "+error.message);
   return;
  }
 
- currentUser=sessionData.session?.user||null;
-
- if(!currentUser){
+ if(!user){
   showMessage("Please log in first.");
   showPage("login");
   return;
  }
 
  const plan=plans.find(p=>p.name===name);
-
  if(!plan){
   showMessage("Invalid plan.");
   return;
@@ -517,79 +553,48 @@ async function buyPlan(name){
 async function renderDevices(){
  const target=document.getElementById("myDevices");
 
- if(!currentUser||!supabaseClient){
-  target.innerHTML=`
-   <div class="panel">
-    <h3>Please log in first</h3>
-    <button class="primary" onclick="showPage('login')">Login</button>
-   </div>`;
+ if(!supabaseClient){
+  target.innerHTML='<div class="panel">Supabase is not initialized.</div>';
   return;
  }
 
  target.innerHTML='<div class="panel">Loading your plans...</div>';
 
  try{
-  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-  if(sessionError)throw sessionError;
+  const user=await getSignedInUser();
 
-  const signedInUser=sessionData.session?.user||null;
-
-  if(!signedInUser){
-   currentUser=null;
-   target.innerHTML=`
-    <div class="panel">
-     <h3>Your session has ended</h3>
-     <p>Please log in again to view your plans.</p>
-     <button class="primary" onclick="showPage('login')">Login</button>
-    </div>`;
+  if(!user){
+   target.innerHTML='<div class="panel"><h3>Please log in first</h3><button class="primary" onclick="showPage(\'login\')">Login</button></div>';
    return;
   }
-
-  currentUser=signedInUser;
 
   const {data,error}=await supabaseClient
    .from("growrise_plan_purchases")
    .select("id,plan_name,price,purchased_at")
-   .eq("user_id",currentUser.id)
+   .eq("user_id",user.id)
    .order("purchased_at",{ascending:false});
 
   if(error)throw error;
-
   devices=data||[];
 
   if(!devices.length){
-   target.innerHTML=`
-    <div class="panel">
-     <h3>No purchased plans yet</h3>
-     <p>Your purchased plans will appear here after a successful purchase.</p>
-     <button class="primary" onclick="showPage('home')">Explore Plans</button>
-    </div>`;
+   target.innerHTML='<div class="panel"><h3>No purchased plans yet</h3><p>Your purchased plans will appear here after a successful purchase.</p><button class="primary" onclick="showPage(\'home\')">Explore Plans</button></div>';
    return;
   }
 
-  function formatPlanDate(value){
+  function formatDate(value){
    if(!value)return "Date unavailable";
    const date=new Date(value);
    if(Number.isNaN(date.getTime()))return "Date unavailable";
-
-   const day=String(date.getDate()).padStart(2,"0");
-   const month=String(date.getMonth()+1).padStart(2,"0");
-   const year=date.getFullYear();
-   const hours=String(date.getHours()).padStart(2,"0");
-   const minutes=String(date.getMinutes()).padStart(2,"0");
-   const seconds=String(date.getSeconds()).padStart(2,"0");
-
-   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+   return date.toLocaleString("en-PH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
   }
 
-  function calculateEndTime(startValue,days){
-   if(!startValue)return null;
-   const start=new Date(startValue);
+  function calculateEndTime(value,days){
+   if(!value)return null;
+   const start=new Date(value);
    if(Number.isNaN(start.getTime()))return null;
-
-   const end=new Date(start);
-   end.setDate(end.getDate()+days);
-   return end;
+   start.setDate(start.getDate()+days);
+   return start;
   }
 
   target.innerHTML=`
@@ -601,13 +606,7 @@ async function renderDevices(){
      const days=plan?plan.days:30;
      const icon=plan?plan.icon:"🌱";
      const description=plan?plan.description:"Purchased Plan";
-
-     const startTime=formatPlanDate(d.purchased_at);
      const endDate=calculateEndTime(d.purchased_at,days);
-     const endTime=endDate?formatPlanDate(endDate.toISOString()):"Date unavailable";
-
-     // Actual income records are not connected yet.
-     const cumulativeIncome=0;
 
      return `
       <article class="plan-card">
@@ -617,41 +616,26 @@ async function renderDevices(){
         <h3>${escapeHTML(d.plan_name)}</h3>
         <p>${escapeHTML(description)}</p>
        </div>
-
        <div class="plan-body">
         <p class="plan-price-label">Cumulative Income</p>
-        <div class="plan-price">${peso(cumulativeIncome)}</div>
-
+        <div class="plan-price">${peso(0)}</div>
         <ul class="plan-features">
          <li><span>💰 Product Price</span><strong>${peso(price)}</strong></li>
          <li><span>📅 Product Cycle</span><strong>${days} Days</strong></li>
-         <li><span>💵 Daily Income</span><strong>${peso(daily)}</strong></li>
-         <li><span>🕒 Start Time</span><strong>${escapeHTML(startTime)}</strong></li>
-         <li><span>🏁 End Time</span><strong>${escapeHTML(endTime)}</strong></li>
+         <li><span>💵 Listed Daily Amount</span><strong>${peso(daily)}</strong></li>
+         <li><span>🕒 Purchase Time</span><strong>${escapeHTML(formatDate(d.purchased_at))}</strong></li>
+         <li><span>🏁 Calculated End Time</span><strong>${escapeHTML(endDate?formatDate(endDate.toISOString()):"Unavailable")}</strong></li>
         </ul>
-
-        <div style="background:#e2eee3;color:#155638;text-align:center;font-size:12px;font-weight:bold">
-         ✓ Purchase Recorded
-        </div>
+        <div style="background:#e2eee3;color:#155638;text-align:center;font-size:12px;font-weight:bold">✓ Purchase Recorded</div>
        </div>
       </article>`;
     }).join("")}
    </div>
-
-   <p class="notice">
-    Cumulative income is ₱0.00 because actual income records are not connected.
-    The daily amount is displayed from the configured plan and is not a guarantee
-    of earnings. The end time is calculated from the saved purchase timestamp.
-   </p>`;
+   <p class="notice">Cumulative income is shown as ₱0.00 because actual income records are not connected. Listed daily amounts are not guaranteed earnings.</p>`;
 
  }catch(error){
   console.error("My Plans error:",error);
-  target.innerHTML=`
-   <div class="panel">
-    <h3>Unable to load plans</h3>
-    <p>${escapeHTML(error.message||"An unexpected error occurred.")}</p>
-    <button class="secondary" onclick="renderDevices()">Try Again</button>
-   </div>`;
+  target.innerHTML=`<div class="panel"><h3>Unable to load plans</h3><p>${escapeHTML(error.message)}</p><button class="secondary" onclick="renderDevices()">Try Again</button></div>`;
  }
 }
 
@@ -673,40 +657,132 @@ function updateAccountUI(){
   document.getElementById("level2").textContent="—";
   document.getElementById("level3").textContent="—";
   document.getElementById("referralStatus").textContent="Log in to load your team.";
+  document.getElementById("teamMembers").innerHTML="";
+  referralMembers=[];
  }
 }
 
+function setReferralLink(code){
+ const url=new URL(window.location.href);
+ url.search="";
+ url.hash="";
+ url.searchParams.set("invite",code);
+ document.getElementById("inviteLink").textContent=url.toString();
+}
+
 async function loadReferralData(){
- if(!supabaseClient||!currentUser){
-  document.getElementById("referralStatus").textContent="Please log in first.";
+ const status=document.getElementById("referralStatus");
+ const teamContainer=document.getElementById("teamMembers");
+
+ if(!supabaseClient){
+  status.textContent="Supabase is not initialized.";
   return;
  }
 
- document.getElementById("referralStatus").textContent="Loading referral team...";
-
  try{
-  const {data,error}=await supabaseClient.rpc("growrise_get_referrals");
-  if(error)throw error;
-  if(!data||!data.length)throw new Error("No referral profile was returned.");
+  const user=await getSignedInUser();
 
-  const row=data[0];
-  document.getElementById("referral").textContent=row.referral_code||"Not available";
+  if(!user){
+   status.textContent="Please log in first.";
+   teamContainer.innerHTML="";
+   return;
+  }
 
-  const url=new URL(window.location.href);
-  url.search="";
-  url.hash="";
-  if(row.referral_code)url.searchParams.set("ref",row.referral_code);
+  status.textContent="Loading referral information...";
+  teamContainer.innerHTML="";
 
-  document.getElementById("inviteLink").textContent=url.toString();
-  document.getElementById("level1").textContent=row.level1??0;
-  document.getElementById("level2").textContent=row.level2??0;
-  document.getElementById("level3").textContent=row.level3??0;
-  document.getElementById("referralStatus").textContent="Referral information loaded.";
+  const {data:refData,error:refError}=await supabaseClient.rpc("growrise_get_referrals");
+  if(refError)throw refError;
+  if(!refData||!refData.length)throw new Error("No referral profile was returned.");
+
+  const profile=refData[0];
+  const code=profile.referral_code||"";
+
+  document.getElementById("referral").textContent=code||"Not available";
+
+  if(code)setReferralLink(code);
+
+  document.getElementById("level1").textContent=profile.level1??0;
+  document.getElementById("level2").textContent=profile.level2??0;
+  document.getElementById("level3").textContent=profile.level3??0;
+
+  status.textContent="Loading team member details...";
+
+  const {data:memberData,error:memberError}=await supabaseClient.rpc("growrise_get_referral_members");
+
+  if(memberError){
+   referralMembers=[];
+   renderTeamMembers();
+   status.textContent="Team counts loaded, but member details could not be loaded: "+memberError.message;
+   return;
+  }
+
+  referralMembers=Array.isArray(memberData)?memberData:[];
+  renderTeamMembers();
+  status.textContent="Referral information loaded.";
 
  }catch(error){
-  document.getElementById("referralStatus").textContent="Referral data unavailable: "+error.message;
-  console.warn("Referral loading:",error);
+  status.textContent="Referral data unavailable: "+(error.message||"Unknown error");
+  console.error("Referral loading error:",error);
  }
+}
+
+function showTeamLevel(level){
+ selectedTeamLevel=Number(level);
+ document.querySelectorAll(".ref-stat").forEach((el,index)=>{
+  el.classList.toggle("active",index+1===selectedTeamLevel);
+ });
+ renderTeamMembers();
+}
+
+function renderTeamMembers(){
+ const target=document.getElementById("teamMembers");
+ if(!target)return;
+
+ document.querySelectorAll(".ref-stat").forEach((el,index)=>{
+  el.classList.toggle("active",index+1===selectedTeamLevel);
+ });
+
+ const members=referralMembers.filter(m=>Number(m.referral_level)===selectedTeamLevel);
+ const rates={1:"35%",2:"2%",3:"1%"};
+ const title="Level "+selectedTeamLevel;
+
+ if(!currentUser){
+  target.innerHTML='<div class="team-empty">Please log in to view your team members.</div>';
+  return;
+ }
+
+ let html=`<h3 style="margin:15px 0 10px">${title} Members</h3>`;
+
+ if(!members.length){
+  target.innerHTML=html+'<div class="team-empty">No members are available in this level yet.</div>';
+  return;
+ }
+
+ html+=members.map(member=>{
+  const email=member.masked_email||"Hidden email";
+  const purchaseTotal=Number(member.plan_purchase_total)||0;
+  const estimated=Number(member.estimated_commission)||0;
+
+  return `
+   <article class="team-member">
+    <h4>👤 ${escapeHTML(email)}</h4>
+    <div class="member-row">
+     <span>Team Level</span>
+     <strong>${title}</strong>
+    </div>
+    <div class="member-row">
+     <span>Recorded Plan Purchases</span>
+     <strong>${peso(purchaseTotal)}</strong>
+    </div>
+    <div class="member-row">
+     <span>Estimated Commission (${rates[selectedTeamLevel]})</span>
+     <strong>${peso(estimated)}</strong>
+    </div>
+   </article>`;
+ }).join("");
+
+ target.innerHTML=html;
 }
 
 async function initializeSupabase(){
@@ -742,6 +818,11 @@ async function initializeSupabase(){
 
 document.getElementById("registerForm").addEventListener("submit",async function(e){
  e.preventDefault();
+
+ if(!supabaseClient){
+  showMessage("Supabase is not initialized.");
+  return;
+ }
 
  const email=document.getElementById("regEmail").value.trim();
  const password=document.getElementById("regPassword").value;
@@ -793,6 +874,11 @@ document.getElementById("registerForm").addEventListener("submit",async function
 document.getElementById("loginForm").addEventListener("submit",async function(e){
  e.preventDefault();
 
+ if(!supabaseClient){
+  showMessage("Supabase is not initialized.");
+  return;
+ }
+
  const email=document.getElementById("loginEmail").value.trim();
  const password=document.getElementById("loginPassword").value;
  const button=this.querySelector('button[type="submit"]');
@@ -837,7 +923,6 @@ async function resetPassword(){
   const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
   if(error)throw error;
   showMessage("If the email is registered, a password-reset link will be sent.");
-
  }catch(error){
   showMessage("Password reset failed: "+error.message);
  }
@@ -854,25 +939,36 @@ async function logout(){
   updateAccountUI();
   showPage("login");
   showMessage("You have logged out.");
-
  }catch(error){
   showMessage("Logout failed: "+error.message);
  }
 }
 
 async function copyValue(elementId,successText){
- const value=document.getElementById(elementId).textContent;
+ const value=document.getElementById(elementId).textContent.trim();
 
- if(!currentUser||value==="Log in first"||value==="Loading..."){
+ if(!currentUser||!value||value==="Log in first"||value==="Loading..."){
   showMessage("Please log in first.");
   return;
  }
 
  try{
-  await navigator.clipboard.writeText(value);
+  if(navigator.clipboard&&window.isSecureContext){
+   await navigator.clipboard.writeText(value);
+  }else{
+   const textarea=document.createElement("textarea");
+   textarea.value=value;
+   textarea.style.position="fixed";
+   textarea.style.opacity="0";
+   document.body.appendChild(textarea);
+   textarea.select();
+   const copied=document.execCommand("copy");
+   textarea.remove();
+   if(!copied)throw new Error("Copy is not supported.");
+  }
   showMessage(successText);
  }catch(error){
-  showMessage("Copy this text: "+value);
+  showMessage("Copy failed. Please select and copy this text: "+value);
  }
 }
 
@@ -904,7 +1000,8 @@ document.getElementById("withdrawForm").addEventListener("submit",function(e){
 });
 
 function handleInvitationURL(){
- const code=new URLSearchParams(location.search).get("ref");
+ const params=new URLSearchParams(location.search);
+ const code=params.get("invite")||params.get("ref");
 
  if(code){
   document.getElementById("regReferral").value=code.trim().toUpperCase();
@@ -917,4 +1014,4 @@ initializeSupabase();
 handleInvitationURL();
 </script>
 </body>
-</html>
+ </html>
