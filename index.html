@@ -8,144 +8,59 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --green:#155638;
-  --dark:#103c29;
-  --light:#eff6ef;
-  --gold:#e8c96e;
-  --text:#203b2b;
-  --muted:#728075;
-  --white:#fff;
+  --green:#155638;--dark:#103c29;--light:#eff6ef;
+  --gold:#e8c96e;--text:#203b2b;--muted:#728075;--white:#fff;
 }
-
-body{
-  font-family:Arial,sans-serif;
-  background:#f2f5f1;
-  color:var(--text);
-  padding-bottom:82px;
-}
-
+body{font-family:Arial,sans-serif;background:#f2f5f1;color:var(--text);padding-bottom:82px}
 button,input{font-family:inherit}
 button{cursor:pointer;border:0}
 button:disabled{opacity:.6;cursor:not-allowed}
-
-header{
-  background:linear-gradient(135deg,#103c29,#216d46);
-  color:white;
-  padding:20px 17px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
+header{background:linear-gradient(135deg,#103c29,#216d46);color:white;padding:20px 17px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;align-items:center;gap:10px}
-.brand-icon{
-  width:43px;height:43px;border-radius:14px;
-  background:var(--gold);display:flex;
-  justify-content:center;align-items:center;font-size:24px;
-}
+.brand-icon{width:43px;height:43px;border-radius:14px;background:var(--gold);display:flex;justify-content:center;align-items:center;font-size:24px}
 .brand h1{font-size:23px;color:var(--gold);letter-spacing:.5px}
 .brand p{font-size:11px;margin-top:4px;color:#e1e9e2}
-
-.header-button{
-  background:var(--gold);color:var(--dark);
-  border-radius:10px;padding:11px 13px;font-weight:bold;
-}
-
+.header-button{background:var(--gold);color:var(--dark);border-radius:10px;padding:11px 13px;font-weight:bold}
 .container{max-width:700px;margin:auto;padding:16px}
 .page{display:none}
 .page.active{display:block}
-
-.hero{
-  background:linear-gradient(135deg,#123f2b,#277b4e);
-  color:white;border-radius:22px;padding:24px 20px;
-  position:relative;overflow:hidden;margin-bottom:17px;
-  box-shadow:0 8px 22px #174c3020;
-}
-.hero:after{
-  content:"🌱";position:absolute;right:13px;bottom:0;
-  font-size:95px;opacity:.13;
-}
-.hero-label{
-  display:inline-block;background:#ffffff20;
-  border:1px solid #ffffff35;border-radius:20px;
-  padding:7px 11px;font-size:11px;margin-bottom:15px;
-}
+.hero{background:linear-gradient(135deg,#123f2b,#277b4e);color:white;border-radius:22px;padding:24px 20px;position:relative;overflow:hidden;margin-bottom:17px;box-shadow:0 8px 22px #174c3020}
+.hero:after{content:"🌱";position:absolute;right:13px;bottom:0;font-size:95px;opacity:.13}
+.hero-label{display:inline-block;background:#ffffff20;border:1px solid #ffffff35;border-radius:20px;padding:7px 11px;font-size:11px;margin-bottom:15px}
 .hero h2{font-size:27px;line-height:1.3;margin-bottom:9px;max-width:340px}
 .hero p{color:#e0ebe2;font-size:13px;line-height:1.7;max-width:340px}
 .hero-buttons{display:flex;gap:10px;margin-top:20px;position:relative;z-index:1}
 .hero-buttons button{padding:12px 14px;border-radius:10px;font-weight:bold}
 .hero-primary{background:var(--gold);color:var(--dark)}
 .hero-secondary{background:#ffffff18;border:1px solid #ffffff50;color:white}
-
-.section-heading{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:10px;margin:24px 0 13px;
-}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:24px 0 13px}
 .section-heading h2{font-size:19px}
 .section-heading p{font-size:11px;color:var(--muted);margin-top:5px}
-.small-tag{
-  font-size:11px;background:#e2eee3;color:var(--green);
-  border-radius:20px;padding:7px 10px;white-space:nowrap;
-}
-
-.balance{
-  background:white;border-radius:17px;padding:19px;
-  box-shadow:0 3px 12px #00000008;border:1px solid #e7eee7;
-}
+.small-tag{font-size:11px;background:#e2eee3;color:var(--green);border-radius:20px;padding:7px 10px;white-space:nowrap}
+.balance{background:white;border-radius:17px;padding:19px;box-shadow:0 3px 12px #00000008;border:1px solid #e7eee7}
 .balance-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .balance-top p{color:var(--muted);font-size:13px}
-.balance-icon{
-  width:42px;height:42px;display:flex;align-items:center;
-  justify-content:center;border-radius:13px;background:#edf5ed;font-size:22px;
-}
+.balance-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#edf5ed;font-size:22px}
 .balance h2{font-size:29px;margin:12px 0 5px;color:var(--green)}
 .balance-note{font-size:11px;color:var(--muted)}
-
 .actions{display:flex;gap:10px;margin-top:18px}
 .actions button{flex:1;padding:13px 8px;border-radius:11px;font-weight:bold}
 .deposit-button{background:var(--green);color:white}
 .withdraw-button{background:#edf4ed;color:var(--green)}
-
-.quick-grid{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;margin-top:15px;
-}
-.quick-card{
-  background:white;padding:14px 9px;border-radius:13px;
-  text-align:center;border:1px solid #e8eee8;
-}
+.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:15px}
+.quick-card{background:white;padding:14px 9px;border-radius:13px;text-align:center;border:1px solid #e8eee8}
 .quick-card .icon{font-size:22px;margin-bottom:8px}
 .quick-card strong{display:block;font-size:12px}
 .quick-card p{font-size:10px;color:var(--muted);margin-top:5px}
-
 .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.plan-card{
-  background:white;border:1px solid #e4ebe3;border-radius:17px;
-  overflow:hidden;box-shadow:0 4px 12px #00000008;
-  position:relative;transition:transform .2s,box-shadow .2s;
-}
+.plan-card{background:white;border:1px solid #e4ebe3;border-radius:17px;overflow:hidden;box-shadow:0 4px 12px #00000008;position:relative;transition:transform .2s,box-shadow .2s}
 .plan-card:active{transform:scale(.98)}
-.plan-top{
-  padding:17px 14px 15px;
-  background:linear-gradient(135deg,#eaf3e9,#f8f6e9);
-  border-bottom:1px solid #e7eee5;
-}
-.plan-top.featured{
-  background:linear-gradient(135deg,#174b32,#27784d);color:white;
-}
-.plan-label{
-  display:inline-block;padding:5px 9px;background:#ffffffa8;
-  color:#20583a;border-radius:7px;font-size:11px;font-weight:bold;
-}
+.plan-top{padding:17px 14px 15px;background:linear-gradient(135deg,#eaf3e9,#f8f6e9);border-bottom:1px solid #e7eee5}
+.plan-top.featured{background:linear-gradient(135deg,#174b32,#27784d);color:white}
+.plan-label{display:inline-block;padding:5px 9px;background:#ffffffa8;color:#20583a;border-radius:7px;font-size:11px;font-weight:bold}
 .featured .plan-label{background:#e8c96e;color:#173d29}
-.plan-symbol{
-  width:43px;height:43px;border-radius:13px;background:#ffffffb5;
-  display:flex;align-items:center;justify-content:center;
-  font-size:24px;margin:13px 0 10px;
-}
+.plan-symbol{width:43px;height:43px;border-radius:13px;background:#ffffffb5;display:flex;align-items:center;justify-content:center;font-size:24px;margin:13px 0 10px}
 .featured .plan-symbol{background:#ffffff20}
 .plan-top h3{font-size:17px;margin-bottom:6px}
 .plan-top p{font-size:11px;opacity:.8}
@@ -153,109 +68,49 @@ header{
 .plan-price-label{font-size:11px;color:var(--muted);margin-bottom:5px}
 .plan-price{font-size:23px;color:var(--green);font-weight:bold;overflow-wrap:anywhere}
 .plan-features{list-style:none;margin:13px 0}
-.plan-features li{
-  font-size:11px;color:#58675c;padding:8px 0;
-  border-bottom:1px solid #edf0ed;line-height:1.5;
-}
+.plan-features li{font-size:11px;color:#58675c;padding:8px 0;border-bottom:1px solid #edf0ed;line-height:1.5}
 .plan-features li:last-child{border-bottom:0}
 .plan-features strong{color:var(--green)}
-.plan-button{
-  width:100%;background:var(--green);color:white;
-  padding:12px 5px;border-radius:9px;font-weight:bold;font-size:12px;
-}
+.plan-button{width:100%;background:var(--green);color:white;padding:12px 5px;border-radius:9px;font-weight:bold;font-size:12px}
 .featured-button{background:var(--gold);color:var(--dark)}
-
 .notice{color:var(--muted);font-size:11px;line-height:1.7;margin-top:15px}
-
-.panel{
-  background:white;padding:19px;border-radius:16px;
-  margin-bottom:14px;border:1px solid #e7eee7;
-  box-shadow:0 3px 10px #00000006;
-}
+.panel{background:white;padding:19px;border-radius:16px;margin-bottom:14px;border:1px solid #e7eee7;box-shadow:0 3px 10px #00000006}
 .panel h2,.panel h3{margin-bottom:13px}
 .panel h2{font-size:21px}
 .panel h3{font-size:17px}
 .panel p{font-size:13px;line-height:1.6}
-
-input{
-  width:100%;padding:13px;border:1px solid #d5ded6;
-  border-radius:10px;margin:8px 0;font-size:15px;background:#fcfdfc;
-}
+input{width:100%;padding:13px;border:1px solid #d5ded6;border-radius:10px;margin:8px 0;font-size:15px;background:#fcfdfc}
 input:focus{outline:2px solid #b8d5bd;border-color:var(--green)}
-.primary{
-  width:100%;padding:13px;background:var(--green);color:white;
-  border-radius:10px;margin-top:9px;font-weight:bold;
-}
-.secondary{
-  width:100%;padding:12px;background:#edf4ed;color:var(--green);
-  border-radius:10px;margin-top:10px;font-weight:bold;
-}
+.primary{width:100%;padding:13px;background:var(--green);color:white;border-radius:10px;margin-top:9px;font-weight:bold}
+.secondary{width:100%;padding:12px;background:#edf4ed;color:var(--green);border-radius:10px;margin-top:10px;font-weight:bold}
 .page-title{font-size:23px;margin:7px 0 17px}
-.page-subtitle{
-  font-size:13px;color:var(--muted);line-height:1.6;
-  margin-top:-8px;margin-bottom:18px;
-}
-
-.me-header{
-  background:linear-gradient(135deg,#123f2b,#277b4e);
-  color:white;padding:23px 18px;border-radius:18px;margin-bottom:17px;
-}
+.page-subtitle{font-size:13px;color:var(--muted);line-height:1.6;margin-top:-8px;margin-bottom:18px}
+.me-header{background:linear-gradient(135deg,#123f2b,#277b4e);color:white;padding:23px 18px;border-radius:18px;margin-bottom:17px}
 .me-profile{display:flex;align-items:center;gap:13px;min-width:0}
-.me-avatar{
-  width:57px;height:57px;border-radius:50%;background:var(--gold);
-  color:var(--dark);display:flex;justify-content:center;
-  align-items:center;font-size:26px;flex-shrink:0;
-}
+.me-avatar{width:57px;height:57px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;justify-content:center;align-items:center;font-size:26px;flex-shrink:0}
 .me-profile h2{font-size:19px;margin-bottom:6px}
 .me-profile p{font-size:12px;overflow-wrap:anywhere}
-.me-status{
-  display:inline-block;background:#ffffff20;border-radius:20px;
-  padding:6px 10px;margin-top:8px;font-size:11px;
-}
+.me-status{display:inline-block;background:#ffffff20;border-radius:20px;padding:6px 10px;margin-top:8px;font-size:11px}
 .me-menu{background:white;border-radius:15px;padding:15px;margin-bottom:14px}
 .me-menu h3{margin-bottom:12px}
-.me-menu-item{
-  width:100%;display:flex;align-items:center;justify-content:space-between;
-  text-align:left;background:#f4f7f4;color:var(--text);
-  padding:15px 11px;border-radius:10px;margin-top:7px;
-}
+.me-menu-item{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;background:#f4f7f4;color:var(--text);padding:15px 11px;border-radius:10px;margin-top:7px}
 .me-menu-item .arrow{font-size:20px;color:#89958c}
 .me-logout{background:#f9e8e8;color:#9a2937}
-
 .ref-code{font-size:19px;color:var(--green);overflow-wrap:anywhere;margin:12px 0;font-weight:bold}
-.ref-link{
-  background:#f2f7f2;padding:12px;border-radius:9px;
-  overflow-wrap:anywhere;font-size:12px;line-height:1.6;margin:10px 0;
-}
+.ref-link{background:#f2f7f2;padding:12px;border-radius:9px;overflow-wrap:anywhere;font-size:12px;line-height:1.6;margin:10px 0}
 .ref-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:15px}
 .ref-stat{background:#edf5ed;border-radius:11px;padding:15px 4px;text-align:center}
 .ref-stat strong{display:block;color:var(--green);font-size:23px}
 .ref-stat span{font-size:10px;color:#526358}
-
 #message{font-size:13px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0}
-
-nav{
-  position:fixed;bottom:0;left:0;right:0;display:flex;
-  justify-content:space-around;background:white;
-  box-shadow:0 -3px 16px #00000010;
-  padding:8px 3px max(8px,env(safe-area-inset-bottom));z-index:10;
-}
-nav button{
-  flex:1;background:transparent;color:#728075;font-size:11px;
-  line-height:1.7;padding:5px 2px;
-}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:white;box-shadow:0 -3px 16px #00000010;padding:8px 3px max(8px,env(safe-area-inset-bottom));z-index:10}
+nav button{flex:1;background:transparent;color:#728075;font-size:11px;line-height:1.7;padding:5px 2px}
 nav button.selected{color:var(--green);font-weight:bold}
 nav button span{font-size:19px}
-
 @media(max-width:360px){
-  .container{padding:11px}
-  .hero{padding:20px 15px}
-  .hero h2{font-size:23px}
-  .plans{gap:9px}
-  .plan-top{padding:13px 10px}
-  .plan-body{padding:12px 9px}
-  .plan-price{font-size:20px}
-  .plan-features li{font-size:10px}
+  .container{padding:11px}.hero{padding:20px 15px}.hero h2{font-size:23px}
+  .plans{gap:9px}.plan-top{padding:13px 10px}.plan-body{padding:12px 9px}
+  .plan-price{font-size:20px}.plan-features li{font-size:10px}
 }
 </style>
 </head>
@@ -265,10 +120,7 @@ nav button span{font-size:19px}
 <header>
   <div class="brand">
     <div class="brand-icon">🌱</div>
-    <div>
-      <h1>GrowRise</h1>
-      <p>GROW YOUR FUTURE</p>
-    </div>
+    <div><h1>GrowRise</h1><p>GROW YOUR FUTURE</p></div>
   </div>
   <button class="header-button" onclick="goToAccount()">My Account ↗</button>
 </header>
@@ -279,7 +131,7 @@ nav button span{font-size:19px}
   <div class="hero">
     <span class="hero-label">🌿 WELCOME TO GROWRise</span>
     <h2>Welcome to Your GrowRise Dashboard</h2>
-    <p>Manage your account, explore demo plans, and invite friends using your personal referral link.</p>
+    <p>Manage your account, explore available plans, and invite friends using your personal referral link.</p>
     <div class="hero-buttons">
       <button class="hero-primary" onclick="goToAccount()">My Account →</button>
       <button class="hero-secondary" onclick="showPage('invite')">Invite Friends</button>
@@ -291,7 +143,7 @@ nav button span{font-size:19px}
       <div>
         <p>MY ACCOUNT BALANCE</p>
         <h2 id="balance">₱0.00</h2>
-        <p class="balance-note">Demo display only · No real funds</p>
+        <p class="balance-note">Your available wallet balance</p>
       </div>
       <div class="balance-icon">💳</div>
     </div>
@@ -305,8 +157,8 @@ nav button span{font-size:19px}
     <button class="quick-card" onclick="showPage('invite')">
       <div class="icon">👥</div><strong>My Team</strong><p>Referral details</p>
     </button>
-    <button class="quick-card" onclick="showPage('devices')">
-      <div class="icon">📦</div><strong>My Plans</strong><p>Demo selections</p>
+    <button class="quick-card" onclick="openProtectedPage('devices')">
+      <div class="icon">📦</div><strong>My Plans</strong><p>Purchased plans</p>
     </button>
     <button class="quick-card" onclick="goToAccount()">
       <div class="icon">👤</div><strong>Profile</strong><p>Account settings</p>
@@ -314,20 +166,20 @@ nav button span{font-size:19px}
   </div>
 
   <div class="section-heading">
-    <div><h2>Explore Our Plans</h2><p>View the example plan details below.</p></div>
+    <div><h2>Explore Our Plans</h2><p>Review plan details before purchasing.</p></div>
     <span class="small-tag">8 PLANS</span>
   </div>
 
   <div id="products" class="plans"></div>
 
   <p class="notice">
-    Important: These are hypothetical demonstration figures, not guaranteed earnings or promised payouts. This demo does not process investments, purchases, or real payments.
+    Plan figures are illustrative and are not guaranteed earnings. Deposits and withdrawals are not enabled until their payment processing and verification systems are connected.
   </p>
 </section>
 
 <section id="devices" class="page">
   <h2 class="page-title">📦 My Plans</h2>
-  <p class="page-subtitle">View plans you selected in this browser session.</p>
+  <p class="page-subtitle">View your purchased plans and their purchase date and time.</p>
   <div id="myDevices"></div>
 </section>
 
@@ -343,7 +195,7 @@ nav button span{font-size:19px}
     <h3 style="margin-top:23px">🔗 Your Invitation Link</h3>
     <div id="inviteLink" class="ref-link">Log in first</div>
     <button class="primary" onclick="copyInviteLink()">Copy Invitation Link</button>
-    <p class="notice">Opening an invitation link takes a visitor to Register with the referral code filled in. Referral counts depend on database records.</p>
+    <p class="notice">Referral counts depend on registrations recorded by the database.</p>
   </div>
 
   <div class="panel">
@@ -372,36 +224,21 @@ nav button span{font-size:19px}
 
   <div class="me-menu">
     <h3>👤 Account Menu</h3>
-    <button class="me-menu-item" onclick="showPage('devices')">
-      <span>📦 My Plans</span><span class="arrow">›</span>
-    </button>
-    <button class="me-menu-item" onclick="openProtectedPage('deposit')">
-      <span>💰 Deposit Demo</span><span class="arrow">›</span>
-    </button>
-    <button class="me-menu-item" onclick="openProtectedPage('withdraw')">
-      <span>💸 Withdrawal Demo</span><span class="arrow">›</span>
-    </button>
-    <button class="me-menu-item" onclick="showPage('invite')">
-      <span>👥 Invitation & Team</span><span class="arrow">›</span>
-    </button>
+    <button class="me-menu-item" onclick="openProtectedPage('devices')"><span>📦 My Plans</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="openProtectedPage('deposit')"><span>💰 Deposit</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="openProtectedPage('withdraw')"><span>💸 Withdrawal</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="showPage('invite')"><span>👥 Invitation & Team</span><span class="arrow">›</span></button>
   </div>
 
   <div class="me-menu">
     <h3>⚙️ Account Settings</h3>
-    <button class="me-menu-item" onclick="showMessage('Your account email is displayed above.')">
-      <span>📧 Account Information</span><span class="arrow">›</span>
-    </button>
-    <button class="me-menu-item" onclick="resetPassword()">
-      <span>🔐 Reset Password</span><span class="arrow">›</span>
-    </button>
+    <button class="me-menu-item" onclick="showMessage('Your account email is displayed above.')"><span>📧 Account Information</span><span class="arrow">›</span></button>
+    <button class="me-menu-item" onclick="resetPassword()"><span>🔐 Reset Password</span><span class="arrow">›</span></button>
   </div>
 
   <div class="me-menu">
     <h3>🔑 Account Access</h3>
-    <button class="me-logout" onclick="logout()"
-      style="width:100%;padding:12px;border-radius:10px;font-weight:bold">
-      Log Out
-    </button>
+    <button class="me-logout" onclick="logout()" style="width:100%;padding:12px;border-radius:10px;font-weight:bold">Log Out</button>
   </div>
 
   <p class="notice" style="text-align:center">GrowRise · Grow Your Future</p>
@@ -439,26 +276,26 @@ nav button span{font-size:19px}
 
 <section id="deposit" class="page">
   <div class="panel">
-    <h2>💰 Deposit Request</h2>
-    <p>Demo minimum amount: ₱200</p>
+    <h2>💰 Deposit</h2>
+    <p>Minimum amount: ₱200</p>
+    <p class="notice">PayMongo payment verification has not yet been connected to this page. No balance will be added by submitting this form.</p>
     <form id="depositForm">
       <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
-      <button class="primary" type="submit">Submit Demo Request</button>
+      <button class="primary" type="submit">Continue</button>
     </form>
-    <p class="notice">Demo only. No payment or money transfer is processed.</p>
   </div>
 </section>
 
 <section id="withdraw" class="page">
   <div class="panel">
-    <h2>💸 Withdrawal Calculator</h2>
-    <p>Demo minimum amount: ₱200</p>
+    <h2>💸 Withdrawal</h2>
+    <p>Minimum amount: ₱200</p>
     <p>Illustrative fee: 5%</p>
     <form id="withdrawForm">
       <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
-      <button class="primary" type="submit">Calculate Demo Withdrawal</button>
+      <button class="primary" type="submit">Calculate Fee</button>
     </form>
-    <p class="notice">Demo only. No real withdrawal or money transfer is processed.</p>
+    <p class="notice">This calculator does not transfer money or submit a real withdrawal request.</p>
   </div>
 </section>
 
@@ -466,18 +303,10 @@ nav button span{font-size:19px}
 </main>
 
 <nav>
-  <button class="selected" data-page="home" onclick="showPage('home',this)">
-    <span>🏠</span><br>HOME
-  </button>
-  <button data-page="devices" onclick="showPage('devices',this)">
-    <span>📦</span><br>PLANS
-  </button>
-  <button data-page="invite" onclick="showPage('invite',this)">
-    <span>👥</span><br>INVITE
-  </button>
-  <button data-page="me" onclick="showPage('me',this)">
-    <span>👤</span><br>ME
-  </button>
+  <button class="selected" data-page="home" onclick="showPage('home',this)"><span>🏠</span><br>HOME</button>
+  <button data-page="devices" onclick="openProtectedPage('devices')"><span>📦</span><br>PLANS</button>
+  <button data-page="invite" onclick="showPage('invite',this)"><span>👥</span><br>INVITE</button>
+  <button data-page="me" onclick="showPage('me',this)"><span>👤</span><br>ME</button>
 </nav>
 
 <script>
@@ -487,6 +316,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb
 let supabaseClient = null;
 let currentUser = null;
 let devices = [];
+let walletBalance = 0;
 
 const plans = [
   {name:"VIP1",price:200,daily:40,days:30,icon:"🌱",description:"Starter Plan"},
@@ -501,8 +331,7 @@ const plans = [
 
 function peso(amount){
   return "₱" + Number(amount).toLocaleString("en-PH",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
+    minimumFractionDigits:2,maximumFractionDigits:2
   });
 }
 
@@ -516,11 +345,13 @@ function showPage(id,button){
 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   page.classList.add("active");
-
   document.querySelectorAll("nav button").forEach(b=>b.classList.remove("selected"));
 
   const navButton = button || document.querySelector('nav button[data-page="'+id+'"]');
   if(navButton) navButton.classList.add("selected");
+
+  if(id==="devices" && currentUser) renderDevices();
+  if(id==="home" && currentUser) loadWallet();
 
   showMessage("");
   window.scrollTo({top:0,behavior:"smooth"});
@@ -549,102 +380,190 @@ function renderPlans(){
     return `
       <article class="plan-card">
         <div class="plan-top ${index===3?"featured":""}">
-          <span class="plan-label">
-            ${index===3?"⭐ POPULAR DEMO":plan.name}
-          </span>
+          <span class="plan-label">${index===3?"⭐ POPULAR":plan.name}</span>
           <div class="plan-symbol">${plan.icon}</div>
           <h3>${plan.name}</h3>
           <p>${plan.description}</p>
         </div>
-
         <div class="plan-body">
           <p class="plan-price-label">Plan Price</p>
           <div class="plan-price">${peso(plan.price)}</div>
-
           <ul class="plan-features">
-            <li>💰 Daily Amount: <strong>${peso(plan.daily)}</strong></li>
+            <li>💰 Listed Daily Amount: <strong>${peso(plan.daily)}</strong></li>
             <li>📅 Duration: <strong>${plan.days} Days</strong></li>
-            <li>🧮 Total Amount: <strong>${peso(total)}</strong></li>
+            <li>🧮 Listed Total: <strong>${peso(total)}</strong></li>
           </ul>
-
-          <button class="plan-button ${index===3?"featured-button":""}"
-            onclick="buyPlan('${plan.name}')">
-            Buy Plan
-          </button>
+          <button class="plan-button ${index===3?"featured-button":""}" onclick="buyPlan('${plan.name}')">Buy Plan</button>
         </div>
-      </article>
-    `;
+      </article>`;
   }).join("");
 }
 
-function buyPlan(name){
-  if(!currentUser){
-    showMessage("Please register or log in first.");
-    showPage("register");
+async function loadWallet(){
+  if(!supabaseClient || !currentUser) {
+    walletBalance = 0;
+    document.getElementById("balance").textContent = peso(0);
     return;
   }
 
-  const plan = plans.find(p=>p.name===name);
-  if(!plan) return;
+  try{
+    const {data,error}=await supabaseClient
+      .from("growrise_wallets")
+      .select("balance")
+      .eq("user_id",currentUser.id)
+      .maybeSingle();
 
-  if(!devices.some(d=>d.name===name)){
-    devices.push({
-      name:plan.name,
-      price:plan.price,
-      daily:plan.daily,
-      days:plan.days,
-      total:plan.daily*plan.days
-    });
-    renderDevices();
+    if(error) throw error;
+
+    walletBalance = data ? Number(data.balance) : 0;
+    document.getElementById("balance").textContent = peso(walletBalance);
+  }catch(error){
+    console.error("Wallet loading error:",error);
+    showMessage("Could not load your wallet balance. Please refresh.");
   }
-
-  showMessage(name+" added to your demo plan list. No purchase or payment was made.");
-  showPage("devices");
 }
 
-function renderDevices(){
-  const target = document.getElementById("myDevices");
+async function buyPlan(name){
+  if(!currentUser){
+    showMessage("Please log in first.");
+    showPage("login");
+    return;
+  }
 
-  if(!devices.length){
-    target.innerHTML = `
+  const plan=plans.find(p=>p.name===name);
+  if(!plan){
+    showMessage("Invalid plan.");
+    return;
+  }
+
+  await loadWallet();
+
+  if(walletBalance < plan.price){
+    showMessage("Insufficient balance. Your current balance is "+peso(walletBalance)+".");
+    return;
+  }
+
+  if(!window.confirm("Purchase "+plan.name+" for "+peso(plan.price)+"?")) return;
+
+  showMessage("Processing purchase...");
+
+  try{
+    const {data,error}=await supabaseClient.rpc(
+      "growrise_buy_plan",
+      {p_plan_name:plan.name}
+    );
+
+    if(error) throw error;
+    if(!data || data.success!==true) throw new Error("Purchase could not be completed.");
+
+    await loadWallet();
+    await renderDevices();
+    showMessage(name+" purchased successfully. Purchase date and time saved.");
+    showPage("devices");
+  }catch(error){
+    console.error("Purchase error:",error);
+    if((error.message||"").toLowerCase().includes("insufficient balance")){
+      showMessage("Insufficient balance. Please deposit through a verified payment method.");
+    }else{
+      showMessage("Purchase failed: "+(error.message||"Please try again."));
+    }
+  }
+}
+
+async function renderDevices(){
+  const target=document.getElementById("myDevices");
+
+  if(!currentUser || !supabaseClient){
+    target.innerHTML=`
       <div class="panel">
-        <h3>No plans selected yet</h3>
-        <p>Visit Home to explore the demo plans.</p>
-        <button class="primary" onclick="showPage('home')">Explore Plans</button>
+        <h3>Please log in first</h3>
+        <p>Log in to view your purchased plans.</p>
+        <button class="primary" onclick="showPage('login')">Login</button>
       </div>`;
     return;
   }
 
-  target.innerHTML = devices.map(d=>`
-    <div class="panel">
-      <h3>🌿 ${d.name}</h3>
-      <p>Plan Price: <strong>${peso(d.price)}</strong></p>
-      <p>Daily Amount: <strong>${peso(d.daily)}</strong></p>
-      <p>Duration: <strong>${d.days} Days</strong></p>
-      <p>Total Amount: <strong>${peso(d.total)}</strong></p>
-      <p class="notice">Hypothetical demo figures only. No purchase or payout was made.</p>
-    </div>
-  `).join("");
+  target.innerHTML='<div class="panel"><p>Loading your plans...</p></div>';
+
+  try{
+    const {data,error}=await supabaseClient
+      .from("growrise_plan_purchases")
+      .select("id,plan_name,price,purchased_at")
+      .eq("user_id",currentUser.id)
+      .order("purchased_at",{ascending:false});
+
+    if(error) throw error;
+
+    devices=(data||[]).map(row=>{
+      const plan=plans.find(p=>p.name===row.plan_name);
+      return {
+        id:row.id,
+        name:row.plan_name,
+        price:Number(row.price),
+        purchasedAt:row.purchased_at,
+        daily:plan?plan.daily:null,
+        days:plan?plan.days:null
+      };
+    });
+
+    if(!devices.length){
+      target.innerHTML=`
+        <div class="panel">
+          <h3>No purchased plans yet</h3>
+          <p>Your purchased plans will appear here after a successful purchase.</p>
+          <button class="primary" onclick="showPage('home')">Explore Plans</button>
+        </div>`;
+      return;
+    }
+
+    target.innerHTML=devices.map(d=>`
+      <div class="panel">
+        <h3>🌿 ${escapeHTML(d.name)}</h3>
+        <p>Plan Price: <strong>${peso(d.price)}</strong></p>
+        <p>Purchase Date &amp; Time:
+          <strong>${new Date(d.purchasedAt).toLocaleString()}</strong>
+        </p>
+        <p>Purchase Reference: <strong>${d.id}</strong></p>
+      </div>
+    `).join("");
+
+  }catch(error){
+    console.error("Plans loading error:",error);
+    target.innerHTML=`
+      <div class="panel">
+        <h3>Unable to load your plans</h3>
+        <p>${escapeHTML(error.message||"Please try again.")}</p>
+        <button class="primary" onclick="renderDevices()">Retry</button>
+      </div>`;
+  }
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[char]);
 }
 
 function updateAccountUI(){
-  document.getElementById("accountStatus").textContent =
-    currentUser?"Logged in":"Not logged in";
-
-  document.getElementById("accountEmail").textContent =
-    currentUser?(currentUser.email||""):"Please log in";
+  document.getElementById("accountStatus").textContent=currentUser?"Logged in":"Not logged in";
+  document.getElementById("accountEmail").textContent=currentUser?(currentUser.email||""):"Please log in";
 
   if(currentUser){
+    loadWallet();
     document.getElementById("referral").textContent="Loading...";
     document.getElementById("inviteLink").textContent="Loading...";
     loadReferralData();
   }else{
+    walletBalance=0;
+    devices=[];
+    document.getElementById("balance").textContent=peso(0);
     document.getElementById("referral").textContent="Log in first";
     document.getElementById("inviteLink").textContent="Log in first";
     document.getElementById("level1").textContent="—";
     document.getElementById("level2").textContent="—";
     document.getElementById("level3").textContent="—";
     document.getElementById("referralStatus").textContent="Log in to load your referral team.";
+    renderDevices();
   }
 }
 
@@ -663,23 +582,22 @@ async function loadReferralData(){
 
     const row=data[0];
     const code=row.referral_code;
+
     document.getElementById("referral").textContent=code;
 
     const url=new URL(window.location.href);
     url.search="";
     url.hash="";
     url.searchParams.set("ref",code);
-
     document.getElementById("inviteLink").textContent=url.toString();
+
     document.getElementById("level1").textContent=row.level1??0;
     document.getElementById("level2").textContent=row.level2??0;
     document.getElementById("level3").textContent=row.level3??0;
-
-    document.getElementById("referralStatus").textContent=
-      "Referral team loaded. Counts reflect registrations recorded in the database.";
+    document.getElementById("referralStatus").textContent="Referral information loaded from the database.";
   }catch(error){
-    document.getElementById("referralStatus").textContent=
-      "Could not load referral team: "+error.message;
+    console.error("Referral loading error:",error);
+    document.getElementById("referralStatus").textContent="Could not load referral team: "+error.message;
   }
 }
 
@@ -690,10 +608,7 @@ function initializeSupabase(){
   }
 
   try{
-    supabaseClient=window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
     checkCurrentSession();
   }catch(error){
     showMessage("Could not initialize Supabase.");
@@ -735,7 +650,6 @@ document.getElementById("registerForm").addEventListener("submit",async function
     showMessage("Password must contain at least 8 characters.");
     return;
   }
-
   if(password!==confirm){
     showMessage("Passwords do not match.");
     return;
@@ -749,9 +663,7 @@ document.getElementById("registerForm").addEventListener("submit",async function
     const {data,error}=await supabaseClient.auth.signUp({
       email,
       password,
-      options:{
-        data:{referral_code_entered:referralCode||null}
-      }
+      options:{data:{referral_code_entered:referralCode||null}}
     });
 
     if(error) throw error;
@@ -763,7 +675,7 @@ document.getElementById("registerForm").addEventListener("submit",async function
       showMessage("Registration successful!");
       showPage("home");
     }else{
-      showMessage("Registration submitted. If email confirmation is enabled, confirm your email before logging in.");
+      showMessage("Registration submitted. Confirm your email if requested, then log in.");
       showPage("login");
     }
   }catch(error){
@@ -796,7 +708,6 @@ document.getElementById("loginForm").addEventListener("submit",async function(ev
     currentUser=data.user;
     updateAccountUI();
     this.reset();
-
     showMessage("Login successful. Welcome to GrowRise!");
     showPage("home");
   }catch(error){
@@ -814,7 +725,6 @@ async function resetPassword(){
   }
 
   const email=document.getElementById("loginEmail").value.trim();
-
   if(!email){
     showMessage("Enter your email address in the Login form first.");
     showPage("login");
@@ -881,34 +791,32 @@ document.getElementById("depositForm").addEventListener("submit",function(event)
   event.preventDefault();
   const amount=Number(document.getElementById("depositAmount").value);
 
-  if(amount<200){
-    showMessage("Minimum demo amount is ₱200.");
+  if(!Number.isFinite(amount)||amount<200){
+    showMessage("Minimum deposit amount is ₱200.");
     return;
   }
 
-  showMessage("Demo only: "+peso(amount)+". No payment was made or recorded.");
+  showMessage("PayMongo is not connected to this form yet. No deposit was processed and your balance has not changed.");
 });
 
 document.getElementById("withdrawForm").addEventListener("submit",function(event){
   event.preventDefault();
   const amount=Number(document.getElementById("withdrawAmount").value);
 
-  if(amount<200){
-    showMessage("Minimum demo amount is ₱200.");
+  if(!Number.isFinite(amount)||amount<200){
+    showMessage("Minimum withdrawal amount is ₱200.");
     return;
   }
 
   const fee=amount*0.05;
-
   showMessage(
-    "Demo calculation only. Amount: "+peso(amount)+
+    "Calculation only. Amount: "+peso(amount)+
     "; illustrative 5% fee: "+peso(fee)+
     "; after fee: "+peso(amount-fee)+
     ". No money was transferred."
   );
 });
 
-/* Invitation links open Register and fill in the referral code. */
 function handleInvitationURL(){
   const params=new URLSearchParams(window.location.search);
   const referralCode=params.get("ref");
@@ -926,4 +834,4 @@ handleInvitationURL();
 </script>
 
 </body>
-</html>
+  </html>
