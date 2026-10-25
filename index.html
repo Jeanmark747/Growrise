@@ -116,7 +116,6 @@ nav button span{font-size:19px}
 </head>
 
 <body>
-
 <header>
   <div class="brand">
     <div class="brand-icon">🌱</div>
@@ -278,7 +277,7 @@ nav button span{font-size:19px}
   <div class="panel">
     <h2>💰 Deposit</h2>
     <p>Minimum amount: ₱200</p>
-    <p class="notice">PayMongo payment verification has not yet been connected to this page. No balance will be added by submitting this form.</p>
+    <p class="notice">Payment processing has not yet been connected to this page. No balance will be added by submitting this form.</p>
     <form id="depositForm">
       <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
       <button class="primary" type="submit">Continue</button>
@@ -317,6 +316,7 @@ let supabaseClient = null;
 let currentUser = null;
 let devices = [];
 let walletBalance = 0;
+let authListenerRegistered = false;
 
 const plans = [
   {name:"VIP1",price:200,daily:40,days:30,icon:"🌱",description:"Starter Plan"},
@@ -331,7 +331,8 @@ const plans = [
 
 function peso(amount){
   return "₱" + Number(amount).toLocaleString("en-PH",{
-    minimumFractionDigits:2,maximumFractionDigits:2
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
   });
 }
 
@@ -345,6 +346,7 @@ function showPage(id,button){
 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   page.classList.add("active");
+
   document.querySelectorAll("nav button").forEach(b=>b.classList.remove("selected"));
 
   const navButton = button || document.querySelector('nav button[data-page="'+id+'"]');
@@ -399,27 +401,75 @@ function renderPlans(){
   }).join("");
 }
 
+/* WALLET FIX: verifies the signed-in user and reports missing rows/errors. */
 async function loadWallet(){
-  if(!supabaseClient || !currentUser) {
+  const balanceElement = document.getElementById("balance");
+
+  if(!supabaseClient || !currentUser){
     walletBalance = 0;
-    document.getElementById("balance").textContent = peso(0);
+    balanceElement.textContent = peso(0);
     return;
   }
 
+  balanceElement.textContent = "Loading...";
+
   try{
-    const {data,error}=await supabaseClient
+    const {data:userData,error:userError} =
+      await supabaseClient.auth.getUser();
+
+    if(userError) throw userError;
+
+    if(!userData.user){
+      throw new Error("No authenticated user found.");
+    }
+
+    currentUser = userData.user;
+
+    const {data,error} = await supabaseClient
       .from("growrise_wallets")
-      .select("balance")
+      .select("user_id,balance")
       .eq("user_id",currentUser.id)
       .maybeSingle();
 
     if(error) throw error;
 
-    walletBalance = data ? Number(data.balance) : 0;
-    document.getElementById("balance").textContent = peso(walletBalance);
+    if(!data){
+      walletBalance = 0;
+      balanceElement.textContent = peso(0);
+
+      showMessage(
+        "Wallet record not found for the signed-in account. " +
+        "Please check the wallet row in Supabase."
+      );
+
+      console.warn("Wallet row not found for user:",currentUser.id);
+      return;
+    }
+
+    walletBalance = Number(data.balance);
+
+    if(!Number.isFinite(walletBalance)){
+      throw new Error("Wallet balance is not a valid number.");
+    }
+
+    balanceElement.textContent = peso(walletBalance);
+
+    console.log("Wallet loaded successfully:",{
+      userId:currentUser.id,
+      balance:walletBalance
+    });
+
   }catch(error){
     console.error("Wallet loading error:",error);
-    showMessage("Could not load your wallet balance. Please refresh.");
+
+    walletBalance = 0;
+    balanceElement.textContent = peso(0);
+
+    showMessage(
+      "Wallet loading failed: "+
+      (error.message||"Unknown error")+
+      ". Please check the browser console."
+    );
   }
 }
 
@@ -454,16 +504,20 @@ async function buyPlan(name){
     );
 
     if(error) throw error;
-    if(!data || data.success!==true) throw new Error("Purchase could not be completed.");
+    if(!data || data.success!==true){
+      throw new Error("Purchase could not be completed.");
+    }
 
     await loadWallet();
     await renderDevices();
+
     showMessage(name+" purchased successfully. Purchase date and time saved.");
     showPage("devices");
   }catch(error){
     console.error("Purchase error:",error);
+
     if((error.message||"").toLowerCase().includes("insufficient balance")){
-      showMessage("Insufficient balance. Please deposit through a verified payment method.");
+      showMessage("Insufficient balance. Please use an authorized payment method to add funds.");
     }else{
       showMessage("Purchase failed: "+(error.message||"Please try again."));
     }
@@ -496,6 +550,7 @@ async function renderDevices(){
 
     devices=(data||[]).map(row=>{
       const plan=plans.find(p=>p.name===row.plan_name);
+
       return {
         id:row.id,
         name:row.plan_name,
@@ -523,12 +578,13 @@ async function renderDevices(){
         <p>Purchase Date &amp; Time:
           <strong>${new Date(d.purchasedAt).toLocaleString()}</strong>
         </p>
-        <p>Purchase Reference: <strong>${d.id}</strong></p>
+        <p>Purchase Reference: <strong>${escapeHTML(d.id)}</strong></p>
       </div>
     `).join("");
 
   }catch(error){
     console.error("Plans loading error:",error);
+
     target.innerHTML=`
       <div class="panel">
         <h3>Unable to load your plans</h3>
@@ -540,22 +596,32 @@ async function renderDevices(){
 
 function escapeHTML(value){
   return String(value).replace(/[&<>"']/g,char=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
   })[char]);
 }
 
 function updateAccountUI(){
-  document.getElementById("accountStatus").textContent=currentUser?"Logged in":"Not logged in";
-  document.getElementById("accountEmail").textContent=currentUser?(currentUser.email||""):"Please log in";
+  document.getElementById("accountStatus").textContent =
+    currentUser ? "Logged in" : "Not logged in";
+
+  document.getElementById("accountEmail").textContent =
+    currentUser ? (currentUser.email||"") : "Please log in";
 
   if(currentUser){
     loadWallet();
+
     document.getElementById("referral").textContent="Loading...";
     document.getElementById("inviteLink").textContent="Loading...";
+
     loadReferralData();
   }else{
     walletBalance=0;
     devices=[];
+
     document.getElementById("balance").textContent=peso(0);
     document.getElementById("referral").textContent="Log in first";
     document.getElementById("inviteLink").textContent="Log in first";
@@ -563,6 +629,7 @@ function updateAccountUI(){
     document.getElementById("level2").textContent="—";
     document.getElementById("level3").textContent="—";
     document.getElementById("referralStatus").textContent="Log in to load your referral team.";
+
     renderDevices();
   }
 }
@@ -577,8 +644,11 @@ async function loadReferralData(){
 
   try{
     const {data,error}=await supabaseClient.rpc("growrise_get_referrals");
+
     if(error) throw error;
-    if(!data||!data.length) throw new Error("No referral profile was found for this account.");
+    if(!data||!data.length){
+      throw new Error("No referral profile was found for this account.");
+    }
 
     const row=data[0];
     const code=row.referral_code;
@@ -589,15 +659,21 @@ async function loadReferralData(){
     url.search="";
     url.hash="";
     url.searchParams.set("ref",code);
+
     document.getElementById("inviteLink").textContent=url.toString();
 
     document.getElementById("level1").textContent=row.level1??0;
     document.getElementById("level2").textContent=row.level2??0;
     document.getElementById("level3").textContent=row.level3??0;
-    document.getElementById("referralStatus").textContent="Referral information loaded from the database.";
+
+    document.getElementById("referralStatus").textContent=
+      "Referral information loaded from the database.";
+
   }catch(error){
     console.error("Referral loading error:",error);
-    document.getElementById("referralStatus").textContent="Could not load referral team: "+error.message;
+
+    document.getElementById("referralStatus").textContent=
+      "Could not load referral team: "+error.message;
   }
 }
 
@@ -608,9 +684,14 @@ function initializeSupabase(){
   }
 
   try{
-    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+    supabaseClient=window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
     checkCurrentSession();
   }catch(error){
+    console.error("Supabase initialization error:",error);
     showMessage("Could not initialize Supabase.");
   }
 }
@@ -619,6 +700,7 @@ async function checkCurrentSession(){
   if(!supabaseClient) return;
 
   const {data,error}=await supabaseClient.auth.getSession();
+
   if(error){
     showMessage("Could not check your session.");
     return;
@@ -627,10 +709,14 @@ async function checkCurrentSession(){
   currentUser=data.session?data.session.user:null;
   updateAccountUI();
 
-  supabaseClient.auth.onAuthStateChange((_event,session)=>{
-    currentUser=session?session.user:null;
-    updateAccountUI();
-  });
+  if(!authListenerRegistered){
+    authListenerRegistered=true;
+
+    supabaseClient.auth.onAuthStateChange((_event,session)=>{
+      currentUser=session?session.user:null;
+      updateAccountUI();
+    });
+  }
 }
 
 document.getElementById("registerForm").addEventListener("submit",async function(event){
@@ -650,6 +736,7 @@ document.getElementById("registerForm").addEventListener("submit",async function
     showMessage("Password must contain at least 8 characters.");
     return;
   }
+
   if(password!==confirm){
     showMessage("Passwords do not match.");
     return;
@@ -663,10 +750,13 @@ document.getElementById("registerForm").addEventListener("submit",async function
     const {data,error}=await supabaseClient.auth.signUp({
       email,
       password,
-      options:{data:{referral_code_entered:referralCode||null}}
+      options:{
+        data:{referral_code_entered:referralCode||null}
+      }
     });
 
     if(error) throw error;
+
     this.reset();
 
     if(data.session&&data.user){
@@ -678,6 +768,7 @@ document.getElementById("registerForm").addEventListener("submit",async function
       showMessage("Registration submitted. Confirm your email if requested, then log in.");
       showPage("login");
     }
+
   }catch(error){
     showMessage("Registration failed: "+error.message);
   }finally{
@@ -702,14 +793,21 @@ document.getElementById("loginForm").addEventListener("submit",async function(ev
   button.textContent="Logging in...";
 
   try{
-    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+    const {data,error}=await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
     if(error) throw error;
 
     currentUser=data.user;
     updateAccountUI();
+
     this.reset();
+
     showMessage("Login successful. Welcome to GrowRise!");
     showPage("home");
+
   }catch(error){
     showMessage("Login failed: "+error.message);
   }finally{
@@ -725,6 +823,7 @@ async function resetPassword(){
   }
 
   const email=document.getElementById("loginEmail").value.trim();
+
   if(!email){
     showMessage("Enter your email address in the Login form first.");
     showPage("login");
@@ -733,8 +832,11 @@ async function resetPassword(){
 
   try{
     const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
+
     if(error) throw error;
+
     showMessage("If the email is registered, a password-reset link will be sent. Check your inbox.");
+
   }catch(error){
     showMessage("Could not request password reset: "+error.message);
   }
@@ -745,12 +847,15 @@ async function logout(){
 
   try{
     const {error}=await supabaseClient.auth.signOut();
+
     if(error) throw error;
 
     currentUser=null;
     updateAccountUI();
+
     showMessage("You have logged out.");
     showPage("login");
+
   }catch(error){
     showMessage("Logout failed. Please try again.");
   }
@@ -789,6 +894,7 @@ async function copyText(value,successMessage){
 
 document.getElementById("depositForm").addEventListener("submit",function(event){
   event.preventDefault();
+
   const amount=Number(document.getElementById("depositAmount").value);
 
   if(!Number.isFinite(amount)||amount<200){
@@ -796,11 +902,15 @@ document.getElementById("depositForm").addEventListener("submit",function(event)
     return;
   }
 
-  showMessage("PayMongo is not connected to this form yet. No deposit was processed and your balance has not changed.");
+  showMessage(
+    "Payment processing is not connected to this form yet. " +
+    "No deposit was processed and your balance has not changed."
+  );
 });
 
 document.getElementById("withdrawForm").addEventListener("submit",function(event){
   event.preventDefault();
+
   const amount=Number(document.getElementById("withdrawAmount").value);
 
   if(!Number.isFinite(amount)||amount<200){
@@ -809,6 +919,7 @@ document.getElementById("withdrawForm").addEventListener("submit",function(event
   }
 
   const fee=amount*0.05;
+
   showMessage(
     "Calculation only. Amount: "+peso(amount)+
     "; illustrative 5% fee: "+peso(fee)+
@@ -822,7 +933,9 @@ function handleInvitationURL(){
   const referralCode=params.get("ref");
 
   if(referralCode&&referralCode.trim()){
-    document.getElementById("regReferral").value=referralCode.trim().toUpperCase();
+    document.getElementById("regReferral").value=
+      referralCode.trim().toUpperCase();
+
     showPage("register");
   }
 }
