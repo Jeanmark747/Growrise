@@ -2,1360 +2,923 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrowRise</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrowRise | Grow Your Future</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root {
-  --green: #075b39;
-  --dark: #063b2a;
-  --light: #e8f8ef;
-  --bright: #39d67b;
-  --gold: #f2c45b;
-  --text: #163c2c;
-  --muted: #70877b;
-  --white: #ffffff;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f2f8f5;
-  color: var(--text);
-  padding-bottom: 85px;
-}
-
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* HEADER */
-
-.top-header {
-  background: linear-gradient(135deg, #063c2a, #087347);
-  color: white;
-  padding: 24px 18px;
-  border-radius: 0 0 24px 24px;
-}
-
-.brand {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: .5px;
-}
-
-.brand span {
-  color: var(--bright);
-}
-
-.tagline {
-  font-size: 13px;
-  margin-top: 5px;
-  color: #d2f6df;
-}
-
-.header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-/* GENERAL */
-
-.container {
-  padding: 18px 15px;
-  max-width: 650px;
-  margin: auto;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.page-title {
-  font-size: 23px;
-  font-weight: 800;
-  margin-bottom: 6px;
-}
-
-.page-subtitle {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 18px;
-}
-
-.card {
-  background: white;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 15px;
-  box-shadow: 0 5px 18px rgba(15, 72, 45, .07);
-}
-
-.btn {
-  width: 100%;
-  border: none;
-  border-radius: 12px;
-  padding: 13px;
-  font-weight: 700;
-  color: white;
-  background: linear-gradient(135deg, #0b7547, #21b96a);
-}
-
-.btn:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-.btn-outline {
-  background: white;
-  border: 1px solid #b6d9c4;
-  color: var(--green);
-}
-
-.small-btn {
-  padding: 8px 12px;
-  width: auto;
-  font-size: 12px;
-}
-
-input {
-  width: 100%;
-  border: 1px solid #d8e8de;
-  border-radius: 11px;
-  padding: 13px;
-  margin: 7px 0 13px;
-  outline: none;
-  background: #fbfefc;
-}
-
-input:focus {
-  border-color: #20a961;
-}
-
-/* AUTH */
-
-.auth-wrap {
-  max-width: 430px;
-  margin: 35px auto;
-  padding: 18px;
-}
-
-.auth-logo {
-  text-align: center;
-  margin-bottom: 22px;
-}
-
-.auth-logo .brand {
-  color: var(--green);
-}
-
-.auth-card {
-  background: white;
-  padding: 22px;
-  border-radius: 20px;
-  box-shadow: 0 8px 28px #063b2a12;
-}
-
-.auth-card h2 {
-  margin-bottom: 8px;
-}
-
-.auth-card p {
-  color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 17px;
-}
-
-.auth-switch {
-  text-align: center;
-  font-size: 13px;
-  margin-top: 17px;
-}
-
-.auth-switch button {
-  border: none;
-  background: none;
-  color: #087747;
-  font-weight: 700;
-}
-
-/* HOME */
-
-.welcome {
-  padding: 20px;
-  color: white;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #06452e, #0d8852);
-  margin-bottom: 16px;
-}
-
-.welcome h2 {
-  font-size: 23px;
-  margin-bottom: 7px;
-}
-
-.welcome p {
-  font-size: 13px;
-  color: #d7f7e4;
-  line-height: 1.5;
-}
-
-.balance-card {
-  background: white;
-  border-radius: 18px;
-  padding: 19px;
-  margin-bottom: 17px;
-  box-shadow: 0 5px 18px #063b2a0c;
-}
-
-.balance-label {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.balance-value {
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--green);
-  margin: 8px 0 16px;
-}
-
-.balance-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.balance-actions button {
-  flex: 1;
-}
-
-/* PLANS */
-
-.plan-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.plan-card {
-  background: white;
-  border-radius: 17px;
-  padding: 15px 12px;
-  box-shadow: 0 4px 15px #063b2a0b;
-  border: 1px solid #e1efe6;
-}
-
-.plan-icon {
-  font-size: 29px;
-  margin-bottom: 9px;
-}
-
-.plan-name {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--green);
-}
-
-.plan-price {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 9px 0;
-}
-
-.plan-detail {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-.plan-card .btn {
-  margin-top: 13px;
-  padding: 11px 5px;
-  font-size: 12px;
-}
-
-.notice {
-  font-size: 12px;
-  line-height: 1.5;
-  padding: 12px;
-  background: #fff8e6;
-  color: #775b1a;
-  border-radius: 11px;
-  margin-bottom: 15px;
-}
-
-/* MY PLANS — NO REMAINING FIELD */
-
-.my-plan-card {
-  background: white;
-  border-radius: 23px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 25px rgba(8, 67, 43, .10);
-}
-
-.income-banner {
-  position: relative;
-  overflow: hidden;
-  padding: 24px 22px 26px;
-  color: white;
-  background: linear-gradient(135deg, #075b39, #043c2a);
-}
-
-.income-banner::after {
-  content: "🌱";
-  position: absolute;
-  right: 8px;
-  bottom: -17px;
-  font-size: 115px;
-  opacity: .10;
-  pointer-events: none;
-}
-
-.vip-badge {
-  display: inline-block;
-  background: linear-gradient(135deg, #49df83, #2bbd68);
-  color: white;
-  font-size: 21px;
-  font-weight: 800;
-  padding: 10px 23px;
-  border-radius: 14px;
-  margin-bottom: 23px;
-}
-
-.income-label {
-  font-size: 19px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.income-amount {
-  color: #4de58b;
-  font-size: 43px;
-  font-weight: 900;
-  overflow-wrap: anywhere;
-}
-
-.plan-info-list {
-  padding: 0 18px;
-  margin: 14px;
-  background: #f5faf8;
-  border-radius: 18px;
-}
-
-.plan-info-row {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 16px 0;
-  border-bottom: 1px solid #dcebe3;
-  min-width: 0;
-}
-
-.plan-info-row:last-child {
-  border-bottom: none;
-}
-
-.info-icon {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #d8f4e6;
-  font-size: 23px;
-}
-
-.info-label {
-  color: #6c8298;
-  font-size: 13px;
-  line-height: 1.4;
-  flex: 1;
-  min-width: 0;
-}
-
-.info-value {
-  font-size: 16px;
-  font-weight: 800;
-  color: #073d2a;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-
-.time-box {
-  margin: 0 14px 16px;
-  padding: 4px 16px;
-  border-radius: 17px;
-  background: #e8f8f0;
-}
-
-.time-row {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 15px 0;
-}
-
-.time-row + .time-row {
-  border-top: 1px solid #d2e9dd;
-}
-
-.time-icon {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: white;
-  background: linear-gradient(135deg, #20c96b, #00683b);
-  font-size: 19px;
-}
-
-.time-content {
-  min-width: 0;
-}
-
-.time-label {
-  color: #6c8298;
-  font-size: 13px;
-  margin-bottom: 5px;
-}
-
-.time-value {
-  color: #143e37;
-  font-size: 13px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 32px 18px;
-  color: var(--muted);
-}
-
-.empty-state .empty-icon {
-  font-size: 43px;
-  margin-bottom: 12px;
-}
-
-.empty-state h3 {
-  color: var(--green);
-  margin-bottom: 7px;
-}
-
-/* REFERRAL / PROFILE */
-
-.referral-code {
-  background: #e9f8ef;
-  color: var(--green);
-  font-weight: 800;
-  font-size: 21px;
-  padding: 17px;
-  border-radius: 12px;
-  text-align: center;
-  margin: 14px 0;
-  overflow-wrap: anywhere;
-}
-
-.menu-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #e5eee8;
-  font-size: 14px;
-}
-
-.menu-row:last-child {
-  border-bottom: none;
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: #063d2b;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 3px calc(10px + env(safe-area-inset-bottom));
-  box-shadow: 0 -4px 15px #063b2a15;
-}
-
-.nav-item {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: #a5c1b2;
-  font-size: 11px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-
-.nav-icon {
-  font-size: 21px;
-}
-
-.nav-item.active {
-  color: #55e58f;
-  font-weight: 800;
-}
-
-.message {
-  font-size: 13px;
-  line-height: 1.5;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  display: none;
-}
-
-.message.show {
-  display: block;
-}
-
-.message.error {
-  background: #fff0ef;
-  color: #a12b26;
-}
-
-.message.success {
-  background: #e7f8ed;
-  color: #086239;
-}
-
-.footer-note {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-  text-align: center;
-  margin: 15px 4px;
-}
-
-@media (max-width: 360px) {
-  .income-amount {
-    font-size: 36px;
-  }
-
-  .plan-info-row {
-    gap: 9px;
-  }
-
-  .info-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 19px;
-  }
-
-  .info-label {
-    font-size: 12px;
-  }
-
-  .info-value {
-    font-size: 14px;
-  }
-
-  .time-value {
-    font-size: 12px;
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#155638;--dark:#103c29;--light:#eff6ef;--gold:#e8c96e;--text:#203b2b;--muted:#728075}
+body{font-family:Arial,sans-serif;background:#f2f5f1;color:var(--text);padding-bottom:80px}
+button,input{font:inherit}
+button{cursor:pointer;border:0}
+button:disabled{opacity:.6}
+header{background:linear-gradient(135deg,#103c29,#216d46);color:white;padding:17px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:42px;height:42px;border-radius:13px;background:var(--gold);display:grid;place-items:center;font-size:24px}
+.brand h1{color:var(--gold);font-size:23px}
+.brand p{font-size:10px;margin-top:4px}
+.header-button{background:var(--gold);color:var(--dark);padding:11px;border-radius:9px;font-weight:bold}
+.container{max-width:700px;margin:auto;padding:15px}
+.page{display:none}
+.page.active{display:block}
+.hero{background:linear-gradient(135deg,#123f2b,#277b4e);color:white;border-radius:20px;padding:23px;margin-bottom:16px}
+.hero-label{font-size:11px;display:inline-block;margin-bottom:12px}
+.hero h2{font-size:26px;line-height:1.3;margin-bottom:10px}
+.hero p{font-size:13px;line-height:1.7;color:#e0ebe2}
+.hero-buttons{display:flex;gap:9px;margin-top:17px}
+.hero-buttons button{padding:12px;border-radius:9px;font-weight:bold}
+.hero-primary{background:var(--gold);color:var(--dark)}
+.hero-secondary{background:#ffffff20;color:white;border:1px solid #ffffff55}
+.balance,.panel,.me-menu{background:white;border-radius:15px;padding:18px;margin-bottom:14px;border:1px solid #e4ebe3}
+.balance-top{display:flex;justify-content:space-between;align-items:center}
+.balance-top p{font-size:12px;color:var(--muted)}
+.balance h2{font-size:30px;color:var(--green);margin:10px 0}
+.balance-icon{font-size:25px}
+.balance-note{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.actions{display:flex;gap:9px;margin-top:17px}
+.actions button{flex:1;padding:12px;border-radius:9px;font-weight:bold}
+.deposit-button{background:var(--green);color:white}
+.withdraw-button,.secondary{background:#edf4ed;color:var(--green)}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:15px 0}
+.quick-card{background:white;border:1px solid #e4ebe3;padding:13px 5px;border-radius:12px;text-align:center;color:var(--text)}
+.quick-card .icon{font-size:22px;margin-bottom:6px}
+.quick-card strong{font-size:12px}
+.quick-card p{font-size:10px;color:var(--muted);margin-top:5px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin:24px 0 13px;gap:8px}
+.section-heading h2{font-size:19px}
+.section-heading p{font-size:11px;color:var(--muted);margin-top:5px}
+.small-tag{font-size:11px;background:#e2eee3;color:var(--green);padding:7px 9px;border-radius:20px}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.plan-card{background:white;border:1px solid #e4ebe3;border-radius:15px;overflow:hidden;min-width:0}
+.plan-top{padding:15px;background:linear-gradient(135deg,#eaf3e9,#f8f6e9)}
+.plan-top.featured{background:linear-gradient(135deg,#174b32,#27784d);color:white}
+.plan-label{font-size:10px;font-weight:bold;background:#ffffffbb;color:#20583a;padding:5px 8px;border-radius:6px;display:inline-block}
+.featured .plan-label{background:var(--gold);color:var(--dark)}
+.plan-symbol{font-size:24px;margin:12px 0}
+.plan-top h3{font-size:17px;margin-bottom:5px}
+.plan-top p{font-size:11px}
+.plan-body{padding:13px}
+.plan-price-label{font-size:11px;color:var(--muted)}
+.plan-price{font-size:22px;font-weight:bold;color:var(--green);margin:5px 0;overflow-wrap:anywhere}
+.plan-features{list-style:none;margin:10px 0}
+.plan-features li{font-size:11px;line-height:1.6;padding:8px 0;border-bottom:1px solid #edf0ed;overflow-wrap:anywhere}
+.plan-features strong{color:var(--green)}
+.plan-button,.primary{width:100%;background:var(--green);color:white;padding:12px 7px;border-radius:9px;font-weight:bold}
+.featured-button{background:var(--gold);color:var(--dark)}
+.panel h2{font-size:21px;margin-bottom:12px}
+.panel h3{font-size:17px;margin-bottom:12px}
+.panel p{font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+input{width:100%;padding:13px;border:1px solid #d5ded6;border-radius:9px;margin:8px 0;background:#fcfdfc}
+.primary{margin-top:9px}
+.secondary{width:100%;padding:12px;border-radius:9px;margin-top:10px;font-weight:bold}
+.page-title{font-size:23px;margin:7px 0 16px}
+.page-subtitle{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:15px}
+.notice{font-size:11px;color:var(--muted);line-height:1.7;margin-top:13px}
+.me-header{background:linear-gradient(135deg,#123f2b,#277b4e);color:white;padding:22px;border-radius:16px;margin-bottom:15px}
+.me-profile{display:flex;align-items:center;gap:13px}
+.me-avatar{width:55px;height:55px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-size:25px;flex-shrink:0}
+.me-profile h2{font-size:19px;margin-bottom:6px}
+.me-profile p{font-size:12px;overflow-wrap:anywhere}
+.me-status{font-size:11px;display:inline-block;margin-top:8px}
+.me-menu h3{margin-bottom:10px}
+.me-menu-item{display:flex;justify-content:space-between;width:100%;text-align:left;padding:14px 10px;background:#f4f7f4;border-radius:9px;margin-top:7px;color:var(--text)}
+.me-logout{width:100%;padding:12px;background:#f9e8e8;color:#9a2937;border-radius:9px;font-weight:bold}
+.ref-code{font-size:19px;font-weight:bold;color:var(--green);overflow-wrap:anywhere;margin:12px 0}
+.ref-link{background:#f2f7f2;padding:12px;border-radius:9px;font-size:12px;overflow-wrap:anywhere;margin:10px 0}
+.ref-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.ref-stat{text-align:center;background:#edf5ed;padding:13px 3px;border-radius:10px}
+.ref-stat strong{display:block;color:var(--green);font-size:21px}
+.ref-stat span{font-size:10px}
+#message{font-size:13px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0}
+#message:empty{display:none}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:white;box-shadow:0 -3px 16px #00000010;padding:8px 3px max(8px,env(safe-area-inset-bottom));z-index:10}
+nav button{flex:1;background:transparent;color:#728075;font-size:11px;line-height:1.7;padding:5px 2px}
+nav button.selected{color:var(--green);font-weight:bold}
+nav button span{font-size:19px}
+@media(max-width:360px){
+ .container{padding:10px}
+ .plans{gap:8px}
+ .plan-body{padding:10px 8px}
+ .plan-price{font-size:19px}
+ .plan-features li{font-size:10px}
+ .plan-top{padding:11px}
 }
 </style>
 </head>
 
 <body>
+<header>
+  <div class="brand">
+    <div class="brand-icon">🌱</div>
+    <div><h1>GrowRise</h1><p>GROW YOUR FUTURE</p></div>
+  </div>
+  <button class="header-button" onclick="goToAccount()">My Account ↗</button>
+</header>
 
-<!-- LOGIN / REGISTER -->
+<main class="container">
 
-<section id="authScreen">
-  <div class="auth-wrap">
-    <div class="auth-logo">
-      <div class="brand">Grow<span>Rise</span></div>
-      <div class="tagline">Grow Your Future</div>
+<section id="home" class="page active">
+  <div class="hero">
+    <span class="hero-label">🌿 WELCOME TO GROWRise</span>
+    <h2>Welcome to Your GrowRise Dashboard</h2>
+    <p>Manage your account, explore plans, and invite friends using your personal referral link.</p>
+    <div class="hero-buttons">
+      <button class="hero-primary" onclick="goToAccount()">My Account →</button>
+      <button class="hero-secondary" onclick="showPage('invite')">Invite Friends</button>
     </div>
+  </div>
 
-    <div class="auth-card">
-      <h2 id="authTitle">Welcome Back</h2>
-      <p id="authDescription">Log in to your GrowRise account.</p>
-
-      <div id="authMessage" class="message"></div>
-
-      <form id="authForm">
-        <label>Email Address</label>
-        <input id="authEmail" type="email" placeholder="Enter your email" required autocomplete="email">
-
-        <label>Password</label>
-        <input id="authPassword" type="password" placeholder="Enter your password" required autocomplete="current-password" minlength="6">
-
-        <div id="confirmWrap" class="hidden">
-          <label>Confirm Password</label>
-          <input id="authConfirm" type="password" placeholder="Confirm your password" minlength="6">
-        </div>
-
-        <div id="inviteWrap" class="hidden">
-          <label>Invitation Code (Optional)</label>
-          <input id="authInvite" type="text" placeholder="Enter invitation code">
-        </div>
-
-        <button id="authSubmit" class="btn" type="submit">Log In</button>
-      </form>
-
-      <div class="auth-switch">
-        <span id="authSwitchText">Don't have an account?</span>
-        <button type="button" id="authSwitchButton" onclick="toggleAuth()">Register</button>
+  <div class="balance">
+    <div class="balance-top">
+      <div>
+        <p>MY ACCOUNT BALANCE</p>
+        <h2 id="balance">Loading...</h2>
+        <p class="balance-note" id="walletStatus">Connecting to wallet...</p>
       </div>
+      <div class="balance-icon">💳</div>
     </div>
+    <div class="actions">
+      <button class="deposit-button" onclick="openProtectedPage('deposit')">＋ Deposit</button>
+      <button class="withdraw-button" onclick="openProtectedPage('withdraw')">↗ Withdraw</button>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <button class="quick-card" onclick="showPage('invite')"><div class="icon">👥</div><strong>My Team</strong><p>Referral details</p></button>
+    <button class="quick-card" onclick="openProtectedPage('devices')"><div class="icon">📦</div><strong>My Plans</strong><p>Purchased plans</p></button>
+    <button class="quick-card" onclick="goToAccount()"><div class="icon">👤</div><strong>Profile</strong><p>Account settings</p></button>
+  </div>
+
+  <div class="section-heading">
+    <div><h2>Explore Our Plans</h2><p>Review plan details before purchasing.</p></div>
+    <span class="small-tag">8 PLANS</span>
+  </div>
+
+  <div id="products" class="plans"></div>
+  <p class="notice">Plan figures are illustrative and are not guaranteed earnings. Deposits and withdrawals are not enabled until their payment and verification systems are connected.</p>
+</section>
+
+<section id="devices" class="page">
+  <h2 class="page-title">📦 My Plans</h2>
+  <p class="page-subtitle">View your purchased plans and purchase date.</p>
+  <div id="myDevices"></div>
+</section>
+
+<section id="invite" class="page">
+  <h2 class="page-title">👥 Invite Friends</h2>
+  <p class="page-subtitle">Share your personal invitation link.</p>
+  <div class="panel">
+    <h3>🎟️ Your Referral Code</h3>
+    <div id="referral" class="ref-code">Log in first</div>
+    <button class="primary" onclick="copyValue('referral','Referral code copied!')">Copy Referral Code</button>
+    <h3 style="margin-top:22px">🔗 Your Invitation Link</h3>
+    <div id="inviteLink" class="ref-link">Log in first</div>
+    <button class="primary" onclick="copyValue('inviteLink','Invitation link copied!')">Copy Invitation Link</button>
+  </div>
+  <div class="panel">
+    <h3>👥 My Referral Team</h3>
+    <div class="ref-stats">
+      <div class="ref-stat"><strong id="level1">—</strong><span>LEVEL 1</span></div>
+      <div class="ref-stat"><strong id="level2">—</strong><span>LEVEL 2</span></div>
+      <div class="ref-stat"><strong id="level3">—</strong><span>LEVEL 3</span></div>
+    </div>
+    <p id="referralStatus" class="notice">Log in to load your team.</p>
+    <button class="primary" onclick="loadReferralData()">↻ Refresh Team</button>
   </div>
 </section>
 
-<!-- MAIN APP -->
-
-<div id="appScreen" class="hidden">
-
-  <header class="top-header">
-    <div class="header-row">
-      <div>
-        <div class="brand">Grow<span>Rise</span></div>
-        <div class="tagline">Grow Your Future</div>
-      </div>
-      <button class="btn btn-outline small-btn" onclick="logout()">Log Out</button>
+<section id="me" class="page">
+  <div class="me-header">
+    <div class="me-profile">
+      <div class="me-avatar">👤</div>
+      <div><h2>My Account</h2><p id="accountEmail">Please log in</p><span id="accountStatus" class="me-status">Not logged in</span></div>
     </div>
-  </header>
+  </div>
+  <div class="me-menu">
+    <h3>👤 Account Menu</h3>
+    <button class="me-menu-item" onclick="openProtectedPage('devices')"><span>📦 My Plans</span><span>›</span></button>
+    <button class="me-menu-item" onclick="openProtectedPage('deposit')"><span>💰 Deposit</span><span>›</span></button>
+    <button class="me-menu-item" onclick="openProtectedPage('withdraw')"><span>💸 Withdrawal</span><span>›</span></button>
+    <button class="me-menu-item" onclick="showPage('invite')"><span>👥 Invitation & Team</span><span>›</span></button>
+  </div>
+  <div class="me-menu">
+    <h3>⚙️ Account Settings</h3>
+    <button class="me-menu-item" onclick="resetPassword()"><span>🔐 Reset Password</span><span>›</span></button>
+  </div>
+  <div class="me-menu">
+    <h3>🔑 Account Access</h3>
+    <button class="me-logout" onclick="logout()">Log Out</button>
+  </div>
+</section>
 
-  <main class="container">
+<section id="register" class="page">
+  <div class="panel">
+    <h2>🌱 Create Account</h2>
+    <p class="page-subtitle">Register for a GrowRise account.</p>
+    <form id="registerForm">
+      <input id="regEmail" type="email" placeholder="Email address" autocomplete="email" required>
+      <input id="regPassword" type="password" placeholder="Password (minimum 8 characters)" minlength="8" required>
+      <input id="regConfirm" type="password" placeholder="Confirm password" minlength="8" required>
+      <input id="regReferral" type="text" placeholder="Invitation code (optional)">
+      <button class="primary" type="submit">Create Account</button>
+    </form>
+    <p class="notice">Never share your password or verification code.</p>
+    <button class="secondary" onclick="showPage('login')">Already registered? Login</button>
+  </div>
+</section>
 
-    <!-- HOME -->
+<section id="login" class="page">
+  <div class="panel">
+    <h2>🔐 Login</h2>
+    <p class="page-subtitle">Sign in to your GrowRise account.</p>
+    <form id="loginForm">
+      <input id="loginEmail" type="email" placeholder="Email address" autocomplete="email" required>
+      <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required>
+      <button class="primary" type="submit">Login</button>
+    </form>
+    <button class="secondary" onclick="resetPassword()">Forgot Password?</button>
+    <button class="secondary" onclick="showPage('register')">Create New Account</button>
+  </div>
+</section>
 
-    <section id="home" class="page active">
-      <div class="welcome">
-        <h2>Welcome to GrowRise 🌱</h2>
-        <p>Manage your account and view your plans in one place.</p>
-      </div>
+<section id="deposit" class="page">
+  <div class="panel">
+    <h2>💰 Deposit</h2>
+    <p>Minimum amount: ₱200</p>
+    <p class="notice">Payment processing is not connected. Submitting this form will not add money to your balance.</p>
+    <form id="depositForm">
+      <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
+      <button class="primary" type="submit">Continue</button>
+    </form>
+  </div>
+</section>
 
-      <div class="balance-card">
-        <div class="balance-label">Wallet Balance</div>
-        <div id="walletBalance" class="balance-value">₱0.00</div>
+<section id="withdraw" class="page">
+  <div class="panel">
+    <h2>💸 Withdrawal</h2>
+    <p>Minimum amount: ₱200</p>
+    <p>Illustrative fee: 5%</p>
+    <form id="withdrawForm">
+      <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
+      <button class="primary" type="submit">Calculate Fee</button>
+    </form>
+    <p class="notice">This is a calculator only. It does not transfer money.</p>
+  </div>
+</section>
 
-        <div class="balance-actions">
-          <button class="btn" onclick="showPage('wallet')">My Wallet</button>
-          <button class="btn btn-outline" onclick="showPage('plans')">View Plans</button>
-        </div>
-      </div>
+<div id="message" role="status" aria-live="polite"></div>
+</main>
 
-      <h2 class="page-title">Explore Plans</h2>
-      <p class="page-subtitle">View the available plans below.</p>
-
-      <div id="homePlans" class="plan-grid"></div>
-
-      <p class="footer-note">
-        Plan details are displayed for reference. Displayed income figures are not proof of actual earnings or guaranteed payments.
-      </p>
-    </section>
-
-    <!-- AVAILABLE PLANS -->
-
-    <section id="plans" class="page">
-      <h2 class="page-title">🌿 Available Plans</h2>
-      <p class="page-subtitle">Choose a plan to view its details.</p>
-
-      <div class="notice">
-        Check all plan details carefully before purchasing. Daily income figures are displayed values, not guaranteed returns.
-      </div>
-
-      <div id="allPlans" class="plan-grid"></div>
-    </section>
-
-    <!-- MY PLANS -->
-
-    <section id="devices" class="page">
-      <h2 class="page-title">📦 My Plans</h2>
-      <p class="page-subtitle">View your purchased plans and their schedule.</p>
-
-      <div id="myDevices">
-        <div class="card empty-state">Loading your plans...</div>
-      </div>
-    </section>
-
-    <!-- INVITATION -->
-
-    <section id="invite" class="page">
-      <h2 class="page-title">🎁 Invitation</h2>
-      <p class="page-subtitle">Your personal invitation code.</p>
-
-      <div class="card">
-        <div class="balance-label">Your Invitation Code</div>
-        <div id="referralCode" class="referral-code">GR---</div>
-
-        <button class="btn" onclick="copyReferral()">Copy Invitation Code</button>
-
-        <p class="footer-note">
-          Share your code with people you know. Referral rewards are not displayed unless supported by actual records.
-        </p>
-      </div>
-    </section>
-
-    <!-- WALLET -->
-
-    <section id="wallet" class="page">
-      <h2 class="page-title">👛 My Wallet</h2>
-      <p class="page-subtitle">View your current wallet balance.</p>
-
-      <div class="balance-card">
-        <div class="balance-label">Available Balance</div>
-        <div id="walletBalance2" class="balance-value">₱0.00</div>
-      </div>
-
-      <div class="card">
-        <h3 style="margin-bottom:10px;">Wallet Information</h3>
-        <p style="font-size:13px;line-height:1.7;color:#70877b;">
-          Your balance is loaded from your GrowRise wallet record. This page does not confirm a real-world deposit or withdrawal.
-        </p>
-      </div>
-    </section>
-
-    <!-- PROFILE -->
-
-    <section id="me" class="page">
-      <h2 class="page-title">👤 My Account</h2>
-      <p class="page-subtitle">Manage your account information.</p>
-
-      <div class="card">
-        <div style="font-size:12px;color:#70877b;margin-bottom:6px;">Logged in as</div>
-        <div id="profileEmail" style="font-weight:800;overflow-wrap:anywhere;">—</div>
-      </div>
-
-      <div class="card">
-        <div class="menu-row">
-          <span>📦 My Plans</span>
-          <button class="btn btn-outline small-btn" onclick="showPage('devices')">View</button>
-        </div>
-
-        <div class="menu-row">
-          <span>👛 My Wallet</span>
-          <button class="btn btn-outline small-btn" onclick="showPage('wallet')">View</button>
-        </div>
-
-        <div class="menu-row">
-          <span>🎁 Invitation</span>
-          <button class="btn btn-outline small-btn" onclick="showPage('invite')">View</button>
-        </div>
-
-        <div class="menu-row">
-          <span>🌿 Available Plans</span>
-          <button class="btn btn-outline small-btn" onclick="showPage('plans')">View</button>
-        </div>
-      </div>
-
-      <button class="btn" onclick="logout()">Log Out</button>
-    </section>
-
-  </main>
-
-  <!-- BOTTOM NAV -->
-
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-page="home" onclick="showPage('home')">
-      <span class="nav-icon">⌂</span>
-      <span>Home</span>
-    </button>
-
-    <button class="nav-item" data-page="devices" onclick="showPage('devices')">
-      <span class="nav-icon">▤</span>
-      <span>My Plans</span>
-    </button>
-
-    <button class="nav-item" data-page="wallet" onclick="showPage('wallet')">
-      <span class="nav-icon">▱</span>
-      <span>Wallet</span>
-    </button>
-
-    <button class="nav-item" data-page="me" onclick="showPage('me')">
-      <span class="nav-icon">♙</span>
-      <span>Profile</span>
-    </button>
-  </nav>
-
-</div>
+<nav>
+  <button class="selected" data-page="home" onclick="showPage('home',this)"><span>🏠</span><br>HOME</button>
+  <button data-page="devices" onclick="openProtectedPage('devices')"><span>📦</span><br>PLANS</button>
+  <button data-page="invite" onclick="showPage('invite',this)"><span>👥</span><br>INVITE</button>
+  <button data-page="me" onclick="showPage('me',this)"><span>👤</span><br>ME</button>
+</nav>
 
 <script>
-/* SUPABASE */
+const SUPABASE_URL="https://jteqkclccvxnwpryynsv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb";
 
-const SUPABASE_URL =
-  "https://jteqkclccvxnwpryynsv.supabase.co";
+let supabaseClient=null;
+let currentUser=null;
+let walletBalance=0;
+let walletRequestNumber=0;
+let devices=[];
 
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_6W3zbWtUK1h4r_EQk9lLl2g_HJdXOYnb";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-/* PLAN SETTINGS */
-
-const plans = [
-  {name:"VIP1", price:200, daily:40, days:30, icon:"🌱", description:"Starter Plan"},
-  {name:"VIP2", price:300, daily:60, days:30, icon:"🍀", description:"Basic Plan"},
-  {name:"VIP3", price:500, daily:100, days:30, icon:"🌿", description:"Standard Plan"},
-  {name:"VIP4", price:1000, daily:200, days:30, icon:"🌳", description:"Plus Plan"},
-  {name:"VIP5", price:2000, daily:400, days:30, icon:"💎", description:"Premium Plan"},
-  {name:"VIP6", price:3000, daily:600, days:30, icon:"👑", description:"Gold Plan"},
-  {name:"VIP7", price:5000, daily:1000, days:30, icon:"🏆", description:"Elite Plan"},
-  {name:"VIP8", price:10000, daily:2000, days:30, icon:"✨", description:"Ultimate Plan"}
+const plans=[
+ {name:"VIP1",price:200,daily:40,days:30,icon:"🌱",description:"Starter Plan"},
+ {name:"VIP2",price:300,daily:60,days:30,icon:"🍀",description:"Basic Plan"},
+ {name:"VIP3",price:500,daily:100,days:30,icon:"🌿",description:"Standard Plan"},
+ {name:"VIP4",price:1000,daily:200,days:30,icon:"🌳",description:"Plus Plan"},
+ {name:"VIP5",price:2000,daily:400,days:30,icon:"💎",description:"Premium Plan"},
+ {name:"VIP6",price:3000,daily:600,days:30,icon:"👑",description:"Gold Plan"},
+ {name:"VIP7",price:5000,daily:1000,days:30,icon:"🏆",description:"Elite Plan"},
+ {name:"VIP8",price:10000,daily:2000,days:30,icon:"✨",description:"Ultimate Plan"}
 ];
 
-let currentUser = null;
-let isRegisterMode = false;
-let currentBalance = 0;
-
-/* HELPERS */
-
-function money(value) {
-  return "₱" + Number(value || 0).toLocaleString("en-PH", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
+function peso(n){
+ return "₱"+Number(n).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, function(char) {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[char];
-  });
+function showMessage(text){
+ document.getElementById("message").textContent=text||"";
 }
 
-function formatDate(value) {
-  if (!value) return "Not available";
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) return "Not available";
-
-  const pad = number => String(number).padStart(2, "0");
-
-  return (
-    pad(date.getDate()) + "-" +
-    pad(date.getMonth() + 1) + "-" +
-    date.getFullYear() + " " +
-    pad(date.getHours()) + ":" +
-    pad(date.getMinutes()) + ":" +
-    pad(date.getSeconds())
-  );
+function setWalletStatus(text){
+ document.getElementById("walletStatus").textContent=text;
 }
 
-function getPlan(name) {
-  return plans.find(plan => plan.name === name);
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-function showMessage(elementId, message, type) {
-  const element = document.getElementById(elementId);
+function showPage(id,button){
+ const page=document.getElementById(id);
+ if(!page)return;
 
-  element.textContent = message;
-  element.className = "message show " + type;
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ page.classList.add("active");
+
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("selected"));
+ const navButton=button||document.querySelector('nav button[data-page="'+id+'"]');
+ if(navButton)navButton.classList.add("selected");
+
+ showMessage("");
+
+ if(id==="home"&&currentUser)loadWallet();
+ if(id==="devices")renderDevices();
+ if(id==="invite")loadReferralData();
+
+ window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function hideMessage(elementId) {
-  const element = document.getElementById(elementId);
-
-  element.textContent = "";
-  element.className = "message";
+function goToAccount(){
+ showPage(currentUser?"me":"register");
 }
 
-/* AUTH SCREEN */
-
-function toggleAuth() {
-  isRegisterMode = !isRegisterMode;
-
-  document.getElementById("authTitle").textContent =
-    isRegisterMode ? "Create Account" : "Welcome Back";
-
-  document.getElementById("authDescription").textContent =
-    isRegisterMode
-      ? "Register for your GrowRise account."
-      : "Log in to your GrowRise account.";
-
-  document.getElementById("authSubmit").textContent =
-    isRegisterMode ? "Register" : "Log In";
-
-  document.getElementById("authSwitchText").textContent =
-    isRegisterMode
-      ? "Already have an account?"
-      : "Don't have an account?";
-
-  document.getElementById("authSwitchButton").textContent =
-    isRegisterMode ? "Log In" : "Register";
-
-  document.getElementById("confirmWrap").classList.toggle(
-    "hidden",
-    !isRegisterMode
-  );
-
-  document.getElementById("inviteWrap").classList.toggle(
-    "hidden",
-    !isRegisterMode
-  );
-
-  document.getElementById("authConfirm").required = isRegisterMode;
-
-  document.getElementById("authPassword").autocomplete =
-    isRegisterMode ? "new-password" : "current-password";
-
-  hideMessage("authMessage");
+function openProtectedPage(id){
+ if(!currentUser){
+  showMessage("Please log in first.");
+  showPage("login");
+  return;
+ }
+ showPage(id);
 }
 
-document.getElementById("authForm").addEventListener("submit", async function(event) {
-  event.preventDefault();
+function renderPlans(){
+ document.getElementById("products").innerHTML=plans.map((p,i)=>`
+  <article class="plan-card">
+   <div class="plan-top ${i===3?"featured":""}">
+    <span class="plan-label">${i===3?"⭐ POPULAR":p.name}</span>
+    <div class="plan-symbol">${p.icon}</div>
+    <h3>${p.name}</h3>
+    <p>${p.description}</p>
+   </div>
+   <div class="plan-body">
+    <p class="plan-price-label">Plan Price</p>
+    <div class="plan-price">${peso(p.price)}</div>
+    <ul class="plan-features">
+     <li>💰 Listed Daily Amount: <strong>${peso(p.daily)}</strong></li>
+     <li>📅 Duration: <strong>${p.days} Days</strong></li>
+     <li>🧮 Listed Total: <strong>${peso(p.daily*p.days)}</strong></li>
+    </ul>
+    <button class="plan-button ${i===3?"featured-button":""}" onclick="buyPlan('${p.name}')">Buy Plan</button>
+   </div>
+  </article>
+ `).join("");
+}
 
-  hideMessage("authMessage");
+async function loadWallet(){
+ const requestId=++walletRequestNumber;
+ const balanceElement=document.getElementById("balance");
 
-  const email = document.getElementById("authEmail").value.trim();
-  const password = document.getElementById("authPassword").value;
-  const confirm = document.getElementById("authConfirm").value;
+ if(!supabaseClient){
+  balanceElement.textContent=peso(0);
+  setWalletStatus("Supabase is not initialized. Check your internet connection.");
+  walletBalance=0;
+  return;
+ }
 
-  const submit = document.getElementById("authSubmit");
-  submit.disabled = true;
+ try{
+  setWalletStatus("Checking signed-in account...");
 
-  try {
-    if (isRegisterMode) {
-      if (password !== confirm) {
-        throw new Error("Passwords do not match.");
-      }
+  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+  if(sessionError)throw sessionError;
 
-      const {data, error} = await supabaseClient.auth.signUp({
-        email,
-        password
-      });
+  const user=sessionData.session?.user||null;
+  currentUser=user;
 
-      if (error) throw error;
-
-      if (data.session) {
-        showMessage("authMessage", "Registration successful!", "success");
-        await loadApplication(data.session.user);
-      } else {
-        showMessage(
-          "authMessage",
-          "Registration submitted. If email confirmation is enabled in Supabase, confirm your email before logging in.",
-          "success"
-        );
-      }
-    } else {
-      const {data, error} = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) throw error;
-
-      await loadApplication(data.user);
-    }
-  } catch (error) {
-    showMessage(
-      "authMessage",
-      error.message || "Something went wrong.",
-      "error"
-    );
-  } finally {
-    submit.disabled = false;
+  if(!user){
+   walletBalance=0;
+   balanceElement.textContent=peso(0);
+   setWalletStatus("Please log in to view your wallet balance.");
+   return;
   }
-});
 
-/* APPLICATION STARTUP */
+  setWalletStatus("Loading wallet for "+user.email+"...");
 
-async function loadApplication(user) {
-  if (!user) return;
+  const {data,error}=await supabaseClient
+   .from("growrise_wallets")
+   .select("user_id,balance")
+   .eq("user_id",user.id)
+   .maybeSingle();
 
-  currentUser = user;
+  if(requestId!==walletRequestNumber)return;
+  if(error)throw error;
 
-  document.getElementById("authScreen").classList.add("hidden");
-  document.getElementById("appScreen").classList.remove("hidden");
+  if(!data){
+   walletBalance=0;
+   balanceElement.textContent=peso(0);
+   setWalletStatus("No wallet row returned. Check the wallet SELECT policy and user_id.");
+   console.warn("Wallet row missing. Current auth user ID:",user.id);
+   return;
+  }
 
-  document.getElementById("profileEmail").textContent =
-    user.email || "Logged in";
+  const amount=Number(data.balance);
+  if(!Number.isFinite(amount))throw new Error("The wallet balance is not a valid number.");
 
-  document.getElementById("referralCode").textContent =
-    "GR" + String(user.id).replace(/-/g, "").slice(0, 8).toUpperCase();
+  walletBalance=amount;
+  balanceElement.textContent=peso(amount);
+  setWalletStatus("Wallet loaded successfully.");
+  console.log("GrowRise wallet loaded:",{
+   authUserId:user.id,
+   walletUserId:data.user_id,
+   balance:amount
+  });
 
-  renderPlans();
+ }catch(error){
+  if(requestId!==walletRequestNumber)return;
+
+  walletBalance=0;
+  balanceElement.textContent=peso(0);
+  setWalletStatus("Wallet error: "+(error.message||"Unknown error"));
+  console.error("GrowRise wallet error:",error);
+ }
+}
+
+async function buyPlan(name){
+ if(!supabaseClient){
+  showMessage("Supabase is not initialized.");
+  return;
+ }
+
+ const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+
+ if(sessionError){
+  showMessage("Session error: "+sessionError.message);
+  return;
+ }
+
+ currentUser=sessionData.session?.user||null;
+
+ if(!currentUser){
+  showMessage("Please log in first.");
+  showPage("login");
+  return;
+ }
+
+ const plan=plans.find(p=>p.name===name);
+
+ if(!plan){
+  showMessage("Invalid plan.");
+  return;
+ }
+
+ await loadWallet();
+
+ if(walletBalance<plan.price){
+  showMessage("Insufficient balance. Current balance: "+peso(walletBalance)+".");
+  return;
+ }
+
+ if(!confirm("Purchase "+plan.name+" for "+peso(plan.price)+"?"))return;
+
+ showMessage("Processing purchase...");
+
+ try{
+  const {data,error}=await supabaseClient.rpc("growrise_buy_plan",{
+   p_plan_name:plan.name
+  });
+
+  if(error)throw error;
+  if(!data||data.success!==true){
+   throw new Error(data?.message||"Purchase was not confirmed.");
+  }
+
   await loadWallet();
+
+  showPage("devices");
   await renderDevices();
 
-  showPage("home");
+  showMessage(plan.name+" purchased successfully.");
+
+ }catch(error){
+  console.error("Plan purchase error:",error);
+  showMessage("Purchase failed: "+(error.message||"Please try again."));
+ }
 }
 
-async function logout() {
-  const {error} = await supabaseClient.auth.signOut();
+/* UPDATED MY PLANS ONLY */
+async function renderDevices(){
+ const target=document.getElementById("myDevices");
 
-  if (error) {
-    alert(error.message);
-    return;
+ if(!currentUser||!supabaseClient){
+  target.innerHTML=`
+   <div class="panel">
+    <h3>Please log in first</h3>
+    <button class="primary" onclick="showPage('login')">Login</button>
+   </div>`;
+  return;
+ }
+
+ target.innerHTML='<div class="panel">Loading your plans...</div>';
+
+ try{
+  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+  if(errorForSession(sessionError))throw sessionError;
+
+  const signedInUser=sessionData.session?.user||null;
+
+  if(!signedInUser){
+   currentUser=null;
+   target.innerHTML=`
+    <div class="panel">
+     <h3>Your session has ended</h3>
+     <p>Please log in again to view your plans.</p>
+     <button class="primary" onclick="showPage('login')">Login</button>
+    </div>`;
+   return;
   }
 
-  currentUser = null;
-  currentBalance = 0;
+  currentUser=signedInUser;
 
-  document.getElementById("appScreen").classList.add("hidden");
-  document.getElementById("authScreen").classList.remove("hidden");
+  const {data,error}=await supabaseClient
+   .from("growrise_plan_purchases")
+   .select("id,plan_name,price,purchased_at")
+   .eq("user_id",currentUser.id)
+   .order("purchased_at",{ascending:false});
 
-  document.getElementById("authForm").reset();
+  if(error)throw error;
 
-  showPage("home");
+  devices=data||[];
+
+  if(!devices.length){
+   target.innerHTML=`
+    <div class="panel">
+     <h3>No purchased plans yet</h3>
+     <p>Your purchased plans will appear here after a successful purchase.</p>
+     <button class="primary" onclick="showPage('home')">Explore Plans</button>
+    </div>`;
+   return;
+  }
+
+  function formatPlanDate(value){
+   if(!value)return "Date unavailable";
+
+   const date=new Date(value);
+   if(Number.isNaN(date.getTime()))return "Date unavailable";
+
+   const day=String(date.getDate()).padStart(2,"0");
+   const month=String(date.getMonth()+1).padStart(2,"0");
+   const year=date.getFullYear();
+   const hours=String(date.getHours()).padStart(2,"0");
+   const minutes=String(date.getMinutes()).padStart(2,"0");
+   const seconds=String(date.getSeconds()).padStart(2,"0");
+
+   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  }
+
+  function calculateEndTime(startValue,days){
+   if(!startValue)return null;
+
+   const start=new Date(startValue);
+   if(Number.isNaN(start.getTime()))return null;
+
+   const end=new Date(start);
+   end.setDate(end.getDate()+days);
+   return end;
+  }
+
+  target.innerHTML=`
+   <div class="plans">
+    ${devices.map(d=>{
+     const plan=plans.find(p=>p.name===d.plan_name);
+     const price=Number(d.price)||0;
+     const daily=plan?plan.daily:0;
+     const days=plan?plan.days:30;
+     const icon=plan?plan.icon:"🌱";
+     const description=plan?plan.description:"Purchased Plan";
+
+     const startTime=formatPlanDate(d.purchased_at);
+     const endDate=calculateEndTime(d.purchased_at,days);
+     const endTime=endDate?formatPlanDate(endDate.toISOString()):"Date unavailable";
+
+     // No actual income ledger is connected.
+     const cumulativeIncome=0;
+
+     return `
+      <article class="plan-card">
+       <div class="plan-top ${d.plan_name==="VIP4"?"featured":""}">
+        <span class="plan-label">✓ PURCHASED</span>
+        <div class="plan-symbol">${icon}</div>
+        <h3>${escapeHTML(d.plan_name)}</h3>
+        <p>${escapeHTML(description)}</p>
+       </div>
+
+       <div class="plan-body">
+        <p class="plan-price-label">Cumulative Income</p>
+        <div class="plan-price">${peso(cumulativeIncome)}</div>
+
+        <ul class="plan-features">
+         <li>💰 Product Price: <strong>${peso(price)}</strong></li>
+         <li>📅 Product Cycle: <strong>${days} Days</strong></li>
+         <li>💵 Daily Income: <strong>${peso(daily)}</strong></li>
+         <li>🕒 Start Time: <strong>${escapeHTML(startTime)}</strong></li>
+         <li>🏁 End Time: <strong>${escapeHTML(endTime)}</strong></li>
+        </ul>
+
+        <div style="background:#e2eee3;color:#155638;padding:10px;border-radius:9px;text-align:center;font-size:12px;font-weight:bold">
+         ✓ Purchase Recorded
+        </div>
+       </div>
+      </article>`;
+    }).join("")}
+   </div>
+
+   <p class="notice">
+    Displayed daily income is illustrative and is not guaranteed.
+    Cumulative income is shown as ₱0.00 because actual income records
+    are not connected. Start and end times are calculated from the
+    saved purchase timestamp and the plan's configured cycle.
+   </p>`;
+
+ }catch(error){
+  console.error("My Plans error:",error);
+
+  target.innerHTML=`
+   <div class="panel">
+    <h3>Unable to load plans</h3>
+    <p>${escapeHTML(error.message||"An unexpected error occurred.")}</p>
+    <button class="secondary" onclick="renderDevices()">Try Again</button>
+   </div>`;
+ }
 }
 
-/* NAVIGATION */
+function errorForSession(error){
+ return error||null;
+}
 
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.toggle("active", page.id === pageId);
+function updateAccountUI(){
+ document.getElementById("accountStatus").textContent=currentUser?"Logged in":"Not logged in";
+ document.getElementById("accountEmail").textContent=currentUser?(currentUser.email||"Signed in"):"Please log in";
+
+ if(currentUser){
+  loadWallet();
+  loadReferralData();
+ }else{
+  walletRequestNumber++;
+  walletBalance=0;
+
+  document.getElementById("balance").textContent=peso(0);
+  setWalletStatus("Please log in to view your wallet balance.");
+  document.getElementById("referral").textContent="Log in first";
+  document.getElementById("inviteLink").textContent="Log in first";
+  document.getElementById("level1").textContent="—";
+  document.getElementById("level2").textContent="—";
+  document.getElementById("level3").textContent="—";
+  document.getElementById("referralStatus").textContent="Log in to load your team.";
+ }
+}
+
+async function loadReferralData(){
+ if(!supabaseClient||!currentUser){
+  document.getElementById("referralStatus").textContent="Please log in first.";
+  return;
+ }
+
+ document.getElementById("referralStatus").textContent="Loading referral team...";
+
+ try{
+  const {data,error}=await supabaseClient.rpc("growrise_get_referrals");
+
+  if(error)throw error;
+  if(!data||!data.length)throw new Error("No referral profile was returned.");
+
+  const row=data[0];
+
+  document.getElementById("referral").textContent=row.referral_code||"Not available";
+
+  const url=new URL(window.location.href);
+  url.search="";
+  url.hash="";
+
+  if(row.referral_code)url.searchParams.set("ref",row.referral_code);
+
+  document.getElementById("inviteLink").textContent=url.toString();
+  document.getElementById("level1").textContent=row.level1??0;
+  document.getElementById("level2").textContent=row.level2??0;
+  document.getElementById("level3").textContent=row.level3??0;
+  document.getElementById("referralStatus").textContent="Referral information loaded.";
+
+ }catch(error){
+  document.getElementById("referralStatus").textContent="Referral data unavailable: "+error.message;
+  console.warn("Referral loading:",error);
+ }
+}
+
+async function initializeSupabase(){
+ if(!window.supabase){
+  setWalletStatus("Supabase library failed to load. Check your internet and reload.");
+  showMessage("Supabase library did not load.");
+  return;
+ }
+
+ try{
+  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+
+  const {data,error}=await supabaseClient.auth.getSession();
+  if(error)throw error;
+
+  currentUser=data.session?.user||null;
+  updateAccountUI();
+
+  supabaseClient.auth.onAuthStateChange((_event,session)=>{
+   currentUser=session?.user||null;
+   updateAccountUI();
   });
 
-  document.querySelectorAll(".nav-item").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.page === pageId
-    );
+  if(currentUser)await loadWallet();
+  else setWalletStatus("Please log in to view your wallet balance.");
+
+ }catch(error){
+  setWalletStatus("Supabase setup error: "+error.message);
+  showMessage("Supabase setup error: "+error.message);
+  console.error(error);
+ }
+}
+
+document.getElementById("registerForm").addEventListener("submit",async function(e){
+ e.preventDefault();
+
+ const email=document.getElementById("regEmail").value.trim();
+ const password=document.getElementById("regPassword").value;
+ const confirmPassword=document.getElementById("regConfirm").value;
+ const referralCode=document.getElementById("regReferral").value.trim().toUpperCase();
+ const button=this.querySelector('button[type="submit"]');
+
+ if(password.length<8){
+  showMessage("Password must contain at least 8 characters.");
+  return;
+ }
+
+ if(password!==confirmPassword){
+  showMessage("Passwords do not match.");
+  return;
+ }
+
+ button.disabled=true;
+ button.textContent="Creating account...";
+
+ try{
+  const {data,error}=await supabaseClient.auth.signUp({
+   email,
+   password,
+   options:{data:{referral_code_entered:referralCode||null}}
   });
 
-  if (pageId === "devices" && currentUser) {
-    renderDevices();
+  if(error)throw error;
+
+  this.reset();
+
+  if(data.session&&data.user){
+   currentUser=data.user;
+   updateAccountUI();
+   showPage("home");
+   showMessage("Registration successful.");
+  }else{
+   showPage("login");
+   showMessage("Registration submitted. If email confirmation is enabled, confirm your email before logging in.");
   }
 
-  if (pageId === "wallet" && currentUser) {
-    loadWallet();
-  }
-
-  window.scrollTo({top: 0, behavior: "smooth"});
-}
-
-/* PLANS LIST */
-
-function renderPlans() {
-  const html = plans.map(plan => `
-    <article class="plan-card">
-      <div class="plan-icon">${plan.icon}</div>
-
-      <div class="plan-name">${plan.name}</div>
-      <div class="plan-price">${money(plan.price)}</div>
-
-      <div class="plan-detail">
-        ${escapeHTML(plan.description)}<br>
-        Product Cycle: ${plan.days} Days<br>
-        Listed Daily Income: ${money(plan.daily)}
-      </div>
-
-      <button
-        class="btn"
-        onclick="buyPlan('${plan.name}')"
-      >
-        Buy Plan
-      </button>
-    </article>
-  `).join("");
-
-  document.getElementById("allPlans").innerHTML = html;
-  document.getElementById("homePlans").innerHTML = html;
-}
-
-/* WALLET */
-
-async function loadWallet() {
-  if (!currentUser) return;
-
-  const {data, error} = await supabaseClient
-    .from("growrise_wallets")
-    .select("*")
-    .eq("user_id", currentUser.id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Wallet loading error:", error.message);
-    return;
-  }
-
-  if (!data) {
-    currentBalance = 0;
-  } else {
-    currentBalance = Number(
-      data.balance ??
-      data.wallet_balance ??
-      data.amount ??
-      0
-    );
-  }
-
-  document.getElementById("walletBalance").textContent =
-    money(currentBalance);
-
-  document.getElementById("walletBalance2").textContent =
-    money(currentBalance);
-}
-
-/* BUY PLAN */
-
-async function buyPlan(planName) {
-  if (!currentUser) {
-    alert("Please log in first.");
-    return;
-  }
-
-  const plan = getPlan(planName);
-
-  if (!plan) {
-    alert("Plan not found.");
-    return;
-  }
-
-  const confirmed = confirm(
-    "Purchase " + plan.name + " for " + money(plan.price) + "?"
-  );
-
-  if (!confirmed) return;
-
-  try {
-    const {data, error} = await supabaseClient.rpc(
-      "growrise_buy_plan",
-      {p_plan_name: plan.name}
-    );
-
-    if (error) throw error;
-
-    if (data && data.success === false) {
-      throw new Error(data.message || "Purchase was unsuccessful.");
-    }
-
-    alert("Purchase request completed. Refreshing your account.");
-
-    await loadWallet();
-    await renderDevices();
-    showPage("devices");
-
-  } catch (error) {
-    console.error("Purchase error:", error);
-
-    alert(
-      error.message ||
-      "Could not complete the purchase. Please check your wallet and try again."
-    );
-  }
-}
-
-/* MY PLANS */
-
-async function renderDevices() {
-  const container = document.getElementById("myDevices");
-
-  if (!currentUser) {
-    container.innerHTML = `
-      <div class="card empty-state">
-        Please log in to view your plans.
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML = `
-    <div class="card empty-state">Loading your plans...</div>
-  `;
-
-  const {data, error} = await supabaseClient
-    .from("growrise_plan_purchases")
-    .select("id, plan_name, price, purchased_at")
-    .eq("user_id", currentUser.id)
-    .order("purchased_at", {ascending: false});
-
-  if (error) {
-    console.error("My Plans loading error:", error);
-
-    container.innerHTML = `
-      <div class="card empty-state">
-        <div class="empty-icon">⚠️</div>
-        <h3>Unable to load plans</h3>
-        <p>${escapeHTML(error.message)}</p>
-      </div>
-    `;
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `
-      <div class="card empty-state">
-        <div class="empty-icon">🌱</div>
-        <h3>No Plans Yet</h3>
-        <p>Your purchased plans will appear here.</p>
-        <br>
-        <button class="btn" onclick="showPage('plans')">
-          View Available Plans
-        </button>
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML = data.map(purchase => {
-    const plan = getPlan(purchase.plan_name);
-
-    const price = Number(
-      purchase.price ?? (plan ? plan.price : 0)
-    );
-
-    const days = plan ? plan.days : 30;
-    const dailyIncome = plan ? plan.daily : 0;
-
-    const startDate = purchase.purchased_at
-      ? new Date(purchase.purchased_at)
-      : null;
-
-    let endDate = null;
-
-    if (startDate && !Number.isNaN(startDate.getTime())) {
-      endDate = new Date(startDate.getTime());
-      endDate.setDate(endDate.getDate() + days);
-    }
-
-    const startText = startDate &&
-      !Number.isNaN(startDate.getTime())
-        ? formatDate(startDate)
-        : "Not available";
-
-    const endText = endDate
-      ? formatDate(endDate)
-      : "Not available";
-
-    return `
-      <article class="my-plan-card">
-
-        <div class="income-banner">
-          <div class="vip-badge">
-            ${escapeHTML(purchase.plan_name || "VIP Plan")}
-          </div>
-
-          <div class="income-label">Cumulative Income</div>
-
-          <div class="income-amount">${money(0)}</div>
-        </div>
-
-        <div class="plan-info-list">
-
-          <div class="plan-info-row">
-            <div class="info-icon">🪙</div>
-            <div class="info-label">Product Price</div>
-            <div class="info-value">${money(price)}</div>
-          </div>
-
-          <div class="plan-info-row">
-            <div class="info-icon">🗓️</div>
-            <div class="info-label">Product Cycle</div>
-            <div class="info-value">${days} Days</div>
-          </div>
-
-          <div class="plan-info-row">
-            <div class="info-icon">💵</div>
-            <div class="info-label">Daily Income</div>
-            <div class="info-value">${money(dailyIncome)}</div>
-          </div>
-
-        </div>
-
-        <div class="time-box">
-
-          <div class="time-row">
-            <div class="time-icon">▶</div>
-
-            <div class="time-content">
-              <div class="time-label">Start Time</div>
-              <div class="time-value">${escapeHTML(startText)}</div>
-            </div>
-          </div>
-
-          <div class="time-row">
-            <div class="time-icon">🏁</div>
-
-            <div class="time-content">
-              <div class="time-label">End Time</div>
-              <div class="time-value">${escapeHTML(endText)}</div>
-            </div>
-          </div>
-
-        </div>
-
-      </article>
-    `;
-  }).join("");
-}
-
-/* INVITATION CODE */
-
-async function copyReferral() {
-  const code = document.getElementById("referralCode").textContent;
-
-  try {
-    await navigator.clipboard.writeText(code);
-    alert("Invitation code copied!");
-  } catch {
-    alert("Your invitation code is: " + code);
-  }
-}
-
-/* CHECK EXISTING LOGIN */
-
-async function initializeApp() {
-  const {data, error} = await supabaseClient.auth.getSession();
-
-  if (error) {
-    console.error("Session error:", error.message);
-  }
-
-  if (data && data.session && data.session.user) {
-    await loadApplication(data.session.user);
-  }
-}
-
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (event === "SIGNED_OUT") {
-    currentUser = null;
-
-    document.getElementById("appScreen").classList.add("hidden");
-    document.getElementById("authScreen").classList.remove("hidden");
-  }
+ }catch(error){
+  showMessage("Registration failed: "+error.message);
+ }finally{
+  button.disabled=false;
+  button.textContent="Create Account";
+ }
 });
 
-initializeApp();
-</script>
+document.getElementById("loginForm").addEventListener("submit",async function(e){
+ e.preventDefault();
 
+ const email=document.getElementById("loginEmail").value.trim();
+ const password=document.getElementById("loginPassword").value;
+ const button=this.querySelector('button[type="submit"]');
+
+ button.disabled=true;
+ button.textContent="Logging in...";
+
+ try{
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error)throw error;
+
+  currentUser=data.user;
+  this.reset();
+
+  updateAccountUI();
+  showPage("home");
+  await loadWallet();
+
+  showMessage("Login successful.");
+
+ }catch(error){
+  showMessage("Login failed: "+error.message);
+ }finally{
+  button.disabled=false;
+  button.textContent="Login";
+ }
+});
+
+async function resetPassword(){
+ if(!supabaseClient){
+  showMessage("Supabase is not initialized.");
+  return;
+ }
+
+ const email=document.getElementById("loginEmail").value.trim();
+
+ if(!email){
+  showPage("login");
+  showMessage("Enter your email address in the Login form first.");
+  return;
+ }
+
+ try{
+  const {error}=await supabaseClient.auth.resetPasswordForEmail(email);
+  if(error)throw error;
+
+  showMessage("If the email is registered, a password-reset link will be sent.");
+
+ }catch(error){
+  showMessage("Password reset failed: "+error.message);
+ }
+}
+
+async function logout(){
+ if(!supabaseClient)return;
+
+ try{
+  const {error}=await supabaseClient.auth.signOut();
+  if(error)throw error;
+
+  currentUser=null;
+  updateAccountUI();
+  showPage("login");
+  showMessage("You have logged out.");
+
+ }catch(error){
+  showMessage("Logout failed: "+error.message);
+ }
+}
+
+async function copyValue(elementId,successText){
+ const value=document.getElementById(elementId).textContent;
+
+ if(!currentUser||value==="Log in first"||value==="Loading..."){
+  showMessage("Please log in first.");
+  return;
+ }
+
+ try{
+  await navigator.clipboard.writeText(value);
+  showMessage(successText);
+ }catch(error){
+  showMessage("Copy this text: "+value);
+ }
+}
+
+document.getElementById("depositForm").addEventListener("submit",function(e){
+ e.preventDefault();
+
+ const amount=Number(document.getElementById("depositAmount").value);
+
+ if(!Number.isFinite(amount)||amount<200){
+  showMessage("Minimum deposit amount is ₱200.");
+  return;
+ }
+
+ showMessage("Payment processing is not connected. No deposit was processed and your balance has not changed.");
+});
+
+document.getElementById("withdrawForm").addEventListener("submit",function(e){
+ e.preventDefault();
+
+ const amount=Number(document.getElementById("withdrawAmount").value);
+
+ if(!Number.isFinite(amount)||amount<200){
+  showMessage("Minimum withdrawal amount is ₱200.");
+  return;
+ }
+
+ const fee=amount*.05;
+
+ showMessage("Calculation only. Amount: "+peso(amount)+"; illustrative 5% fee: "+peso(fee)+"; after fee: "+peso(amount-fee)+". No money was transferred.");
+});
+
+function handleInvitationURL(){
+ const code=new URLSearchParams(location.search).get("ref");
+
+ if(code){
+  document.getElementById("regReferral").value=code.trim().toUpperCase();
+  showPage("register");
+ }
+}
+
+renderPlans();
+initializeSupabase();
+handleInvitationURL();
+</script>
 </body>
 </html>
