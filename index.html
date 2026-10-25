@@ -569,7 +569,7 @@ function renderPlans(){
 
           <button class="plan-button ${index===3?"featured-button":""}"
             onclick="buyPlan('${plan.name}')">
-            View Plan
+            Buy Plan
           </button>
         </div>
       </article>
@@ -840,7 +840,7 @@ async function logout(){
     currentUser=null;
     updateAccountUI();
     showMessage("You have logged out.");
-    showPage("home");
+    showPage("login");
   }catch(error){
     showMessage("Logout failed. Please try again.");
   }
