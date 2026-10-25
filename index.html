@@ -333,6 +333,7 @@ nav button span{font-size:19px}
 <script>
 const SUPABASE_URL="https://jteqkclccvxnwpryynsv.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb";
+const GROWRISE_API="https://growrise.pawaijeanmark17.workers.dev";
 
 let supabaseClient=null;
 let currentUser=null;
@@ -433,6 +434,48 @@ async function getSignedInUser(){
  if(error)throw error;
  currentUser=data.session?.user||null;
  return currentUser;
+}
+
+/*
+ * Verify the current Supabase access token with the GrowRise Worker.
+ * This runs in the background and does not block login or basic page loading.
+ */
+async function verifyGrowRiseSession(){
+ if(!supabaseClient)return null;
+
+ const {data,error}=await supabaseClient.auth.getSession();
+ if(error)throw error;
+
+ const session=data.session;
+ if(!session)return null;
+
+ const response=await fetch(`${GROWRISE_API}/api/me`,{
+  method:"GET",
+  headers:{
+   "Authorization":`Bearer ${session.access_token}`,
+   "Accept":"application/json"
+  }
+ });
+
+ const result=await response.json().catch(()=>({}));
+
+ if(!response.ok||result.success!==true){
+  throw new Error(result.message||`Worker session verification failed (${response.status}).`);
+ }
+
+ return result.user||null;
+}
+
+function verifySessionInBackground(){
+ verifyGrowRiseSession()
+  .then(user=>{
+   if(user){
+    console.info("GrowRise Worker session verified.");
+   }
+  })
+  .catch(error=>{
+   console.warn("GrowRise Worker verification unavailable:",error.message);
+  });
 }
 
 async function loadWallet(){
@@ -801,9 +844,17 @@ async function initializeSupabase(){
   currentUser=data.session?.user||null;
   updateAccountUI();
 
+  if(data.session){
+   verifySessionInBackground();
+  }
+
   supabaseClient.auth.onAuthStateChange((_event,session)=>{
    currentUser=session?.user||null;
    updateAccountUI();
+
+   if(session){
+    verifySessionInBackground();
+   }
   });
 
   if(currentUser)await loadWallet();
@@ -856,6 +907,7 @@ document.getElementById("registerForm").addEventListener("submit",async function
   if(data.session&&data.user){
    currentUser=data.user;
    updateAccountUI();
+   verifySessionInBackground();
    showPage("home");
    showMessage("Registration successful.");
   }else{
@@ -893,6 +945,7 @@ document.getElementById("loginForm").addEventListener("submit",async function(e)
   currentUser=data.user;
   this.reset();
   updateAccountUI();
+  verifySessionInBackground();
   showPage("home");
   await loadWallet();
   showMessage("Login successful.");
@@ -1014,4 +1067,4 @@ initializeSupabase();
 handleInvitationURL();
 </script>
 </body>
- </html>
+</html>
