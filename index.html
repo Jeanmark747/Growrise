@@ -1,9 +1,11 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GrowRise</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f3f5f3;color:#203b2b;padding-bottom:75px}
@@ -35,6 +37,7 @@ nav button{background:transparent;color:#526458;font-size:12px;padding:8px 5px}
 nav button.selected{color:#17623b}
 #message{margin-top:12px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
 .secondary{background:#e8eee9!important;color:#17623b!important}
+
 .me-header{background:linear-gradient(135deg,#123f2b,#26784c);color:white;padding:24px 18px;border-radius:16px;margin-bottom:18px}
 .me-profile{display:flex;align-items:center;gap:14px;min-width:0}
 .me-avatar{width:58px;height:58px;background:#e5c76b;color:#123f2b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0}
@@ -46,19 +49,23 @@ nav button.selected{color:#17623b}
 .me-menu-item{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:15px 10px;margin-top:5px;background:#f5f8f5;color:#203b2b;border-radius:10px}
 .me-menu-item span{display:flex;align-items:center;gap:12px}
 .me-menu-item .arrow{color:#819087;font-size:20px}
-.me-auth-buttons{display:flex;gap:10px;margin-top:16px}
-.me-auth-buttons button{flex:1;margin:0}
-.me-login{background:#17623b;color:white}
-.me-register{background:#e5c76b;color:#173a28}
 .me-logout{background:#f9e8e8;color:#9a2937}
-@media(max-width:380px){.me-profile{align-items:flex-start}.products{gap:8px}.card{padding:12px 9px}}
+@media(max-width:380px){
+  .me-profile{align-items:flex-start}
+  .products{gap:8px}
+  .card{padding:12px 9px}
+}
 </style>
 </head>
+
 <body>
 <header>
   <h1>🌱 GrowRise</h1>
   <p>Grow Your Future</p>
-</header><main class="container">
+</header>
+
+<main class="container">
+
 <section id="home" class="page active">
   <div class="balance">
     <p>My Account</p>
@@ -69,21 +76,35 @@ nav button.selected{color:#17623b}
       <button onclick="openProtectedPage('withdraw')">Withdraw</button>
     </div>
   </div>
+
   <h3 class="section-title">VIP Plans</h3>
   <div id="products" class="products"></div>
-  <p class="notice">Plans are illustrative only. Displayed amounts are not guaranteed earnings. No real purchase or investment is processed by this demo.</p>
-</section><section id="devices" class="page">
+
+  <p class="notice">
+    These are illustrative sample amounts only, not guaranteed earnings or payouts.
+    No real purchase or investment is processed by this demo.
+  </p>
+</section>
+
+<section id="devices" class="page">
   <h2 class="section-title">My Devices</h2>
   <div id="myDevices"></div>
-</section><section id="invite" class="page">
+</section>
+
+<section id="invite" class="page">
   <h2 class="section-title">Invite Friends</h2>
   <div class="panel">
     <p>Your referral code</p>
     <h2 id="referral">Log in first</h2>
     <button onclick="copyReferral()">Copy Referral Code</button>
-    <p class="notice">This code is generated from your account ID. Referral tracking and rewards require additional backend setup.</p>
+    <p class="notice">
+      Your referral code is shown in the format Growrise12345.
+      Referral rewards are not enabled by this display code alone.
+    </p>
   </div>
-</section><section id="me" class="page">
+</section>
+
+<section id="me" class="page">
   <div class="me-header">
     <div class="me-profile">
       <div class="me-avatar">👤</div>
@@ -93,26 +114,45 @@ nav button.selected{color:#17623b}
         <span class="me-status" id="accountStatus">Not logged in</span>
       </div>
     </div>
-  </div>  <div class="me-menu">
-    <h3>👤 Account Menu</h3>
-    <button class="me-menu-item" onclick="showPage('devices')"><span>📱 My Devices</span><span class="arrow">›</span></button>
-    <button class="me-menu-item" onclick="openProtectedPage('deposit')"><span>💰 Deposit</span><span class="arrow">›</span></button>
-    <button class="me-menu-item" onclick="openProtectedPage('withdraw')"><span>💸 Withdrawal</span><span class="arrow">›</span></button>
-    <button class="me-menu-item" onclick="showPage('invite')"><span>👥 Invitation</span><span class="arrow">›</span></button>
-  </div>  <div class="me-menu">
-    <h3>⚙️ Account Settings</h3>
-    <button class="me-menu-item" onclick="showMessage('Your account email is displayed above.')"><span>📧 Account Information</span><span class="arrow">›</span></button>
-    <button class="me-menu-item" onclick="resetPassword()"><span>🔐 Reset Password</span><span class="arrow">›</span></button>
-  </div>  <div class="me-menu">
-    <h3>🔑 Account Access</h3>
-    <div class="me-auth-buttons">
-      <button class="me-register" onclick="showPage('register')">Register</button>
-      <button class="me-login" onclick="showPage('login')">Login</button>
-    </div>
-    <button class="me-logout" onclick="logout()" style="width:100%;margin-top:12px">Logout</button>
   </div>
+
+  <div class="me-menu">
+    <h3>👤 Account Menu</h3>
+    <button class="me-menu-item" onclick="showPage('devices')">
+      <span>📱 My Devices</span><span class="arrow">›</span>
+    </button>
+    <button class="me-menu-item" onclick="openProtectedPage('deposit')">
+      <span>💰 Deposit</span><span class="arrow">›</span>
+    </button>
+    <button class="me-menu-item" onclick="openProtectedPage('withdraw')">
+      <span>💸 Withdrawal</span><span class="arrow">›</span>
+    </button>
+    <button class="me-menu-item" onclick="showPage('invite')">
+      <span>👥 Invitation</span><span class="arrow">›</span>
+    </button>
+  </div>
+
+  <div class="me-menu">
+    <h3>⚙️ Account Settings</h3>
+    <button class="me-menu-item" onclick="showMessage('Your account email is displayed above.')">
+      <span>📧 Account Information</span><span class="arrow">›</span>
+    </button>
+    <button class="me-menu-item" onclick="resetPassword()">
+      <span>🔐 Reset Password</span><span class="arrow">›</span>
+    </button>
+  </div>
+
+  <div class="me-menu">
+    <h3>🔑 Account Access</h3>
+    <button class="me-logout" onclick="logout()" style="width:100%;margin-top:12px">
+      Log Out
+    </button>
+  </div>
+
   <p class="notice" style="text-align:center">GrowRise · My Account</p>
-</section><section id="register" class="page">
+</section>
+
+<section id="register" class="page">
   <div class="panel">
     <h2>Create Account</h2>
     <form id="registerForm">
@@ -122,10 +162,18 @@ nav button.selected{color:#17623b}
       <input id="regReferral" type="text" placeholder="Invitation code (optional)">
       <button class="primary" type="submit">Register</button>
     </form>
-    <p class="notice">Use an email address you control. Never share your password or email verification code with anyone.</p>
-    <button class="secondary" onclick="showPage('login')">Already registered? Login</button>
+
+    <p class="notice">
+      Use an email address you control. Never share your password or email verification code with anyone.
+    </p>
+
+    <button class="secondary" onclick="showPage('login')">
+      Already registered? Login
+    </button>
   </div>
-</section><section id="login" class="page">
+</section>
+
+<section id="login" class="page">
   <div class="panel">
     <h2>Login</h2>
     <form id="loginForm">
@@ -133,10 +181,13 @@ nav button.selected{color:#17623b}
       <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required>
       <button class="primary" type="submit">Login</button>
     </form>
+
     <button class="secondary" onclick="resetPassword()">Forgot Password?</button>
     <button class="secondary" onclick="showPage('register')">Create New Account</button>
   </div>
-</section><section id="deposit" class="page">
+</section>
+
+<section id="deposit" class="page">
   <div class="panel">
     <h2>Deposit Request</h2>
     <p>Minimum amount: ₱200</p>
@@ -144,9 +195,13 @@ nav button.selected{color:#17623b}
       <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
       <button class="primary" type="submit">Submit Demo Request</button>
     </form>
-    <p class="notice">This demo does not accept payments or send money. A verified payment provider and secure server-side processing must be configured before real transactions. Never enter a GCash MPIN or OTP on this website.</p>
+    <p class="notice">
+      This demo does not accept payments or send money. Real transactions require a verified payment provider and secure server-side processing.
+    </p>
   </div>
-</section><section id="withdraw" class="page">
+</section>
+
+<section id="withdraw" class="page">
   <div class="panel">
     <h2>Withdrawal Request</h2>
     <p>Minimum withdrawal: ₱200</p>
@@ -155,15 +210,23 @@ nav button.selected{color:#17623b}
       <input id="withdrawAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
       <button class="primary" type="submit">Calculate Demo Withdrawal</button>
     </form>
-    <p class="notice">This demo does not transfer money or submit a real withdrawal. Real withdrawals require secure backend processing and verified account balances.</p>
+    <p class="notice">
+      This demo does not transfer money or submit a real withdrawal.
+    </p>
   </div>
-</section><div id="message" role="status" aria-live="polite"></div>
-</main><nav>
+</section>
+
+<div id="message" role="status" aria-live="polite"></div>
+</main>
+
+<nav>
   <button class="selected" onclick="showPage('home',this)">🏠<br>HOME</button>
   <button onclick="showPage('devices',this)">📦<br>DEVICES</button>
   <button onclick="showPage('invite',this)">👥<br>INVITE</button>
   <button onclick="showPage('me',this)">👤<br>ME</button>
-</nav><script>
+</nav>
+
+<script>
 const SUPABASE_URL = "https://jteqkclccvxnwpryynsv.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6W3zbWtUKh1r_EQk9lLl2g_HJdXOYnb";
 
@@ -172,29 +235,27 @@ let currentUser = null;
 let devices = [];
 
 const plans = [
-  {name:"VIP1",price:200,daily:40},
-  {name:"VIP2",price:300,daily:60},
-  {name:"VIP3",price:500,daily:100},
-  {name:"VIP4",price:1000,daily:200},
-  {name:"VIP5",price:2000,daily:400},
-  {name:"VIP6",price:3000,daily:600},
-  {name:"VIP7",price:5000,daily:1000},
-  {name:"VIP8",price:10000,daily:2000}
+  {name:"VIP1",price:200,daily:40,days:30},
+  {name:"VIP2",price:300,daily:60,days:30},
+  {name:"VIP3",price:500,daily:100,days:30},
+  {name:"VIP4",price:1000,daily:200,days:30},
+  {name:"VIP5",price:2000,daily:400,days:30},
+  {name:"VIP6",price:3000,daily:600,days:30},
+  {name:"VIP7",price:5000,daily:1000,days:30},
+  {name:"VIP8",price:10000,daily:2000,days:30}
 ];
 
 function initializeSupabase(){
-  if(SUPABASE_URL.includes("PASTE_")||SUPABASE_PUBLISHABLE_KEY.includes("PASTE_")){
-    showMessage("Supabase is not configured yet. Add your Project URL and Publishable Key in the script.");
-    return;
-  }
-
   if(!window.supabase){
     showMessage("Supabase library did not load. Check your internet connection and reload.");
     return;
   }
 
   try{
-    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+    supabaseClient=window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
     checkCurrentSession();
   }catch(error){
     showMessage("Could not initialize Supabase. Check your configuration.");
@@ -216,11 +277,16 @@ function showPage(id,button){
   const page=document.getElementById(id);
   if(!page)return;
 
-  document.querySelectorAll(".page").forEach(item=>item.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(item=>{
+    item.classList.remove("active");
+  });
+
   page.classList.add("active");
 
   if(button){
-    document.querySelectorAll("nav button").forEach(item=>item.classList.remove("selected"));
+    document.querySelectorAll("nav button").forEach(item=>{
+      item.classList.remove("selected");
+    });
     button.classList.add("selected");
   }else{
     const navButton=[...document.querySelectorAll("nav button")].find(
@@ -228,7 +294,9 @@ function showPage(id,button){
     );
 
     if(navButton){
-      document.querySelectorAll("nav button").forEach(item=>item.classList.remove("selected"));
+      document.querySelectorAll("nav button").forEach(item=>{
+        item.classList.remove("selected");
+      });
       navButton.classList.add("selected");
     }
   }
@@ -250,9 +318,10 @@ function renderPlans(){
   document.getElementById("products").innerHTML=plans.map(plan=>`
     <div class="card">
       <span class="vip">${plan.name}</span>
-      <h3>${peso(plan.price)}</h3>
-      <p>Illustrative daily amount: <strong>${peso(plan.daily)}</strong></p>
-      <p>Example duration: 30 days</p>
+      <p>Plan Price: <strong>${peso(plan.price)}</strong></p>
+      <p>Daily Amount: <strong>${peso(plan.daily)}</strong></p>
+      <p>Duration: <strong>${plan.days} days</strong></p>
+      <p>Total Amount: <strong>${peso(plan.daily*plan.days)}</strong></p>
       <button class="buy" onclick="buyPlan('${plan.name}')">Select Plan</button>
     </div>
   `).join("");
@@ -268,7 +337,9 @@ function buyPlan(name){
   const plan=plans.find(item=>item.name===name);
   if(!plan)return;
 
-  showMessage(name+" selected for display only ("+peso(plan.price)+"). No payment or purchase was made.");
+  showMessage(
+    name+" selected for display only ("+peso(plan.price)+"). No payment or purchase was made."
+  );
 }
 
 function renderDevices(){
@@ -296,7 +367,13 @@ function updateAccountUI(){
   if(currentUser){
     status.textContent="You are logged in.";
     email.textContent=currentUser.email||"";
-    referral.textContent="GR"+currentUser.id.replace(/-/g,"").slice(0,8).toUpperCase();
+
+    let hash=0;
+    for(let i=0;i<currentUser.id.length;i++){
+      hash=(hash*31+currentUser.id.charCodeAt(i))%100000;
+    }
+
+    referral.textContent="Growrise"+String(hash).padStart(5,"0");
   }else{
     status.textContent="You are not logged in.";
     email.textContent="Please log in";
@@ -327,13 +404,15 @@ document.getElementById("registerForm").addEventListener("submit",async function
   event.preventDefault();
 
   if(!supabaseClient){
-    showMessage("Supabase is not configured. Add your project details first.");
+    showMessage("Supabase is not configured. Check your project settings.");
     return;
   }
 
   const email=document.getElementById("regEmail").value.trim();
   const password=document.getElementById("regPassword").value;
   const confirm=document.getElementById("regConfirm").value;
+  const referralCode=document.getElementById("regReferral").value.trim();
+  const submitButton=this.querySelector('button[type="submit"]');
 
   if(password.length<8){
     showMessage("Password must contain at least 8 characters.");
@@ -344,9 +423,6 @@ document.getElementById("registerForm").addEventListener("submit",async function
     showMessage("Passwords do not match.");
     return;
   }
-
-  const referralCode=document.getElementById("regReferral").value.trim();
-  const submitButton=this.querySelector('button[type="submit"]');
 
   submitButton.disabled=true;
   submitButton.textContent="Creating account...";
@@ -372,7 +448,7 @@ document.getElementById("registerForm").addEventListener("submit",async function
       showPage("home");
     }else{
       this.reset();
-      showMessage("Registration submitted. If email confirmation is enabled in Supabase, confirm your email before logging in.");
+      showMessage("Registration submitted. Check your email if confirmation is required.");
       showPage("login");
     }
   }catch(error){
@@ -387,7 +463,7 @@ document.getElementById("loginForm").addEventListener("submit",async function(ev
   event.preventDefault();
 
   if(!supabaseClient){
-    showMessage("Supabase is not configured. Add your project details first.");
+    showMessage("Supabase is not configured. Check your project settings.");
     return;
   }
 
@@ -444,7 +520,7 @@ async function resetPassword(){
   }
 }
 
-/* UPDATED: LOGOUT NOW GOES DIRECTLY TO LOGIN */
+/* LOG OUT: SIGN OUT AND GO DIRECTLY TO LOGIN */
 async function logout(){
   if(!supabaseClient){
     showMessage("Supabase is not configured yet.");
@@ -453,13 +529,12 @@ async function logout(){
 
   try{
     const {error}=await supabaseClient.auth.signOut();
-
     if(error)throw error;
 
     currentUser=null;
     updateAccountUI();
     showPage("login");
-
+    showMessage("You have logged out. Please log in again.");
   }catch(error){
     showMessage("Logout failed. Please try again.");
   }
@@ -518,5 +593,6 @@ renderPlans();
 renderDevices();
 updateAccountUI();
 initializeSupabase();
-</script></body>
+</script>
+</body>
 </html>
