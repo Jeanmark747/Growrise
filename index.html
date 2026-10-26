@@ -636,9 +636,182 @@ async function renderDevices(){
   const user=await getSignedInUser();
 
   if(!user){
-   target.innerHTML='<div class="panel"><h3>Please log in first</h3><button class="primary" onclick="showPage(\'login\')">Login</button></div>';
+   target.innerHTML=`
+    <div class="panel">
+     <h3>Please log in first</h3>
+     <button class="primary" onclick="showPage('login')">Login</button>
+    </div>`;
    return;
   }
+
+  const {data:purchases,error:purchaseError}=await supabaseClient
+   .from("growrise_plan_purchases")
+   .select("id,plan_name,price,purchased_at")
+   .eq("user_id",user.id)
+   .order("purchased_at",{ascending:false});
+
+  if(purchaseError)throw purchaseError;
+
+  devices=purchases||[];
+
+  if(!devices.length){
+   target.innerHTML=`
+    <div class="panel">
+     <h3>No purchased plans yet</h3>
+     <p>Your purchased plans will appear here after a successful purchase.</p>
+     <button class="primary" onclick="showPage('home')">Explore Plans</button>
+    </div>`;
+   return;
+  }
+
+  const {data:simulations,error:simulationError}=await supabaseClient
+   .from("growrise_simulated_earnings")
+   .select("purchase_id,plan_name,daily_amount,days_credited,simulated_total,last_processed_at,expires_at")
+   .eq("user_id",user.id);
+
+  if(simulationError)throw simulationError;
+
+  const simulationMap=new Map(
+   (simulations||[]).map(s=>[String(s.purchase_id),s])
+  );
+
+  function formatDate(value){
+   if(!value)return "Unavailable";
+
+   const date=new Date(value);
+
+   if(Number.isNaN(date.getTime()))return "Unavailable";
+
+   return date.toLocaleString("en-PH",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+   });
+  }
+
+  const now=Date.now();
+
+  target.innerHTML=`
+   <div class="plans">
+    ${devices.map(d=>{
+     const plan=plans.find(p=>p.name===d.plan_name);
+     const simulation=simulationMap.get(String(d.id));
+
+     const price=Number(d.price)||0;
+     const daily=plan?plan.daily:0;
+     const duration=plan?plan.days:30;
+     const icon=plan?plan.icon:"🌱";
+     const description=plan?plan.description:"Purchased Plan";
+
+     const purchasedAt=new Date(d.purchased_at).getTime();
+     const endAt=purchasedAt+duration*86400000;
+
+     const daysElapsed=Number.isFinite(purchasedAt)
+      ?Math.min(duration,Math.max(0,Math.floor((now-purchasedAt)/86400000)))
+      :0;
+
+     const nextAt=purchasedAt+(daysElapsed+1)*86400000;
+
+     const recordedDays=simulation
+      ?Math.min(duration,Number(simulation.days_credited)||0)
+      :0;
+
+     const simulatedTotal=simulation
+      ?Number(simulation.simulated_total)||0
+      :0;
+
+     const status=now>=endAt
+      ?"Cycle completed"
+      :"Plan active";
+
+     return `
+      <article class="plan-card">
+       <div class="plan-top">
+        <span class="plan-label">✓ PURCHASED</span>
+        <div class="plan-symbol">${icon}</div>
+        <h3>${escapeHTML(d.plan_name)}</h3>
+        <p>${escapeHTML(description)}</p>
+       </div>
+
+       <div class="plan-body">
+        <p class="plan-price-label">Plan Progress</p>
+
+        <div class="plan-price">${recordedDays} / ${duration} days</div>
+
+        <ul class="plan-features">
+         <li><span>Product Price</span><strong>${peso(price)}</strong></li>
+         <li><span>Listed Daily Amount</span><strong>${peso(daily)}</strong></li>
+         <li><span>Recorded Simulation</span><strong>${peso(simulatedTotal)}</strong></li>
+         <li><span>Recorded Days</span><strong>${recordedDays} days</strong></li>
+         <li><span>Purchase Time</span><strong>${escapeHTML(formatDate(d.purchased_at))}</strong></li>
+         <li><span>End Time</span><strong>${escapeHTML(formatDate(endAt))}</strong></li>
+        </ul>
+
+        <div style="background:#e2eee3;color:#155638;text-align:center;font-size:12px;font-weight:bold;padding:12px">
+         ${status}
+        </div>
+
+        <div style="background:#f5f7f4;color:#203b2b;text-align:center;margin-top:10px;padding:12px">
+         <strong>Next 24-hour update</strong>
+         <p
+          class="plan-countdown"
+          data-next-at="${nextAt}"
+          data-end-at="${endAt}"
+          style="margin-top:7px;font-size:18px;font-weight:bold"
+         >Calculating...</p>
+        </div>
+       </div>
+      </article>`;
+    }).join("")}
+   </div>
+
+   <p class="notice">
+    Simulated amounts are illustrative only. They are not actual earnings,
+    do not represent available wallet funds, and cannot be withdrawn.
+    The recorded progress updates when the simulation processor runs.
+   </p>`;
+
+  updatePlanCountdowns();
+
+ }catch(error){
+  console.error("My Plans error:",error);
+
+  target.innerHTML=`
+   <div class="panel">
+    <h3>Unable to load plans</h3>
+    <p>${escapeHTML(error.message)}</p>
+    <button class="secondary" onclick="renderDevices()">Try Again</button>
+   </div>`;
+ }
+}
+
+function updatePlanCountdowns(){
+ document.querySelectorAll(".plan-countdown").forEach(el=>{
+  const nextAt=Number(el.dataset.nextAt);
+  const endAt=Number(el.dataset.endAt);
+  const now=Date.now();
+
+  if(now>=endAt){
+   el.textContent="Cycle completed";
+   return;
+  }
+
+  const remaining=Math.max(0,nextAt-now);
+
+  const hours=Math.floor(remaining/3600000);
+  const minutes=Math.floor((remaining%3600000)/60000);
+  const seconds=Math.floor((remaining%60000)/1000);
+
+  el.textContent=
+   String(hours).padStart(2,"0")+":"+
+   String(minutes).padStart(2,"0")+":"+
+   String(seconds).padStart(2,"0");
+ }
+}
+
+setInterval(updatePlanCountdowns,1000);
 
   const {data,error}=await supabaseClient
    .from("growrise_plan_purchases")
