@@ -298,23 +298,29 @@ nav button span{font-size:19px}
   <h2>💰 Deposit</h2>
   <p>Scan the QR PH code below using a supported payment app.</p>
 
-  <label for="depositAmount">Deposit Amount (₱)</label>
-  <input id="depositAmount" type="number" min="200" step="1"
-         placeholder="Enter amount (minimum ₱200)">
+  <form id="depositForm">
+   <label for="depositAmount">Deposit Amount (₱)</label>
+   <input id="depositAmount" type="number" min="200" step="1"
+          placeholder="Enter amount (minimum ₱200)" required>
 
-  <div style="text-align:center;margin:20px 0;padding:15px;background:#fff;border:1px solid #e4ebe3;border-radius:12px">
-   <h3 style="margin-bottom:12px">📱 QR PH</h3>
-   <img
-    src="https://raw.githubusercontent.com/Jeanmark747/Growrise/main/qr_20d8d72d4dead69dd20f5db7%20(1)-2.jpg"
-    alt="GrowRise QR PH"
-    style="display:block;width:100%;max-width:320px;height:auto;margin:auto;border-radius:8px"
-   >
-   <p class="notice">Scan the QR code using a supported payment app.</p>
-  </div>
+   <div style="text-align:center;margin:20px 0;padding:15px;background:#fff;border:1px solid #e4ebe3;border-radius:12px">
+    <h3 style="margin-bottom:12px">📱 QR PH</h3>
+
+    <img
+     src="https://raw.githubusercontent.com/Jeanmark747/Growrise/main/qr_20d8d72d4dead69dd20f5db7%20(1)-2.jpg"
+     alt="GrowRise QR PH"
+     style="display:block;width:100%;max-width:320px;height:auto;margin:auto;border-radius:8px"
+    >
+
+    <p class="notice">Scan the QR code using a supported payment app.</p>
+   </div>
+
+   <button class="primary" type="submit">Continue</button>
+  </form>
 
   <p class="notice">
-   Demo display only. Payments are not automatically verified,
-   and scanning this QR will not update your GrowRise wallet balance.
+   Demo display only. Payments are not automatically verified.
+   Submitting this form will not add money to your wallet balance.
   </p>
  </div>
 </section>
