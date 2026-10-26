@@ -813,76 +813,7 @@ function updatePlanCountdowns(){
 
 setInterval(updatePlanCountdowns,1000);
 
-  const {data,error}=await supabaseClient
-   .from("growrise_plan_purchases")
-   .select("id,plan_name,price,purchased_at")
-   .eq("user_id",user.id)
-   .order("purchased_at",{ascending:false});
-
-  if(error)throw error;
-  devices=data||[];
-
-  if(!devices.length){
-   target.innerHTML='<div class="panel"><h3>No purchased plans yet</h3><p>Your purchased plans will appear here after a successful purchase.</p><button class="primary" onclick="showPage(\'home\')">Explore Plans</button></div>';
-   return;
-  }
-
-  function formatDate(value){
-   if(!value)return "Date unavailable";
-   const date=new Date(value);
-   if(Number.isNaN(date.getTime()))return "Date unavailable";
-   return date.toLocaleString("en-PH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  }
-
-  function calculateEndTime(value,days){
-   if(!value)return null;
-   const start=new Date(value);
-   if(Number.isNaN(start.getTime()))return null;
-   start.setDate(start.getDate()+days);
-   return start;
-  }
-
-  target.innerHTML=`
-   <div class="plans">
-    ${devices.map(d=>{
-     const plan=plans.find(p=>p.name===d.plan_name);
-     const price=Number(d.price)||0;
-     const daily=plan?plan.daily:0;
-     const days=plan?plan.days:30;
-     const icon=plan?plan.icon:"🌱";
-     const description=plan?plan.description:"Purchased Plan";
-     const endDate=calculateEndTime(d.purchased_at,days);
-
-     return `
-      <article class="plan-card">
-       <div class="plan-top">
-        <span class="plan-label">✓ PURCHASED</span>
-        <div class="plan-symbol">${icon}</div>
-        <h3>${escapeHTML(d.plan_name)}</h3>
-        <p>${escapeHTML(description)}</p>
-       </div>
-       <div class="plan-body">
-        <p class="plan-price-label">Cumulative Income</p>
-        <div class="plan-price">${peso(0)}</div>
-        <ul class="plan-features">
-         <li><span>💰 Product Price</span><strong>${peso(price)}</strong></li>
-         <li><span>📅 Product Cycle</span><strong>${days} Days</strong></li>
-         <li><span>💵 Listed Daily Amount</span><strong>${peso(daily)}</strong></li>
-         <li><span>🕒 Purchase Time</span><strong>${escapeHTML(formatDate(d.purchased_at))}</strong></li>
-         <li><span>🏁 Calculated End Time</span><strong>${escapeHTML(endDate?formatDate(endDate.toISOString()):"Unavailable")}</strong></li>
-        </ul>
-        <div style="background:#e2eee3;color:#155638;text-align:center;font-size:12px;font-weight:bold">✓ Purchase Recorded</div>
-       </div>
-      </article>`;
-    }).join("")}
-   </div>
-   <p class="notice">Cumulative income is shown as ₱0.00 because actual income records are not connected. Listed daily amounts are not guaranteed earnings.</p>`;
-
- }catch(error){
-  console.error("My Plans error:",error);
-  target.innerHTML=`<div class="panel"><h3>Unable to load plans</h3><p>${escapeHTML(error.message)}</p><button class="secondary" onclick="renderDevices()">Try Again</button></div>`;
- }
-}
+  
 
 function updateAccountUI(){
  document.getElementById("accountStatus").textContent=currentUser?"Logged in":"Not logged in";
