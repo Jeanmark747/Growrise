@@ -299,11 +299,40 @@ nav button span{font-size:19px}
  <div class="panel">
   <h2>💰 Deposit</h2>
   <p>Minimum amount: ₱200</p>
-  <p class="notice">Payment processing is not connected. Submitting this form will not add money to your balance.</p>
+
+  <div style="background:#f1f7f1;border-radius:12px;padding:15px;margin:15px 0;text-align:center">
+   <h3 style="color:#155638;margin-bottom:10px">Scan to Pay via QRPH</h3>
+
+   <img
+    src="https://raw.githubusercontent.com/Jeanmark747/Growrise/main/qr_20d8d72d4dead69dd20f5db7%20(1)-2.jpg"
+    alt="GrowRise QRPH payment code"
+    style="width:100%;max-width:300px;display:block;margin:0 auto;border-radius:10px;border:1px solid #dce6dc"
+    onerror="this.style.display='none';document.getElementById('qrError').style.display='block'"
+   >
+
+   <p id="qrError" style="display:none;color:#a22;margin-top:10px">
+    QR image could not load. Please check the image URL in GitHub.
+   </p>
+
+   <p class="notice">Scan using a supported banking or e-wallet app. Check the recipient details before paying.</p>
+  </div>
+
   <form id="depositForm">
-   <input id="depositAmount" type="number" min="200" step="1" placeholder="Amount (₱)" required>
-   <button class="primary" type="submit">Continue</button>
+   <label for="depositAmount">Deposit Amount (₱)</label>
+   <input id="depositAmount" type="number" min="200" step="1" placeholder="Minimum ₱200" required>
+
+   <label for="depositSender">Sender Name</label>
+   <input id="depositSender" type="text" placeholder="Name used for payment" required>
+
+   <label for="depositReference">Transaction Reference Number</label>
+   <input id="depositReference" type="text" placeholder="Enter reference number" required>
+
+   <button class="primary" type="submit">Submit Deposit Details</button>
   </form>
+
+  <p class="notice">
+   Important: This is a deposit interface only. Submitting these details does not verify payment or add money to your wallet. Payment verification and secure server-side processing must be connected first.
+  </p>
  </div>
 </section>
 
