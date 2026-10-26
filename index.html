@@ -294,35 +294,84 @@ nav button span{font-size:19px}
  </div>
 </section>
 <section id="deposit" class="page">
- <div class="panel">
-  <h2>💰 Deposit</h2>
-  <p>Scan the QR PH code below using a supported payment app.</p>
+  <div class="panel">
+    <h2>💰 Deposit via QRPH</h2>
+    <p>Scan the QR PH code using your supported payment app.</p>
 
-  <form id="depositForm">
-   <label for="depositAmount">Deposit Amount (₱)</label>
-   <input id="depositAmount" type="number" min="200" step="1"
-          placeholder="Enter amount (minimum ₱200)" required>
+    <div style="background:#eaf4e9;padding:15px;border-radius:12px;margin:15px 0">
+      <p style="color:#155638;font-weight:bold">
+        Minimum Deposit: ₱200
+      </p>
+    </div>
 
-   <div style="text-align:center;margin:20px 0;padding:15px;background:#fff;border:1px solid #e4ebe3;border-radius:12px">
-    <h3 style="margin-bottom:12px">📱 QR PH</h3>
+    <div style="text-align:center;margin:20px 0;padding:15px;background:#fff;border:1px solid #e4ebe3;border-radius:12px">
+      <h3>📱 Scan QRPH</h3>
 
-    <img
-     src="https://raw.githubusercontent.com/Jeanmark747/Growrise/main/qr_20d8d72d4dead69dd20f5db7%20(1)-2.jpg"
-     alt="GrowRise QR PH"
-     style="display:block;width:100%;max-width:320px;height:auto;margin:auto;border-radius:8px"
-    >
+      <img
+        src="https://raw.githubusercontent.com/Jeanmark747/Growrise/main/qr_20d8d72d4dead69dd20f5db7%20(1)-2.jpg"
+        alt="QRPH demo image"
+        style="display:block;width:100%;max-width:320px;height:auto;margin:15px auto;border-radius:8px"
+      >
 
-    <p class="notice">Scan the QR code using a supported payment app.</p>
-   </div>
+      <p class="notice">
+        Demo display only. Check the payment recipient carefully.
+      </p>
+    </div>
 
-   <button class="primary" type="submit">Continue</button>
-  </form>
+    <form id="depositForm">
+      <label for="depositAmount">Deposit Amount (₱)</label>
+      <input
+        id="depositAmount"
+        type="number"
+        min="200"
+        step="1"
+        placeholder="Enter amount (minimum ₱200)"
+        required
+      >
 
-  <p class="notice">
-   Demo display only. Payments are not automatically verified.
-   Submitting this form will not add money to your wallet balance.
-  </p>
- </div>
+      <label for="senderMobile">Sender Mobile Number</label>
+      <input
+        id="senderMobile"
+        type="tel"
+        placeholder="Enter your mobile number"
+        required
+      >
+
+      <label for="transactionReference">Transaction Reference Number</label>
+      <input
+        id="transactionReference"
+        type="text"
+        placeholder="Enter reference number"
+        required
+      >
+
+      <label for="paymentReceipt">Upload Payment Receipt</label>
+      <input
+        id="paymentReceipt"
+        type="file"
+        accept="image/*"
+        required
+      >
+
+      <button class="primary" type="submit">
+        Confirm Deposit (Demo Only)
+      </button>
+
+      <button
+        class="secondary"
+        type="button"
+        onclick="showPage('home')"
+      >
+        Cancel
+      </button>
+    </form>
+
+    <p class="notice">
+      Demo only: this form does not verify payments, submit receipts
+      to a server, or add money to your wallet. Do not upload sensitive
+      payment information to an unverified service.
+    </p>
+  </div>
 </section>
 
 <section id="withdraw" class="page">
